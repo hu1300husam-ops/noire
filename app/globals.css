@@ -1,0 +1,169 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* NOIRÉ Light Editorial Palette — Warm Alabaster & Carbon */
+    --background: #F6F5F2;
+    --foreground: #111110;
+    --foreground-muted: #5C5A55;
+    --foreground-subtle: #8A8780;
+    --foreground-inverse: #F5F4F0;
+
+    --surface: #FFFFFF;
+    --surface-muted: #ECEAE4;
+    --surface-elevated: #FAF9F6;
+    --surface-inverse: #0D0D0C;
+    --surface-inverse-muted: #171715;
+
+    --border: #DFDDD6;
+    --border-strong: #111110;
+    --border-subtle: #EAE8E1;
+    --border-inverse: #262623;
+
+    --accent: #8C735B;
+    --accent-foreground: #FAF9F6;
+    --accent-muted: #EFECE6;
+
+    --metal: #9E9A90;
+    --metal-light: #C7C4BC;
+    --metal-dark: #6E6B64;
+
+    --success: #23533D;
+    --success-surface: #E8F0EC;
+    --warning: #946220;
+    --warning-surface: #F5EFE4;
+    --danger: #8A2828;
+    --danger-surface: #F4EAE9;
+  }
+
+  /* Strategic Obsidian Surface Scope — can be applied to sections, headers, or modals */
+  .surface-obsidian,
+  .dark {
+    --background: #0D0D0C;
+    --foreground: #F5F4F0;
+    --foreground-muted: #A3A098;
+    --foreground-subtle: #6E6B64;
+    --foreground-inverse: #111110;
+
+    --surface: #141413;
+    --surface-muted: #1C1C1A;
+    --surface-elevated: #1F1F1D;
+    --surface-inverse: #F6F5F2;
+    --surface-inverse-muted: #ECEAE4;
+
+    --border: #262623;
+    --border-strong: #F5F4F0;
+    --border-subtle: #1D1D1B;
+    --border-inverse: #DFDDD6;
+
+    --accent: #A88E73;
+    --accent-foreground: #0D0D0C;
+    --accent-muted: #221F1B;
+
+    --metal: #7D7A72;
+    --metal-light: #A3A098;
+    --metal-dark: #4A4843;
+
+    --success: #3E8E69;
+    --success-surface: #15261E;
+    --warning: #C98A38;
+    --warning-surface: #281F13;
+    --danger: #C44D4D;
+    --danger-surface: #2A1616;
+  }
+
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11', 'ss01';
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: var(--foreground);
+    color: var(--background);
+  }
+
+  /* Accessible, intentional keyboard focus indicator */
+  :focus-visible {
+    outline: 1.5px solid var(--foreground);
+    outline-offset: 3px;
+  }
+}
+
+@layer utilities {
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Subtle editorial link underline animation */
+  .noire-link {
+    position: relative;
+    display: inline-block;
+  }
+
+  .noire-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 1px;
+    background-color: currentColor;
+    transform: scaleX(0);
+    transform-origin: right center;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .noire-link:hover::after,
+  .noire-link:focus-visible::after {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+
+  /* Architectural grid background pattern for technical sections */
+  .bg-architectural-grid {
+    background-size: 48px 48px;
+    background-image: 
+      linear-gradient(to right, var(--border-subtle) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--border-subtle) 1px, transparent 1px);
+  }
+
+  /* Custom subtle scrollbar */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
