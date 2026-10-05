@@ -3,8 +3,10 @@
 import React, { useId } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { X } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { NOIRE_MOTION_TOKENS } from '@/lib/design-system/tokens';
 import { useOverlayBehavior } from '@/lib/hooks/use-overlay-behavior';
+import { useIsRtl, toPhysicalX } from '@/lib/hooks/use-direction';
 import { cn } from '@/lib/utils';
 
 export interface DrawerProps {
@@ -30,6 +32,7 @@ export function Drawer({
   footer,
   className,
 }: DrawerProps) {
+  const t = useTranslations('common');
   const prefersReducedMotion = Boolean(useReducedMotion());
   const containerRef = useOverlayBehavior<HTMLDivElement>({ isOpen, onClose });
   const dialogId = useId();
@@ -43,7 +46,9 @@ export function Drawer({
     xl: 'max-w-2xl',
   };
 
-  const slideOffset = side === 'right' ? '100%' : '-100%';
+  const isRtl = useIsRtl();
+  // `right` = inline-end, `left` = inline-start; flipped physically in RTL.
+  const slideOffset = toPhysicalX(side === 'right' ? '100%' : '-100%', isRtl);
 
   return (
     <AnimatePresence>
@@ -86,8 +91,8 @@ export function Drawer({
             className={cn(
               'relative z-10 flex h-full w-full flex-col bg-background text-foreground shadow-modal focus:outline-none',
               side === 'right'
-                ? 'ml-auto border-l border-border'
-                : 'mr-auto border-r border-border',
+                ? 'ms-auto border-s border-border'
+                : 'me-auto border-e border-border',
               sizeMap[size],
               className
             )}
@@ -113,7 +118,7 @@ export function Drawer({
               <button
                 type="button"
                 onClick={onClose}
-                aria-label="Close drawer"
+                aria-label={t('close')}
                 className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xs border border-transparent text-foreground-muted transition-colors hover:border-border hover:bg-surface hover:text-foreground"
               >
                 <X className="h-4 w-4" aria-hidden="true" />

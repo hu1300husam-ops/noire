@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useRef } from 'react';
+import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
 import type { ProductColorVariant } from '@/types';
 
@@ -21,6 +22,7 @@ export function ColorSwatchGroup({
   showLabel = false,
   className,
 }: ColorSwatchGroupProps) {
+  const t = useTranslations('product');
   const buttonRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const selectedIndex = colors.findIndex((color) => color.id === selectedColorId);
   const selectedColor = selectedIndex >= 0 ? colors[selectedIndex] : undefined;
@@ -52,7 +54,7 @@ export function ColorSwatchGroup({
       {showLabel && selectedColor && (
         <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 text-caption">
           <span className="font-mono text-label uppercase tracking-[0.12em] text-foreground-muted">
-            Finish
+            {t('finish')}
           </span>
           <span className="font-medium text-foreground">
             {selectedColor.name}{' '}
@@ -65,7 +67,7 @@ export function ColorSwatchGroup({
       <div
         className="flex flex-wrap items-center gap-3"
         role="radiogroup"
-        aria-label="Product finish options"
+        aria-label={t('finishOptions')}
       >
         {colors.map((color, idx) => {
           const isSelected = color.id === selectedColorId;
@@ -79,7 +81,7 @@ export function ColorSwatchGroup({
               role="radio"
               aria-checked={isSelected}
               tabIndex={isSelected || (selectedIndex < 0 && idx === 0) ? 0 : -1}
-              aria-label={`${color.name} (${color.finish})${color.inStock ? '' : ', currently unavailable'}`}
+              aria-label={`${color.name} (${color.finish})${color.inStock ? '' : `, ${t('unavailable')}`}`}
               title={`${color.name} — ${color.finish}`}
               onKeyDown={(e) => handleKeyDown(e, idx)}
               onClick={(e) => {

@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
 import { ArrowUpRight, Compass } from 'lucide-react';
 import { Container, Section } from '@/components/layout';
 import { Reveal } from '@/components/motion';
@@ -16,6 +17,7 @@ interface CategoryDiscoverySectionProps {
 export function CategoryDiscoverySection({
   categories,
 }: CategoryDiscoverySectionProps) {
+  const t = useTranslations('home.categories');
   const [activeCategory, setActiveCategory] = useState<Category>(
     categories[0]
   );
@@ -36,24 +38,24 @@ export function CategoryDiscoverySection({
           <div className="space-y-3">
             <div className="flex items-center gap-3">
               <Eyebrow index="06" tone="accent">
-                ENGINEERING DISCIPLINES
+                {t('eyebrow')}
               </Eyebrow>
-              <TechnicalCode>TAXONOMY // 01–06</TechnicalCode>
+              <TechnicalCode>{t('taxonomy')}</TechnicalCode>
             </div>
             <h2
               id="category-discovery-heading"
               className="font-display text-h1 tracking-tighter text-foreground"
             >
-              Six Systems of{' '}
-              <span className="font-normal italic text-foreground-muted">
-                Spatial &amp; Acoustic Order.
-              </span>
+              {t.rich('title', {
+                em: (chunks) => (
+                  <span className="font-normal italic text-foreground-muted">{chunks}</span>
+                ),
+              })}
             </h2>
           </div>
 
           <p className="max-w-md text-small leading-relaxed text-foreground-muted">
-            Select a discipline to inspect its material parameters, machining
-            tolerances, and active instrument allocations.
+            {t('body')}
           </p>
         </Reveal>
 
@@ -79,7 +81,7 @@ export function CategoryDiscoverySection({
                   {/* Active Left Accent Bar */}
                   <div
                     className={cn(
-                      'absolute bottom-0 left-0 top-0 w-1 transition-colors duration-300',
+                      'absolute bottom-0 start-0 top-0 w-1 transition-colors duration-300',
                       isActive ? 'bg-accent' : 'bg-transparent'
                     )}
                     aria-hidden="true"
@@ -116,10 +118,9 @@ export function CategoryDiscoverySection({
                       </div>
 
                       <div className="flex items-center justify-between gap-4 border-t border-border/60 pt-3 sm:border-t-0 sm:pt-0">
-                        <div className="text-left sm:text-right">
+                        <div className="text-start sm:text-end">
                           <span className="block font-mono text-[10px] uppercase tracking-[0.14em] text-foreground">
-                            {String(category.productCount).padStart(2, '0')}{' '}
-                            OBJECTS
+                            {t('objects', { count: String(category.productCount).padStart(2, '0') })}
                           </span>
                           <span className="block font-mono text-[10px] uppercase tracking-[0.12em] text-foreground-subtle">
                             {category.shortName}
@@ -173,11 +174,10 @@ export function CategoryDiscoverySection({
               <div className="mb-3 flex items-center justify-between border-b border-border pb-3 font-mono text-[10px] uppercase tracking-[0.14em] text-foreground-muted">
                 <span className="inline-flex items-center gap-1.5">
                   <Compass className="h-3.5 w-3.5 text-accent" />
-                  <span>DISCIPLINE PLATE // {activeCategory.indexNumber}</span>
+                  <span>{t('disciplinePlate', { index: activeCategory.indexNumber })}</span>
                 </span>
                 <span className="text-accent">
-                  {String(activeCategory.productCount).padStart(2, '0')} ACTIVE
-                  MODELS
+                  {t('activeModels', { count: String(activeCategory.productCount).padStart(2, '0') })}
                 </span>
               </div>
 
@@ -206,7 +206,7 @@ export function CategoryDiscoverySection({
                     href={`/shop?category=${activeCategory.slug}`}
                     className="mt-5 inline-flex items-center gap-2 border border-[#F4F3EF] bg-[#F4F3EF] px-5 py-2.5 font-mono text-[10px] uppercase tracking-[0.16em] text-[#0C0C0D] transition-opacity hover:opacity-90"
                   >
-                    <span>Explore {activeCategory.name}</span>
+                    <span>{t('explore', { name: activeCategory.name })}</span>
                     <ArrowUpRight className="h-3.5 w-3.5" />
                   </Link>
                 </div>

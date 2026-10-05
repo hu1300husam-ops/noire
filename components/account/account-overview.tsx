@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { ArrowRight, ArrowUpRight, Archive, FileText, Layers3 } from 'lucide-react';
 import type { CustomerSession, Order, Product } from '@/types';
 import { EmptyState, PriceDisplay, TechnicalCode } from '@/components/ui';
@@ -87,7 +87,7 @@ export function AccountOverview({
       </dl>
 
       {session.status === 'guest' && (
-        <p className="border-l border-border-strong/50 pl-4 text-[11px] leading-relaxed text-foreground-muted">
+        <p className="border-s border-border-strong/50 ps-4 text-[11px] leading-relaxed text-foreground-muted">
           Identity and membership telemetry are intentionally unassigned in this preview. Counts below come only from this browser&apos;s shared commerce context.
         </p>
       )}
@@ -206,7 +206,7 @@ export function AccountOverview({
                     <Link href={`/product/${product.slug}`} aria-label={`Open ${product.name} product dossier`} className="group block min-w-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground">
                       <span className="relative block aspect-square overflow-hidden border border-border bg-surface-muted">
                         <Image src={product.primaryImage} alt="" fill sizes="(min-width: 1280px) 15vw, (min-width: 640px) 25vw, 40vw" className="object-cover transition-transform duration-500 group-hover:scale-[1.025] motion-reduce:transform-none" />
-                        <span className="absolute left-2 top-2 bg-background/90 px-1.5 py-1 font-mono text-[8px] uppercase tracking-[0.1em] text-foreground">{String(index + 1).padStart(2, '0')}</span>
+                        <span className="absolute start-2 top-2 bg-background/90 px-1.5 py-1 font-mono text-[8px] uppercase tracking-[0.1em] text-foreground">{String(index + 1).padStart(2, '0')}</span>
                       </span>
                       <span className="mt-2 block break-words font-display text-sm leading-snug text-foreground transition-colors group-hover:text-accent">{product.name}</span>
                       <span className="mt-1 block break-words font-mono text-[8px] uppercase tracking-[0.08em] text-foreground-subtle">{product.modelNumber}</span>

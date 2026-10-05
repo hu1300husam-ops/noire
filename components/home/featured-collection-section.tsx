@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
 import {
   ArrowUpRight,
   ShoppingBag,
@@ -30,6 +31,7 @@ export function FeaturedCollectionSection({
   collection,
   products,
 }: FeaturedCollectionSectionProps) {
+  const t = useTranslations('home.featured');
   const { addToCart, setQuickViewProduct } = useCommerce();
 
   // Primary Hero Product of the Collection (Monolith One Spatial Speaker or first product)
@@ -57,11 +59,11 @@ export function FeaturedCollectionSection({
           <div className="space-y-3 lg:col-span-7">
             <div className="flex flex-wrap items-center gap-3">
               <Eyebrow index="04" tone="accent">
-                FEATURED COLLECTION
+                {t('eyebrow')}
               </Eyebrow>
               <TechnicalCode>{collection.code}</TechnicalCode>
               <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-foreground-subtle">
-                SEASON // {collection.season}
+                {t('season', { season: collection.season })}
               </span>
             </div>
             <h2
@@ -75,7 +77,7 @@ export function FeaturedCollectionSection({
             </h2>
           </div>
 
-          <div className="flex flex-col justify-between space-y-4 lg:col-span-5 lg:items-end lg:text-right">
+          <div className="flex flex-col justify-between space-y-4 lg:col-span-5 lg:items-end lg:text-end">
             <p className="max-w-md text-small leading-relaxed text-foreground-muted">
               {collection.description}
             </p>
@@ -83,7 +85,7 @@ export function FeaturedCollectionSection({
               href={`/shop?collection=${collection.slug}`}
               className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.14em] text-foreground underline underline-offset-8 transition-colors hover:text-accent"
             >
-              <span>Explore Full {collection.title} Archive</span>
+              <span>{t('exploreArchive', { title: collection.title })}</span>
               <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
             </Link>
           </div>
@@ -96,10 +98,10 @@ export function FeaturedCollectionSection({
             {/* Top Plate Bar */}
             <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-5 py-3.5 font-mono text-[10px] uppercase tracking-[0.14em] text-foreground-muted sm:px-6">
               <span>
-                ANCHOR INSTRUMENT // {heroCollectionProduct.modelNumber}
+                {t('anchorInstrument', { model: heroCollectionProduct.modelNumber })}
               </span>
               <span className="text-accent">
-                SERIALIZED MONOLITH ALLOCATION
+                {t('serializedAllocation')}
               </span>
             </div>
 
@@ -117,7 +119,7 @@ export function FeaturedCollectionSection({
                 />
               </Link>
 
-              <div className="pointer-events-none absolute left-4 top-4 sm:left-6 sm:top-6">
+              <div className="pointer-events-none absolute start-4 top-4 sm:start-6 sm:top-6">
                 <ProductBadge
                   type={heroCollectionProduct.badge}
                   label={heroCollectionProduct.badgeLabel}
@@ -127,36 +129,36 @@ export function FeaturedCollectionSection({
 
             {/* Technical Collection Specifications Ledger */}
             <div className="grid grid-cols-2 border-b border-border bg-surface-muted/50 sm:grid-cols-4">
-              <div className="border-b border-r border-border p-4 sm:border-b-0">
+              <div className="border-b border-e border-border p-4 sm:border-b-0">
                 <span className="block font-mono text-[9px] uppercase tracking-[0.14em] text-foreground-subtle">
-                  METALLURGY
+                  {t('specs.metallurgy')}
                 </span>
                 <span className="mt-1 block font-mono text-xs text-foreground">
-                  6061-T6 Billet
+                  {t('specs.metallurgyValue')}
                 </span>
               </div>
-              <div className="border-b border-border p-4 sm:border-b-0 sm:border-r">
+              <div className="border-b border-border p-4 sm:border-b-0 sm:border-e">
                 <span className="block font-mono text-[9px] uppercase tracking-[0.14em] text-foreground-subtle">
-                  FINISH
+                  {t('specs.finish')}
                 </span>
                 <span className="mt-1 block font-mono text-xs text-foreground">
-                  Type III Bead-Blast
+                  {t('specs.finishValue')}
                 </span>
               </div>
-              <div className="border-r border-border p-4">
+              <div className="border-e border-border p-4">
                 <span className="block font-mono text-[9px] uppercase tracking-[0.14em] text-foreground-subtle">
-                  ACOUSTIC POWER
+                  {t('specs.power')}
                 </span>
                 <span className="mt-1 block font-mono text-xs text-foreground">
-                  550W Class-D Bi-Amp
+                  {t('specs.powerValue')}
                 </span>
               </div>
               <div className="p-4">
                 <span className="block font-mono text-[9px] uppercase tracking-[0.14em] text-foreground-subtle">
-                  ENCLOSURE MASS
+                  {t('specs.mass')}
                 </span>
                 <span className="mt-1 block font-mono text-xs text-foreground">
-                  14.2 kg Solid Core
+                  {t('specs.massValue')}
                 </span>
               </div>
             </div>
@@ -179,7 +181,7 @@ export function FeaturedCollectionSection({
                   </p>
                 </div>
 
-                <div className="shrink-0 sm:text-right">
+                <div className="shrink-0 sm:text-end">
                   <PriceDisplay
                     price={heroCollectionProduct.price}
                     compareAtPrice={heroCollectionProduct.compareAtPrice}
@@ -207,7 +209,7 @@ export function FeaturedCollectionSection({
                     })
                   }
                 >
-                  Allocate Flagship Object
+                  {t('allocateFlagship')}
                 </Button>
 
                 <Button
@@ -216,14 +218,14 @@ export function FeaturedCollectionSection({
                   leftIcon={<Eye className="h-3.5 w-3.5" />}
                   onClick={() => setQuickViewProduct(heroCollectionProduct)}
                 >
-                  Quick Inspect
+                  {t('quickInspect')}
                 </Button>
 
                 <Link
                   href={`/product/${heroCollectionProduct.slug}`}
-                  className="ml-auto inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-foreground-muted transition-colors hover:text-foreground"
+                  className="ms-auto inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-foreground-muted transition-colors hover:text-foreground"
                 >
-                  <span>Full Specifications</span>
+                  <span>{t('fullSpecifications')}</span>
                   <ArrowUpRight className="h-3.5 w-3.5" />
                 </Link>
               </div>
@@ -240,11 +242,10 @@ export function FeaturedCollectionSection({
               <div className="flex items-center justify-between border-b border-border pb-3">
                 <span className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em] text-foreground">
                   <Layers className="h-3.5 w-3.5 text-accent" />
-                  <span>ARCHITECTURAL COHESION</span>
+                  <span>{t('cohesion')}</span>
                 </span>
                 <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-foreground-subtle">
-                  {String(collection.productIds.length).padStart(2, '0')} OBJECTS
-                  IN SERIES
+                  {t('objectsInSeries', { count: String(collection.productIds.length).padStart(2, '0') })}
                 </span>
               </div>
               <p className="mt-3 text-caption leading-relaxed text-foreground-muted">
@@ -262,7 +263,7 @@ export function FeaturedCollectionSection({
                   {/* Thumbnail Plate (4 Cols) */}
                   <Link
                     href={`/product/${product.slug}`}
-                    className="relative col-span-4 overflow-hidden border-r border-border bg-surface-muted"
+                    className="relative col-span-4 overflow-hidden border-e border-border bg-surface-muted"
                   >
                     <img
                       src={product.primaryImage}
@@ -270,7 +271,7 @@ export function FeaturedCollectionSection({
                       loading="lazy"
                       className="h-full w-full object-cover transition-transform duration-500 ease-noire-out group-hover:scale-105"
                     />
-                    <span className="absolute left-2 top-2 border border-border bg-background/90 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.12em] text-foreground">
+                    <span className="absolute start-2 top-2 border border-border bg-background/90 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.12em] text-foreground">
                       04.{idx + 2}
                     </span>
                   </Link>
@@ -320,7 +321,7 @@ export function FeaturedCollectionSection({
                           aria-label={`Quick inspect ${product.name}`}
                           className="border border-border px-1.5 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-foreground-muted transition-colors hover:border-foreground hover:text-foreground sm:px-2"
                         >
-                          Inspect
+                          {t('inspect')}
                         </button>
                         <button
                           type="button"
@@ -333,7 +334,7 @@ export function FeaturedCollectionSection({
                           }
                           className="border border-foreground bg-foreground px-1.5 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-background transition-opacity hover:opacity-90 sm:px-2.5"
                         >
-                          + Allocate
+                          {t('allocate')}
                         </button>
                       </div>
                     </div>

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { ArrowDown, ArrowRight, ArrowUpRight, CircleCheck, FileText, ShieldAlert, Truck } from 'lucide-react';
 import type { Order } from '@/types';
 import { useCommerce } from '@/lib/context/commerce-context';
@@ -95,7 +95,7 @@ export function OrderConfirmationExperience({
                 A browser-local demonstration record has been created for {customerName}. No payment, inventory reservation, courier booking, or fulfillment has occurred.
               </p>
             </div>
-            <div className="border-t border-foreground-inverse/20 pt-5 lg:col-span-4 lg:border-l lg:border-t-0 lg:pl-7 lg:pt-0">
+            <div className="border-t border-foreground-inverse/20 pt-5 lg:col-span-4 lg:border-s lg:border-t-0 lg:ps-7 lg:pt-0">
               <TechnicalCode className="text-foreground-inverse/55">{order.allocationReference ?? 'ALLOCATION REFERENCE // PENDING'}</TechnicalCode>
               <p className="mt-2 break-words font-mono text-xl tabular-nums text-foreground-inverse">{order.orderNumber}</p>
               <p className="mt-2 break-all text-small text-foreground-inverse/65">{order.customerEmail}</p>
@@ -211,7 +211,7 @@ export function OrderConfirmationExperience({
               </div>
             </section>
 
-            <section className="border-l border-foreground px-5 py-2 sm:px-6" aria-labelledby="message-heading">
+            <section className="border-s border-foreground px-5 py-2 sm:px-6" aria-labelledby="message-heading">
               <TechnicalCode>Private correspondence // NOIRÉ</TechnicalCode>
               <h2 id="message-heading" className="mt-2 font-display text-xl text-foreground">Demonstration record only.</h2>
               <p className="mt-3 text-small leading-relaxed text-foreground-muted">

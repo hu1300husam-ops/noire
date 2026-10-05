@@ -7,7 +7,7 @@ import React, {
   useRef,
   useCallback,
 } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ShoppingBag,
@@ -451,7 +451,7 @@ export function ProductHeroExperience({
                 </AnimatePresence>
 
                 {/* Top Left Badge */}
-                <div className="pointer-events-none absolute left-4 top-4 sm:left-6 sm:top-6">
+                <div className="pointer-events-none absolute start-4 top-4 sm:start-6 sm:top-6">
                   <ProductBadge
                     type={product.badge}
                     label={product.badgeLabel}
@@ -488,7 +488,7 @@ export function ProductHeroExperience({
                 )}
 
                 {/* Subtle Bottom Zoom / Swipe Hint */}
-                <div className="pointer-events-none absolute bottom-3 right-3 hidden border border-border bg-background/85 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-foreground-muted backdrop-blur-sm lg:block">
+                <div className="pointer-events-none absolute bottom-3 end-3 hidden border border-border bg-background/85 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.14em] text-foreground-muted backdrop-blur-sm lg:block">
                   HOVER TO INSPECT GRAIN · ARROW KEYS TO CYCLE
                 </div>
               </div>
@@ -542,7 +542,7 @@ export function ProductHeroExperience({
                       />
                       <span
                         className={cn(
-                          'absolute left-2 top-2 border px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.12em]',
+                          'absolute start-2 top-2 border px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.12em]',
                           isCurrent
                             ? 'border-foreground bg-foreground text-background'
                             : 'border-border bg-background/90 text-foreground'
@@ -585,7 +585,7 @@ export function ProductHeroExperience({
                         loading="lazy"
                         className="h-full w-full object-cover transition-transform duration-700 ease-noire-out group-hover:scale-105"
                       />
-                      <span className="absolute right-2.5 top-2.5 border border-border bg-background/90 p-1.5 text-foreground opacity-0 transition-opacity group-hover:opacity-100">
+                      <span className="absolute end-2.5 top-2.5 border border-border bg-background/90 p-1.5 text-foreground opacity-0 transition-opacity group-hover:opacity-100">
                         <Maximize2 className="h-3 w-3" aria-hidden="true" />
                       </span>
                     </div>
@@ -736,7 +736,7 @@ export function ProductHeroExperience({
                           onKeyDown={(e) => handleOptionKeyDown(e, idx)}
                           onClick={() => setSelectedOption(opt)}
                           className={cn(
-                            'flex w-full items-center justify-between border px-4 py-3 text-left transition-colors duration-200',
+                            'flex w-full items-center justify-between border px-4 py-3 text-start transition-colors duration-200',
                             isSelected
                               ? 'border-foreground bg-foreground text-background'
                               : 'border-border bg-background text-foreground hover:border-foreground/50',
@@ -763,7 +763,7 @@ export function ProductHeroExperience({
 
                           <span
                             className={cn(
-                              'ml-3 shrink-0 font-mono text-xs tabular-nums',
+                              'ms-3 shrink-0 font-mono text-xs tabular-nums',
                               isSelected
                                 ? 'text-background/90'
                                 : 'text-foreground-muted'
@@ -1035,7 +1035,7 @@ export function ProductHeroExperience({
             }}
             role="region"
             aria-label="Quick purchase bar"
-            className="fixed bottom-0 left-0 right-0 z-header border-t border-border bg-background/95 px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] shadow-elevated backdrop-blur-md lg:hidden"
+            className="fixed bottom-0 start-0 end-0 z-header border-t border-border bg-background/95 px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] shadow-elevated backdrop-blur-md lg:hidden"
           >
             <div className="mx-auto flex max-w-xl items-center justify-between gap-3">
               <div className="min-w-0">

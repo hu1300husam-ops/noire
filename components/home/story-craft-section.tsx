@@ -1,43 +1,41 @@
 import React from 'react';
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
 import { ArrowUpRight, Ruler, Layers, Wrench } from 'lucide-react';
 import { Container, Section } from '@/components/layout';
 import { Reveal, StaggerContainer, StaggerItem } from '@/components/motion';
 import { Eyebrow, TechnicalCode } from '@/components/ui';
 
 export function StoryCraftSection() {
-  const craftStages = [
+  const t = useTranslations('home.craft');
+  const stageMeta = [
     {
-      code: 'STAGE 01 // SUBTRACTION',
-      title: '5-Axis CNC Billet Milling',
-      metric: '±0.02mm Tolerance',
+      key: 'subtraction',
       icon: Ruler,
-      body: 'An 18.4-kilogram block of forged 6061-T6 aluminum spends four hours inside a 5-axis milling cell. Over 85% of the raw alloy is subtracted and recycled in-house to leave a single seamless monocoque with zero internal weld seams.',
       image:
         'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=85',
-      caption: 'FIG 08.A — 5-AXIS MONOCOQUE TOOLPATH GEOMETRY',
     },
     {
-      code: 'STAGE 02 // SURFACE METALLURGY',
-      title: 'Ceramic Bead-Blast & Type III Anodizing',
-      metric: '62 HRC Surface Hardness',
+      key: 'surface',
       icon: Layers,
-      body: 'Before electrochemical anodization, each chassis is bombarded with fine zirconium-silicate glass beads. The resulting matte skin scatters ambient light without glare and resists skin oils and micro-abrasions for decades.',
       image:
         'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=85',
-      caption: 'FIG 08.B — MICRO-CRYSTALLINE OXIDE LAYER INSPECTION',
     },
     {
-      code: 'STAGE 03 // LONGEVITY',
-      title: 'Anechoic Calibration & Modular Serviceability',
-      metric: '10-Year Parts Archive',
+      key: 'longevity',
       icon: Wrench,
-      body: 'Every NOIRÉ instrument is assembled solely with standardized Torx T6 titanium fasteners—never permanent adhesives. Each unit is individually swept in our Zürich anechoic chamber and shipped with its signed calibration graph.',
       image:
         'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=crop&w=1200&q=85',
-      caption: 'FIG 08.C — ZÜRICH ANECHOIC CHAMBER FREQUENCY SWEEP',
     },
-  ];
+  ] as const;
+  const craftStages = stageMeta.map((stage) => ({
+    ...stage,
+    code: t(`stages.${stage.key}.code`),
+    title: t(`stages.${stage.key}.title`),
+    metric: t(`stages.${stage.key}.metric`),
+    body: t(`stages.${stage.key}.body`),
+    caption: t(`stages.${stage.key}.caption`),
+  }));
 
   return (
     <Section
@@ -53,31 +51,30 @@ export function StoryCraftSection() {
           <div className="space-y-4 lg:col-span-7">
             <div className="flex flex-wrap items-center gap-3">
               <Eyebrow index="08" tone="accent">
-                METALLURGY &amp; CRAFT
+                {t('eyebrow')}
               </Eyebrow>
-              <TechnicalCode>LAB-PROTOCOL // ZH-TYO</TechnicalCode>
+              <TechnicalCode>{t('labProtocol')}</TechnicalCode>
             </div>
             <h2
               id="story-craft-heading"
               className="font-display text-h1 tracking-tighter text-foreground"
             >
-              From 18 Kilograms of Raw Billet to an{' '}
-              <span className="font-normal italic text-foreground-muted">
-                Instrument of Silence.
-              </span>
+              {t.rich('title', {
+                em: (chunks) => (
+                  <span className="font-normal italic text-foreground-muted">{chunks}</span>
+                ),
+              })}
             </h2>
           </div>
 
           <div className="flex flex-col justify-end space-y-4 lg:col-span-5">
             <p className="text-body leading-relaxed text-foreground-muted">
-              True luxury in industrial hardware is measured by what is removed.
-              When you lift a NOIRÉ object, the cold density in your palm is the
-              result of uncompromising subtraction and acoustic discipline.
+              {t('body')}
             </p>
             <div className="flex flex-wrap items-center gap-6 pt-2 font-mono text-[10px] uppercase tracking-[0.16em] text-foreground">
-              <span>0% STRUCTURAL PLASTIC</span>
+              <span>{t('noPlastic')}</span>
               <span>•</span>
-              <span>100% TORX SERVICEABLE</span>
+              <span>{t('serviceable')}</span>
             </div>
           </div>
         </Reveal>
@@ -87,20 +84,20 @@ export function StoryCraftSection() {
           {/* Left 8 Columns: Monumental Studio Image Plate */}
           <Reveal className="flex flex-col justify-between border border-border bg-surface p-3 sm:p-5 lg:col-span-8">
             <div className="mb-3 flex flex-wrap items-center justify-between gap-2 border-b border-border pb-2.5 font-mono text-[10px] uppercase tracking-[0.14em] text-foreground-muted">
-              <span>ARCHIVE PLATE // ZÜRICH MILLING FACILITY</span>
+              <span>{t('archivePlate')}</span>
               <span className="text-accent">ISO-2768-F PRECISION</span>
             </div>
 
             <div className="relative aspect-[16/10] w-full overflow-hidden bg-surface-muted">
               <img
                 src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=1600&q=85"
-                alt="NOIRÉ acoustic and metallurgical laboratory"
+                alt={t('labImageAlt')}
                 loading="lazy"
                 className="h-full w-full object-cover"
               />
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent p-4 sm:p-6">
                 <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#F4F3EF]">
-                  ACOUSTIC CAVITY VERIFICATION // ZERO STANDING INTERNAL RESONANCE
+                  {t('cavityVerification')}
                 </p>
               </div>
             </div>
@@ -108,19 +105,19 @@ export function StoryCraftSection() {
             <div className="mt-3 grid grid-cols-2 gap-4 pt-1 font-mono text-[10px] uppercase tracking-[0.14em] text-foreground-subtle sm:grid-cols-4">
               <div>
                 <span className="block text-foreground">85.4%</span>
-                <span>ALLOY RECYCLED</span>
+                <span>{t('metrics.recycled')}</span>
               </div>
               <div>
-                <span className="block text-foreground">4.2 HOURS</span>
-                <span>CNC SPINDLE TIME</span>
+                <span className="block text-foreground">{t('metrics.spindleValue')}</span>
+                <span>{t('metrics.spindle')}</span>
               </div>
               <div>
-                <span className="block text-foreground">25 MICRONS</span>
-                <span>OXIDE DEPTH</span>
+                <span className="block text-foreground">{t('metrics.oxideValue')}</span>
+                <span>{t('metrics.oxide')}</span>
               </div>
               <div>
                 <span className="block text-foreground">&lt; 0.04% THD</span>
-                <span>HARMONIC FLOOR</span>
+                <span>{t('metrics.harmonic')}</span>
               </div>
             </div>
           </Reveal>
@@ -132,39 +129,33 @@ export function StoryCraftSection() {
           >
             <div className="space-y-5">
               <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-accent">
-                ARCHITECTURAL DOCTRINE
+                {t('doctrineEyebrow')}
               </span>
 
               <h3 className="font-display text-h2 tracking-tight text-foreground">
-                Why Mass Matters in Acoustic &amp; Tactile Hardware.
+                {t('doctrineTitle')}
               </h3>
 
               <p className="text-small leading-relaxed text-foreground-muted">
-                Micro-vibrations are the enemy of both acoustic fidelity and
-                tactile precision. In conventional plastic electronics, the
-                housing vibrates sympathetically with the transducer or key
-                switch, smearing transient detail.
+                {t('doctrineBody1')}
               </p>
 
               <p className="text-small leading-relaxed text-foreground-muted">
-                By machining our enclosures from solid blocks of aerospace
-                aluminum and architectural brass, the chassis acts as an inert
-                seismic anchor—allowing only pure sound, light, or mechanical
-                actuation to reach your senses.
+                {t('doctrineBody2')}
               </p>
             </div>
 
             <div className="mt-8 border-t border-border pt-5">
               <div className="mb-4 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.14em] text-foreground-subtle">
-                <span>CERTIFIED BY</span>
-                <span className="text-foreground">S. LINDQVIST // HEAD OF DESIGN</span>
+                <span>{t('certifiedBy')}</span>
+                <span className="text-foreground">{t('certifier')}</span>
               </div>
 
               <Link
                 href="#journal"
                 className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.14em] text-foreground underline underline-offset-8 transition-colors hover:text-accent"
               >
-                <span>Read Monograph Issue 14</span>
+                <span>{t('readMonograph')}</span>
                 <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
               </Link>
             </div>
@@ -189,7 +180,7 @@ export function StoryCraftSection() {
                       loading="lazy"
                       className="h-full w-full object-cover transition-transform duration-700 ease-noire-out group-hover:scale-105"
                     />
-                    <span className="absolute left-3 top-3 border border-border bg-background/90 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-foreground backdrop-blur-sm">
+                    <span className="absolute start-3 top-3 border border-border bg-background/90 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-foreground backdrop-blur-sm">
                       {stage.metric}
                     </span>
                   </div>

@@ -2,8 +2,8 @@
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { Link } from '@/i18n/navigation';
+import { useRouter } from '@/i18n/navigation';
 import { useReducedMotion } from 'framer-motion';
 import {
   AlertCircle,
@@ -331,7 +331,7 @@ function AllocationLines({
                   <span className="break-words">
                     {item.selectedOption.label}
                     {item.selectedOption.priceDelta !== 0 && (
-                      <span className="ml-1 font-mono text-[9px]">({item.selectedOption.priceDelta > 0 ? '+' : ''}{formatPrice(item.selectedOption.priceDelta)})</span>
+                      <span className="ms-1 font-mono text-[9px]">({item.selectedOption.priceDelta > 0 ? '+' : ''}{formatPrice(item.selectedOption.priceDelta)})</span>
                     )}
                   </span>
                 </>
@@ -395,7 +395,7 @@ function TotalsLedger({
           <span className="block font-display text-base text-foreground">Estimated total</span>
           <span className="mt-1 block font-mono text-[9px] uppercase tracking-[0.13em] text-foreground-subtle">USD // tax subject to destination</span>
         </dt>
-        <dd className="shrink-0 text-right">
+        <dd className="shrink-0 text-end">
           <PriceDisplay price={totals.total} size={compact ? 'lg' : 'xl'} />
         </dd>
       </div>
@@ -1242,7 +1242,7 @@ export function CheckoutExperience({
                 type="button"
                 onClick={() => section === 'review' ? void handleReview() : scrollToSection(section)}
                 aria-current={activeSection === section ? 'step' : undefined}
-                className={`flex min-h-12 items-center gap-2 border-b-2 px-2 text-left font-mono text-[9px] uppercase tracking-[0.12em] transition-colors sm:px-4 ${activeSection === section ? 'border-foreground text-foreground' : 'border-transparent text-foreground-subtle hover:text-foreground'}`}
+                className={`flex min-h-12 items-center gap-2 border-b-2 px-2 text-start font-mono text-[9px] uppercase tracking-[0.12em] transition-colors sm:px-4 ${activeSection === section ? 'border-foreground text-foreground' : 'border-transparent text-foreground-subtle hover:text-foreground'}`}
               >
                 <span>{`${number} //`}</span><span>{label}</span>
               </button>
@@ -1511,7 +1511,7 @@ export function CheckoutExperience({
                               <span className="mt-1 block text-[11px] leading-relaxed text-foreground-muted">{method.estimatedWindow}</span>
                               <span className="mt-1 block text-[10px] leading-relaxed text-foreground-subtle">{method.description}</span>
                             </span>
-                            <span className="shrink-0 text-right font-mono text-xs tabular-nums text-foreground">
+                            <span className="shrink-0 text-end font-mono text-xs tabular-nums text-foreground">
                               {methodCost === 0 ? 'DEMO INCLUDED' : formatPrice(methodCost)}
                             </span>
                           </label>
@@ -1779,7 +1779,7 @@ export function CheckoutExperience({
                         {appliedDiscount ? `${appliedDiscount.code} — ${appliedDiscount.description}` : 'No allocation code applied'}
                       </p>
                     </div>
-                    <div className="sm:text-right">
+                    <div className="sm:text-end">
                       <PanelLabel>Tax telemetry</PanelLabel>
                       <p className="mt-2 text-small text-foreground">{taxAmount === 0 ? 'Calculated by destination service when connected.' : formatPrice(taxAmount)}</p>
                     </div>
@@ -1818,7 +1818,7 @@ export function CheckoutExperience({
                   <span className="font-mono text-[10px] tabular-nums text-foreground-subtle">{itemCountLabel}</span>
                 </div>
 
-                <div className="max-h-[40vh] overflow-y-auto overscroll-contain pr-1">
+                <div className="max-h-[40vh] overflow-y-auto overscroll-contain pe-1">
                   <AllocationLines items={cart} lineTotals={cartLineTotals} />
                 </div>
 
@@ -1888,12 +1888,12 @@ export function CheckoutExperience({
                   type="button"
                   onClick={() => setShowTaxNote((shown) => !shown)}
                   aria-expanded={showTaxNote}
-                  className="mt-4 inline-flex min-h-11 items-center gap-2 text-left font-mono text-[9px] uppercase tracking-[0.11em] text-foreground-subtle hover:text-foreground"
+                  className="mt-4 inline-flex min-h-11 items-center gap-2 text-start font-mono text-[9px] uppercase tracking-[0.11em] text-foreground-subtle hover:text-foreground"
                 >
                   <Info className="h-3 w-3" aria-hidden="true" /> Tax calculation architecture
                 </button>
                 {showTaxNote && (
-                  <p className="mb-3 border-l border-border-strong pl-3 text-[10px] leading-relaxed text-foreground-subtle">
+                  <p className="mb-3 border-s border-border-strong ps-3 text-[10px] leading-relaxed text-foreground-subtle">
                     Tax is intentionally shown as a pending estimate in this frontend. A destination-aware tax provider must return an authoritative quote before live order finalization.
                   </p>
                 )}

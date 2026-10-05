@@ -110,11 +110,11 @@ export function AccountProfile({ session }: { session: CustomerSession }) {
       </div>
 
       {isGuest ? (
-        <p className="border-l border-accent pl-4 text-[10px] leading-relaxed text-foreground-muted">
+        <p className="border-s border-accent ps-4 text-[10px] leading-relaxed text-foreground-muted">
           Contact fields are sourced from the existing <code>noire_checkout_session_v1</code> form draft. Editing updates that checkout draft only; it does not create an account or verify a customer identity.
         </p>
       ) : (
-        <p className="border-l border-border-strong/50 pl-4 text-[10px] leading-relaxed text-foreground-muted">
+        <p className="border-s border-border-strong/50 ps-4 text-[10px] leading-relaxed text-foreground-muted">
           Identity is supplied by the future customer provider. Profile updates remain disabled until an authoritative account service is connected.
         </p>
       )}
