@@ -186,7 +186,7 @@ export function AccountAddresses({ orders }: { orders: Order[] }) {
         </section>
       </div>
 
-      <p className="border-l border-border-strong/50 pl-4 text-[10px] leading-relaxed text-foreground-muted">
+      <p className="border-s border-border-strong/50 ps-4 text-[10px] leading-relaxed text-foreground-muted">
         Address changes use the project&apos;s existing checkout draft in browser session storage. No card data is stored, and no address is sent to a customer backend in this preview.
       </p>
 

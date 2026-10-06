@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { ArrowUpRight, History } from 'lucide-react';
 import { Container, Section } from '@/components/layout';
 import { Reveal } from '@/components/motion';

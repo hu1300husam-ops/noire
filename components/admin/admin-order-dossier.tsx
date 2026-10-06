@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { ArrowLeft, FileText, ShieldAlert, Truck } from 'lucide-react';
 import { Badge, Button, EmptyState, Modal, PriceDisplay, Select, TechnicalCode, useToast } from '@/components/ui';
 import { AdminLocalNotice, AdminLoadingState, AdminPageHeader, OrderStatusBadge, PaymentStatusBadge, AdminSurface } from '@/components/admin/admin-primitives';
@@ -99,7 +99,7 @@ export function AdminOrderDossier({ orderId }: { orderId: string }) {
               <li key={item.id} className="grid min-w-0 grid-cols-[64px_minmax(0,1fr)] gap-3 py-4 sm:grid-cols-[84px_minmax(0,1fr)_auto] sm:items-center sm:gap-4">
                 <Link href={`/admin/products/${encodeURIComponent(item.productId)}`} aria-label={`Inspect catalog record for ${item.productName}`} className="relative aspect-[4/5] overflow-hidden border border-border bg-surface-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground">{item.image && <Image src={item.image} alt="" fill sizes="84px" className="object-cover" />}</Link>
                 <div className="min-w-0"><TechnicalCode>{item.modelNumber} · {item.sku}</TechnicalCode><Link href={`/admin/products/${encodeURIComponent(item.productId)}`} className="mt-1 block break-words font-display text-base text-foreground underline decoration-border underline-offset-4">{item.productName}</Link><p className="mt-1 break-words text-[10px] text-foreground-muted">Variant / finish // {item.variantName}{item.selectedFinish ? ` · ${item.selectedFinish.name}` : ''}{item.selectedOption ? ` · ${item.selectedOption.label}` : ''}</p><p className="mt-1 font-mono text-[9px] uppercase tracking-[0.08em] text-foreground-subtle">Quantity // {item.quantity} · Unit // {formatPrice(item.unitPrice)}</p></div>
-                <p className="col-start-2 font-mono text-[11px] tabular-nums text-foreground sm:col-start-auto sm:text-right">{formatPrice(item.totalPrice)}</p>
+                <p className="col-start-2 font-mono text-[11px] tabular-nums text-foreground sm:col-start-auto sm:text-end">{formatPrice(item.totalPrice)}</p>
               </li>
             ))}</ul> : <EmptyState code="ALLOCATION // EMPTY" title="No order items recorded." description="The local order has no line items to display." />}
           </AdminSurface>
@@ -116,7 +116,7 @@ export function AdminOrderDossier({ orderId }: { orderId: string }) {
 
           <AdminSurface className="p-4 sm:p-5">
             <div className="mb-4 border-b border-border pb-3"><TechnicalCode>04 // TIMELINE</TechnicalCode><h2 className="mt-1 font-display text-lg text-foreground">Completed events on record</h2><p className="mt-1 text-[10px] text-foreground-muted">Uncompleted planned entries are omitted; no historical fulfillment events are inferred.</p></div>
-            {completedTimeline.length ? <ol className="space-y-0 border-l border-border pl-4">{completedTimeline.map((event) => <li key={event.id} className="relative pb-5 last:pb-0"><span className="absolute -left-[1.32rem] top-1 h-2 w-2 rounded-full border border-accent bg-accent" aria-hidden="true" /><p className="break-words font-mono text-[9px] uppercase tracking-[0.1em] text-foreground">{event.status}</p><p className="mt-1 text-[10px] leading-relaxed text-foreground-muted">{event.description}</p><time dateTime={event.timestamp} className="mt-1 block font-mono text-[8px] uppercase tracking-[0.08em] text-foreground-subtle">{formatOrderDate(event.timestamp)}</time></li>)}</ol> : <p className="text-small text-foreground-muted">No completed timeline events are recorded.</p>}
+            {completedTimeline.length ? <ol className="space-y-0 border-s border-border ps-4">{completedTimeline.map((event) => <li key={event.id} className="relative pb-5 last:pb-0"><span className="absolute -start-[1.32rem] top-1 h-2 w-2 rounded-full border border-accent bg-accent" aria-hidden="true" /><p className="break-words font-mono text-[9px] uppercase tracking-[0.1em] text-foreground">{event.status}</p><p className="mt-1 text-[10px] leading-relaxed text-foreground-muted">{event.description}</p><time dateTime={event.timestamp} className="mt-1 block font-mono text-[8px] uppercase tracking-[0.08em] text-foreground-subtle">{formatOrderDate(event.timestamp)}</time></li>)}</ol> : <p className="text-small text-foreground-muted">No completed timeline events are recorded.</p>}
           </AdminSurface>
         </div>
 

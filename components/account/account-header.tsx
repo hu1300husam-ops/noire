@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { ArrowUpRight, Fingerprint, ShieldCheck } from 'lucide-react';
 import type { CustomerSession } from '@/types';
 import { Container } from '@/components/layout';
@@ -49,7 +49,7 @@ export function AccountHeader({ session }: { session: CustomerSession }) {
             </p>
           </div>
 
-          <div className="grid min-w-0 grid-cols-1 gap-3 border-t border-border pt-4 sm:grid-cols-2 lg:col-span-5 lg:border-l lg:border-t-0 lg:pl-7 lg:pt-0">
+          <div className="grid min-w-0 grid-cols-1 gap-3 border-t border-border pt-4 sm:grid-cols-2 lg:col-span-5 lg:border-s lg:border-t-0 lg:ps-7 lg:pt-0">
             <div className="min-w-0 border border-border bg-surface px-4 py-3">
               <p className="font-mono text-[9px] uppercase tracking-[0.13em] text-foreground-subtle">
                 Client reference
@@ -72,7 +72,7 @@ export function AccountHeader({ session }: { session: CustomerSession }) {
                 {isGuest ? 'Guest client // preview session' : 'Private client // provider session'}
               </span>
               {isGuest && (
-                <span className="ml-auto border border-accent/35 px-2 py-1 font-mono text-[8px] uppercase tracking-[0.12em] text-accent">
+                <span className="ms-auto border border-accent/35 px-2 py-1 font-mono text-[8px] uppercase tracking-[0.12em] text-accent">
                   Demo
                 </span>
               )}
@@ -83,7 +83,7 @@ export function AccountHeader({ session }: { session: CustomerSession }) {
         {isGuest && (
           <div
             role="status"
-            className="mt-7 flex flex-col gap-3 border-l border-accent bg-accent/5 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-5"
+            className="mt-7 flex flex-col gap-3 border-s border-accent bg-accent/5 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-5"
           >
             <p className="text-small leading-relaxed text-foreground-muted">
               No customer identity is connected. Local checkout drafts and browser-stored demonstration orders are not verified account records.

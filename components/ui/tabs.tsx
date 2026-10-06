@@ -117,7 +117,7 @@ export function Tabs({
                       : NOIRE_MOTION_TOKENS.duration.fast,
                     ease: NOIRE_MOTION_TOKENS.easing.outExpo,
                   }}
-                  className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-foreground"
+                  className="absolute bottom-0 start-0 end-0 h-[1.5px] bg-foreground"
                 />
               )}
             </button>

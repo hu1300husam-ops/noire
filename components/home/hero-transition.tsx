@@ -1,11 +1,13 @@
 import React from 'react';
+import { useTranslations } from 'next-intl';
 import { Container } from '@/components/layout';
 import { Reveal } from '@/components/motion';
 
 export function HeroTransition() {
+  const t = useTranslations('home.transition');
   return (
     <div
-      aria-label="Architectural Section Transition"
+      aria-label={t('aria')}
       className="relative overflow-hidden border-b border-border bg-background"
     >
       {/* Upper Dark Band stepping down from Obsidian Hero */}
@@ -14,16 +16,16 @@ export function HeroTransition() {
           <div className="grid grid-cols-2 gap-4 font-mono text-[10px] uppercase tracking-[0.16em] text-foreground-muted sm:grid-cols-4">
             <div className="flex items-center gap-2">
               <span className="h-1.5 w-1.5 bg-accent" />
-              <span>02 // DATUM TRANSITION</span>
+              <span>{t('datum')}</span>
             </div>
             <div>
-              <span>ALLOY: 6061-T6 / TI-6AL-4V</span>
+              <span>{t('alloy')}</span>
             </div>
             <div className="hidden sm:block">
-              <span>CHAMBER NOISE FLOOR: &lt;11 dBA</span>
+              <span>{t('noiseFloor')}</span>
             </div>
-            <div className="text-right">
-              <span>ARCHIVE INDEX: NR-2026-E04</span>
+            <div className="text-end">
+              <span>{t('archiveIndex')}</span>
             </div>
           </div>
         </Container>
@@ -36,19 +38,17 @@ export function HeroTransition() {
             <div className="h-10 w-px bg-foreground/30" aria-hidden="true" />
             <div className="space-y-0.5">
               <span className="block font-mono text-[10px] uppercase tracking-[0.16em] text-accent">
-                SURFACE POLARITY SHIFT
+                {t('polarity')}
               </span>
               <span className="block font-mono text-xs uppercase tracking-[0.12em] text-foreground">
-                Obsidian Chamber → Alabaster Gallery
+                {t('polarityValue')}
               </span>
             </div>
           </div>
 
-          <div className="md:col-span-8 md:border-l md:border-border md:pl-8">
+          <div className="md:col-span-8 md:border-s md:border-border md:ps-8">
             <p className="font-mono text-xs uppercase tracking-[0.14em] text-foreground-muted">
-              Every NOIRÉ object is photographed and calibrated across two
-              lighting environments: nocturnal studio shadow and natural
-              architectural daylight.
+              {t('body')}
             </p>
           </div>
         </Reveal>

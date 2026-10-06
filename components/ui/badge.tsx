@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
 import type { StockStatus, ProductBadgeType } from '@/types';
 
@@ -70,17 +71,18 @@ export function ProductBadge({
   label?: string;
   className?: string;
 }) {
+  const t = useTranslations('product');
   if (!type && !label) return null;
 
   const config: Record<
     ProductBadgeType,
     { text: string; variant: BadgeProps['variant'] }
   > = {
-    new_release: { text: 'New Release', variant: 'obsidian' },
-    limited_edition: { text: 'Limited Edition', variant: 'accent' },
-    archival: { text: 'Archival Series', variant: 'outline' },
-    bestseller: { text: 'Signature', variant: 'default' },
-    award_winner: { text: 'Red Dot // Best', variant: 'default' },
+    new_release: { text: t('badges.new_release'), variant: 'obsidian' },
+    limited_edition: { text: t('badges.limited_edition'), variant: 'accent' },
+    archival: { text: t('badges.archival'), variant: 'outline' },
+    bestseller: { text: t('badges.bestseller'), variant: 'default' },
+    award_winner: { text: t('badges.award_winner'), variant: 'default' },
   };
 
   const resolved = type ? config[type] : { text: label ?? '', variant: 'default' as const };
@@ -101,29 +103,30 @@ export function StockStatusIndicator({
   inventoryCount?: number;
   className?: string;
 }) {
+  const t = useTranslations('product');
   const statusMap: Record<
     StockStatus,
     { label: string; dotClass: string; textClass: string }
   > = {
     in_stock: {
-      label: 'In Stock — Demo Catalog',
+      label: t('stock.in_stock'),
       dotClass: 'bg-success',
       textClass: 'text-foreground-muted',
     },
     low_stock: {
       label: inventoryCount
-        ? `Limited Allocation (${inventoryCount} Remaining)`
-        : 'Limited Allocation Remaining',
+        ? t('stock.low_stock_count', { count: inventoryCount })
+        : t('stock.low_stock'),
       dotClass: 'bg-warning animate-pulse-subtle',
       textClass: 'text-warning',
     },
     pre_order: {
-      label: 'Next Batch Allocation — Pre-Order',
+      label: t('stock.pre_order'),
       dotClass: 'bg-accent',
       textClass: 'text-accent',
     },
     out_of_stock: {
-      label: 'Currently Exhausted',
+      label: t('stock.out_of_stock'),
       dotClass: 'bg-danger',
       textClass: 'text-danger',
     },

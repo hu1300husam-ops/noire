@@ -155,8 +155,8 @@ export function Switch({
           className={cn(
             'inline-block h-4 w-4 transform transition-transform duration-250 ease-noire-out',
             checked
-              ? 'translate-x-5 bg-background'
-              : 'translate-x-1 bg-foreground-muted'
+              ? 'translate-x-5 bg-background rtl:-translate-x-5'
+              : 'translate-x-1 bg-foreground-muted rtl:-translate-x-1'
           )}
         />
       </button>

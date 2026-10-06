@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { ArrowUpRight, BookOpen, Clock } from 'lucide-react';
 import { Container, Section } from '@/components/layout';
 import { Reveal, StaggerContainer, StaggerItem } from '@/components/motion';
@@ -13,6 +14,7 @@ interface JournalSectionProps {
 }
 
 export function JournalSection({ articles }: JournalSectionProps) {
+  const t = useTranslations('home.journal');
   const [selectedArticle, setSelectedArticle] =
     useState<JournalArticle | null>(null);
 
@@ -35,24 +37,25 @@ export function JournalSection({ articles }: JournalSectionProps) {
           <div className="space-y-3">
             <div className="flex flex-wrap items-center gap-3">
               <Eyebrow index="09" tone="accent">
-                THE NOIRÉ MONOGRAPH
+                {t('eyebrow')}
               </Eyebrow>
-              <TechnicalCode>ISSN 2814-094X // PRINT &amp; DIGITAL</TechnicalCode>
+              <TechnicalCode>{t('issn')}</TechnicalCode>
             </div>
             <h2
               id="journal-heading"
               className="font-display text-h1 tracking-tighter text-foreground"
             >
-              Essays on Acoustics,{' '}
-              <span className="font-normal italic text-foreground-muted">
-                Metallurgy &amp; Spatial Restraint.
-              </span>
+              {t.rich('title', {
+                em: (chunks) => (
+                  <span className="font-normal italic text-foreground-muted">{chunks}</span>
+                ),
+              })}
             </h2>
           </div>
 
-          <div className="flex flex-col items-start gap-2 lg:items-end lg:text-right">
+          <div className="flex flex-col items-start gap-2 lg:items-end lg:text-end">
             <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-foreground-subtle">
-              PUBLISHED QUARTERLY BY NOIRÉ LABS ZÜRICH / TOKYO
+              {t('publishedBy')}
             </span>
             <button
               type="button"
@@ -61,7 +64,7 @@ export function JournalSection({ articles }: JournalSectionProps) {
             >
               <BookOpen className="h-3.5 w-3.5 text-accent" aria-hidden="true" />
               <span>
-                Read Current Issue ({leadArticle.issueNumber.split(' // ')[0]})
+                {t('readCurrentIssue', { issue: leadArticle.issueNumber.split(' // ')[0] })}
               </span>
             </button>
           </div>
@@ -97,19 +100,19 @@ export function JournalSection({ articles }: JournalSectionProps) {
                 loading="lazy"
                 className="h-full w-full object-cover transition-transform duration-700 ease-noire-out group-hover:scale-105"
               />
-              <div className="absolute left-4 top-4 border border-border bg-background/90 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-foreground backdrop-blur-sm sm:left-6 sm:top-6">
-                LEAD MONOGRAPH
+              <div className="absolute start-4 top-4 border border-border bg-background/90 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-foreground backdrop-blur-sm sm:start-6 sm:top-6">
+                {t('leadMonograph')}
               </div>
             </div>
 
             {/* Lead Article Body */}
             <div className="space-y-6 p-6 sm:p-8">
               <div className="flex flex-wrap items-center gap-4 font-mono text-[10px] uppercase tracking-[0.14em] text-foreground-subtle">
-                <span>PUBLISHED {formatDate(leadArticle.publishedAt)}</span>
+                <span>{t('published', { date: formatDate(leadArticle.publishedAt) })}</span>
                 <span>•</span>
                 <span className="inline-flex items-center gap-1">
                   <Clock className="h-3 w-3 text-accent" aria-hidden="true" />
-                  <span>{leadArticle.readingTimeMinutes} MIN READ</span>
+                  <span>{t('minRead', { minutes: leadArticle.readingTimeMinutes })}</span>
                 </span>
               </div>
 
@@ -118,7 +121,7 @@ export function JournalSection({ articles }: JournalSectionProps) {
                   <button
                     type="button"
                     onClick={() => setSelectedArticle(leadArticle)}
-                    className="text-left"
+                    className="text-start"
                   >
                     {leadArticle.title}
                   </button>
@@ -143,7 +146,7 @@ export function JournalSection({ articles }: JournalSectionProps) {
                   onClick={() => setSelectedArticle(leadArticle)}
                   className="inline-flex items-center gap-2 border border-foreground bg-foreground px-5 py-2.5 font-mono text-[10px] uppercase tracking-[0.16em] text-background transition-opacity hover:opacity-90"
                 >
-                  <span>Read Full Monograph</span>
+                  <span>{t('readFull')}</span>
                   <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
                 </button>
               </div>
@@ -196,7 +199,7 @@ export function JournalSection({ articles }: JournalSectionProps) {
                         <button
                           type="button"
                           onClick={() => setSelectedArticle(article)}
-                          className="text-left"
+                          className="text-start"
                         >
                           {article.title}
                         </button>
@@ -210,7 +213,7 @@ export function JournalSection({ articles }: JournalSectionProps) {
                     <div className="mt-4 flex items-center justify-between border-t border-border/70 pt-3 font-mono text-[10px] uppercase tracking-[0.12em] text-foreground-subtle">
                       <span>
                         {formatDate(article.publishedAt)} •{' '}
-                        {article.readingTimeMinutes} MIN READ
+                        {t('minRead', { minutes: article.readingTimeMinutes })}
                       </span>
 
                       <button
@@ -218,7 +221,7 @@ export function JournalSection({ articles }: JournalSectionProps) {
                         onClick={() => setSelectedArticle(article)}
                         className="inline-flex items-center gap-1 text-foreground transition-colors group-hover:text-accent"
                       >
-                        <span>Read</span>
+                        <span>{t('read')}</span>
                         <ArrowUpRight className="h-3 w-3" aria-hidden="true" />
                       </button>
                     </div>
@@ -235,7 +238,7 @@ export function JournalSection({ articles }: JournalSectionProps) {
             isOpen={Boolean(selectedArticle)}
             onClose={() => setSelectedArticle(null)}
             title={selectedArticle.title}
-            code={`${selectedArticle.issueNumber} • ${selectedArticle.readingTimeMinutes} MIN READ`}
+            code={`${selectedArticle.issueNumber} • ${t('minRead', { minutes: selectedArticle.readingTimeMinutes })}`}
             size="lg"
           >
             <article className="space-y-6">
@@ -251,9 +254,9 @@ export function JournalSection({ articles }: JournalSectionProps) {
                 <div className="flex flex-wrap items-center gap-3 font-mono text-[10px] uppercase tracking-[0.14em] text-accent">
                   <span>{selectedArticle.category}</span>
                   <span>•</span>
-                  <span>PUBLISHED {formatDate(selectedArticle.publishedAt)}</span>
+                  <span>{t('published', { date: formatDate(selectedArticle.publishedAt) })}</span>
                   <span>•</span>
-                  <span>{selectedArticle.readingTimeMinutes} MIN READ</span>
+                  <span>{t('minRead', { minutes: selectedArticle.readingTimeMinutes })}</span>
                 </div>
 
                 <h2 className="font-display text-h2 tracking-tight text-foreground">
@@ -263,7 +266,7 @@ export function JournalSection({ articles }: JournalSectionProps) {
                   {selectedArticle.subtitle}
                 </p>
                 <p className="pt-1 font-mono text-xs text-foreground">
-                  By {selectedArticle.author.name} — {selectedArticle.author.role}
+                  {t('byAuthor', { name: selectedArticle.author.name, role: selectedArticle.author.role })}
                 </p>
               </div>
 

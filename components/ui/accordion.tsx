@@ -52,7 +52,7 @@ export function Accordion({
                 aria-controls={`accordion-panel-${item.id}`}
                 id={`accordion-trigger-${item.id}`}
                 onClick={() => toggleItem(item.id)}
-                className="flex w-full items-center justify-between gap-4 py-5 text-left transition-colors hover:text-accent"
+                className="flex w-full items-center justify-between gap-4 py-5 text-start transition-colors hover:text-accent"
               >
                 <div className="flex items-baseline gap-4">
                   <span className="font-mono text-label text-foreground-subtle">
@@ -93,7 +93,7 @@ export function Accordion({
                   }}
                   className="overflow-hidden"
                 >
-                  <div className="pb-6 pl-8 pr-4 text-body text-foreground-muted">
+                  <div className="pb-6 ps-8 pe-4 text-body text-foreground-muted">
                     {item.content}
                   </div>
                 </motion.div>

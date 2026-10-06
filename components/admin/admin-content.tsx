@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { BookOpen, Check, Compass, Image as ImageIcon, Megaphone, RotateCcw, Sparkles } from 'lucide-react';
 import { Badge, Button, Checkbox, ErrorState, TechnicalCode, Textarea, useToast } from '@/components/ui';
 import { AdminLocalNotice, AdminLoadingState, AdminPageHeader, AdminSurface } from '@/components/admin/admin-primitives';
-import { loadAdminCollections, loadAdminJournalArticles, loadAdminProducts } from '@/app/admin/actions';
+import { loadAdminCollections, loadAdminJournalArticles, loadAdminProducts } from '@/lib/admin/actions';
 import { clearLocalContentDraft, readLocalContentDraft, writeLocalContentDraft } from '@/lib/admin/local-content-store';
 import { EMPTY_LOCAL_CONTENT_DRAFT, type LocalContentDraft } from '@/lib/admin/contracts';
 import type { Collection, JournalArticle, Product } from '@/types';
@@ -91,7 +91,7 @@ export function AdminContentWorkspace() {
       <AdminLocalNotice>
         This page stores a small working copy in this browser only. It does not update the public homepage, navigation, Private Dispatch form, or a CMS. “Save” means local draft saved—not published.
       </AdminLocalNotice>
-      {draft.savedAt && <p role="status" className="mb-4 border-l-2 border-accent bg-surface px-3 py-2 font-mono text-[9px] uppercase tracking-[0.1em] text-foreground-muted">Local working copy saved // {new Date(draft.savedAt).toLocaleString('en-GB')} · not published</p>}
+      {draft.savedAt && <p role="status" className="mb-4 border-s-2 border-accent bg-surface px-3 py-2 font-mono text-[9px] uppercase tracking-[0.1em] text-foreground-muted">Local working copy saved // {new Date(draft.savedAt).toLocaleString('en-GB')} · not published</p>}
       {saveError && <p role="alert" className="mb-4 border border-danger/30 bg-danger-surface px-3 py-2 text-small text-danger">{saveError}</p>}
 
       <div className="space-y-4">

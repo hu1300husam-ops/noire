@@ -1,13 +1,13 @@
 'use client';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { Link } from '@/i18n/navigation';
+import { useRouter } from '@/i18n/navigation';
 import { ArrowLeft, Save } from 'lucide-react';
 import { Button, EmptyState, ErrorState, TechnicalCode, useToast } from '@/components/ui';
 import { AdminLocalNotice, AdminLoadingState, AdminPageHeader } from '@/components/admin/admin-primitives';
 import { AdminProductEditorFields } from '@/components/admin/admin-product-editor-fields';
-import { loadAdminCategories, loadAdminProduct, saveAdminProduct } from '@/app/admin/actions';
+import { loadAdminCategories, loadAdminProduct, saveAdminProduct } from '@/lib/admin/actions';
 import type { Category, Product } from '@/types';
 
 function newProductDraft(category?: Category): Product {

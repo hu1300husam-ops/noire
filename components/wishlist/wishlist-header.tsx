@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { ArrowUpRight, Archive, Layers3, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui';
 
@@ -43,7 +43,7 @@ export function WishlistHeader({
             </p>
           </div>
 
-          <div className="flex flex-col gap-4 border-t border-border pt-4 lg:col-span-5 lg:border-l lg:border-t-0 lg:pb-1 lg:pl-7 lg:pt-0">
+          <div className="flex flex-col gap-4 border-t border-border pt-4 lg:col-span-5 lg:border-s lg:border-t-0 lg:pb-1 lg:ps-7 lg:pt-0">
             <div className="grid grid-cols-2 gap-3" aria-live="polite" aria-atomic="true">
               <div className="border border-border bg-surface px-3 py-3 sm:px-4">
                 <div className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.11em] text-foreground-subtle">

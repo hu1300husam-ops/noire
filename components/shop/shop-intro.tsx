@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
 import {
   ChevronRight,
   RotateCcw,
@@ -38,6 +39,7 @@ export function ShopIntro({
   onSelectCategory,
   onSelectCollection,
 }: ShopIntroProps) {
+  const t = useTranslations('shop.intro');
   const activeCategoryObj = categories.find((c) => c.slug === activeCategory);
   const activeCollectionObj = collections.find(
     (c) => c.slug === activeCollectionSlug || c.id === activeCollectionSlug
@@ -50,12 +52,10 @@ export function ShopIntro({
   ).length;
 
   // Dynamic heading and description based on active category or collection
-  let eyebrowText = 'ARCHIVE INDEX // SERIALIZED HARDWARE';
-  let headingTitle = 'The Instrument Archive';
-  let headingSubtitle =
-    'Acoustic, optical, and tactile objects milled from solid billet.';
-  let descriptionText =
-    'This demo catalog presents engineering and calibration details for listed instruments; no serial dispatch or fulfillment service is connected.';
+  let eyebrowText = t('defaultEyebrow');
+  let headingTitle = t('defaultTitle');
+  let headingSubtitle = t('defaultSubtitle');
+  let descriptionText = t('defaultDescription');
 
   if (activeCollectionObj) {
     eyebrowText = activeCollectionObj.code;
@@ -63,14 +63,12 @@ export function ShopIntro({
     headingSubtitle = activeCollectionObj.subtitle;
     descriptionText = activeCollectionObj.description;
   } else if (activeCategory === 'essentials') {
-    eyebrowText = 'DISCIPLINE 07 // STUDIO & FIELD ESSENTIALS';
-    headingTitle = 'Everyday Essentials';
-    headingSubtitle =
-      'Weighted desk anchors, solid-state field power, and horology under $400.';
-    descriptionText =
-      'Foundational instruments for spatial order, autonomous travel power, and tactile calibration across studio and nomadic environments.';
+    eyebrowText = t('essentialsEyebrow');
+    headingTitle = t('essentialsTitle');
+    headingSubtitle = t('essentialsSubtitle');
+    descriptionText = t('essentialsDescription');
   } else if (activeCategoryObj) {
-    eyebrowText = `DISCIPLINE ${activeCategoryObj.indexNumber} // ${activeCategoryObj.shortName.toUpperCase()}`;
+    eyebrowText = t('disciplineEyebrow', { index: activeCategoryObj.indexNumber, name: activeCategoryObj.shortName.toUpperCase() });
     headingTitle = activeCategoryObj.name;
     headingSubtitle = activeCategoryObj.editorialStatement;
     descriptionText = activeCategoryObj.description;
@@ -90,14 +88,14 @@ export function ShopIntro({
         {/* 1. Breadcrumb & Live Archive Telemetry Bar */}
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border py-3.5">
           <nav
-            aria-label="Breadcrumb"
+            aria-label={t('breadcrumb')}
             className="flex flex-wrap items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em]"
           >
             <Link
               href="/"
               className="text-foreground-muted transition-colors hover:text-foreground"
             >
-              Home
+              {t('home')}
             </Link>
             <ChevronRight
               className="h-3 w-3 text-foreground-subtle"
@@ -116,7 +114,7 @@ export function ShopIntro({
                   : 'text-foreground-muted hover:text-foreground'
               )}
             >
-              Shop Archive
+              {t('shopArchive')}
             </button>
 
             {activeCategory !== 'all' && (
@@ -127,7 +125,7 @@ export function ShopIntro({
                 />
                 <span className="font-medium text-accent">
                   {activeCategory === 'essentials'
-                    ? 'Essentials'
+                    ? t('essentials')
                     : activeCategoryObj?.name || activeCategory}
                 </span>
               </>
@@ -148,14 +146,14 @@ export function ShopIntro({
 
           <div className="flex items-center gap-4 font-mono text-[10px] uppercase tracking-[0.14em] text-foreground-muted">
             <span>
-              SHOWING{' '}
-              <strong className="font-medium text-foreground">
-                {String(totalMatchingCount).padStart(2, '0')}
-              </strong>{' '}
-              OF {String(allProducts.length).padStart(2, '0')} INSTRUMENTS
+              {t.rich('showing', {
+                shown: String(totalMatchingCount).padStart(2, '0'),
+                total: String(allProducts.length).padStart(2, '0'),
+                strong: (chunks) => <strong className="font-medium text-foreground">{chunks}</strong>,
+              })}
             </span>
             <span className="hidden text-foreground-subtle sm:inline">
-              ZÜRICH // TOKYO
+              {t('studios')}
             </span>
           </div>
         </div>
@@ -167,7 +165,7 @@ export function ShopIntro({
             <div className="flex flex-wrap items-center gap-3">
               <Eyebrow tone="accent">{eyebrowText}</Eyebrow>
               <TechnicalCode>
-                [{String(totalMatchingCount).padStart(2, '0')} ACTIVE OBJECTS]
+                [{t('activeObjects', { count: String(totalMatchingCount).padStart(2, '0') })}]
               </TechnicalCode>
             </div>
 
@@ -197,14 +195,14 @@ export function ShopIntro({
                     : 'border-border bg-surface hover:border-foreground/50'
                 )}
               >
-                <div className="relative col-span-5 min-h-[124px] overflow-hidden border-r border-border bg-surface-muted">
+                <div className="relative col-span-5 min-h-[124px] overflow-hidden border-e border-border bg-surface-muted">
                   <img
                     src={flagshipCollection.heroImage}
                     alt={flagshipCollection.title}
                     className="h-full w-full object-cover transition-transform duration-500 ease-noire-out group-hover:scale-105"
                   />
-                  <span className="absolute bottom-2 left-2 border border-border bg-background/90 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.12em] text-foreground">
-                    ED. 04
+                  <span className="absolute bottom-2 start-2 border border-border bg-background/90 px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.12em] text-foreground">
+                    {t('edition04')}
                   </span>
                 </div>
 
@@ -213,9 +211,9 @@ export function ShopIntro({
                     <div className="flex items-center justify-between gap-1 font-mono text-[9px] uppercase tracking-[0.14em] text-accent">
                       <span className="inline-flex items-center gap-1">
                         <Layers className="h-3 w-3" aria-hidden="true" />
-                        <span>FEATURED EDITION</span>
+                        <span>{t('featuredEdition')}</span>
                       </span>
-                      <span>{flagshipCollection.productIds.length} PCS</span>
+                      <span>{t('pcs', { count: flagshipCollection.productIds.length })}</span>
                     </div>
 
                     <h2
@@ -259,8 +257,8 @@ export function ShopIntro({
                     >
                       <span>
                         {isFlagshipActive
-                          ? 'Viewing Edition 04'
-                          : 'Filter Edition 04'}
+                          ? t('viewingEdition')
+                          : t('filterEdition')}
                       </span>
                       {isFlagshipActive ? (
                         <Check className="h-3 w-3" aria-hidden="true" />
@@ -279,7 +277,7 @@ export function ShopIntro({
         <div className="border-t border-border py-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <nav
-              aria-label="Product categories"
+              aria-label={t('categoriesAria')}
               className="flex items-center gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:pb-0 no-scrollbar"
             >
               {/* All Instruments Button */}
@@ -294,7 +292,7 @@ export function ShopIntro({
                     : 'border-border bg-surface text-foreground-muted hover:border-foreground/50 hover:text-foreground'
                 )}
               >
-                <span>All Instruments</span>
+                <span>{t('allInstruments')}</span>
                 <span
                   className={cn(
                     'px-1.5 py-0.5 text-[10px] tabular-nums',
@@ -374,7 +372,7 @@ export function ShopIntro({
                 >
                   07
                 </span>
-                <span>Essentials</span>
+                <span>{t('essentials')}</span>
                 <span
                   className={cn(
                     'px-1.5 py-0.5 text-[10px] tabular-nums',
@@ -396,7 +394,7 @@ export function ShopIntro({
                 className="inline-flex shrink-0 items-center gap-1.5 border border-border bg-surface-muted px-3 py-2 font-mono text-[10px] uppercase tracking-[0.14em] text-foreground transition-colors hover:border-foreground"
               >
                 <RotateCcw className="h-3 w-3 text-accent" aria-hidden="true" />
-                <span>Reset Category</span>
+                <span>{t('resetCategory')}</span>
               </button>
             )}
           </div>
