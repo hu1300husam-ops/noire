@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Minus, Plus } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { cn } from '@/lib/utils';
 
 export interface QuantitySelectorProps {
@@ -22,9 +23,11 @@ export function QuantitySelector({
   max = 10,
   size = 'md',
   disabled = false,
-  ariaLabel = 'Quantity selector',
+  ariaLabel,
   className,
 }: QuantitySelectorProps) {
+  const t = useTranslations('common');
+  const resolvedAriaLabel = ariaLabel ?? t('quantity');
   const canDecrement = value > min && !disabled;
   const canIncrement = value < max && !disabled;
 
@@ -36,13 +39,13 @@ export function QuantitySelector({
         className
       )}
       role="group"
-      aria-label={ariaLabel}
+      aria-label={resolvedAriaLabel}
     >
       <button
         type="button"
         onClick={() => canDecrement && onChange(value - 1)}
         disabled={!canDecrement}
-        aria-label="Decrease quantity"
+        aria-label={t('decreaseQuantity')}
         className={cn(
           'flex h-full items-center justify-center text-foreground transition-colors hover:bg-surface-muted disabled:opacity-30 disabled:hover:bg-transparent',
           size === 'sm' ? 'w-8' : 'w-10'
@@ -63,7 +66,7 @@ export function QuantitySelector({
         type="button"
         onClick={() => canIncrement && onChange(value + 1)}
         disabled={!canIncrement}
-        aria-label="Increase quantity"
+        aria-label={t('increaseQuantity')}
         className={cn(
           'flex h-full items-center justify-center text-foreground transition-colors hover:bg-surface-muted disabled:opacity-30 disabled:hover:bg-transparent',
           size === 'sm' ? 'w-8' : 'w-10'

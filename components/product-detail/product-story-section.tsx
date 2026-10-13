@@ -47,7 +47,7 @@ export function ProductStorySection({ product }: ProductStorySectionProps) {
                 {product.highlights.map((highlight, idx) => (
                   <div
                     key={highlight}
-                    className="flex items-start gap-3 border-l border-accent/60 pl-4"
+                    className="flex items-start gap-3 border-s border-accent/60 ps-4"
                   >
                     <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-accent">
                       0{idx + 1}
@@ -131,12 +131,12 @@ export function ProductStorySection({ product }: ProductStorySectionProps) {
                         {block.metrics.map((metric) => (
                           <div
                             key={metric.label}
-                            className="border-l border-border pl-3"
+                            className="border-s border-border ps-3"
                           >
                             <div className="font-display text-h2 tracking-tight text-foreground">
                               {metric.value}
                               {metric.unit && (
-                                <span className="ml-0.5 font-mono text-xs text-accent">
+                                <span className="ms-0.5 font-mono text-xs text-accent">
                                   {metric.unit}
                                 </span>
                               )}

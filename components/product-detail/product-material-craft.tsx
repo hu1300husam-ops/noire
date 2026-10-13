@@ -43,8 +43,8 @@ export function ProductMaterialCraft({ product }: ProductMaterialCraftProps) {
             </h2>
           </div>
 
-          <div className="lg:col-span-5 lg:text-right">
-            <p className="ml-auto max-w-md text-small leading-relaxed text-foreground-muted">
+          <div className="lg:col-span-5 lg:text-end">
+            <p className="ms-auto max-w-md text-small leading-relaxed text-foreground-muted">
               Every substrate is selected for physical density, acoustic
               neutrality, and long-term resistance to oxidation and wear.
             </p>

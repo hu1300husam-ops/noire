@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useMemo, useEffect, useRef } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import {
   ShoppingBag,
@@ -540,7 +540,7 @@ export function CartExperience({
                   <div className="col-span-3 text-center">
                     02 // QUANTITY ALLOCATION
                   </div>
-                  <div className="col-span-2 text-right">
+                  <div className="col-span-2 text-end">
                     03 // LINE VALUATION
                   </div>
                 </div>
@@ -627,7 +627,7 @@ export function CartExperience({
                                   </Link>
 
                                   {/* Selected Finish + Selected Option Specifications */}
-                                  <div className="space-y-1.5 border-l-2 border-border-strong/60 pl-3">
+                                  <div className="space-y-1.5 border-s-2 border-border-strong/60 ps-3">
                                     <div className="flex items-center gap-2 text-caption text-foreground">
                                       <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-foreground-subtle">
                                         FINISH:
@@ -746,7 +746,7 @@ export function CartExperience({
                               <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-foreground-subtle sm:hidden">
                                 LINE TOTAL
                               </span>
-                              <div className="text-right">
+                              <div className="text-end">
                                 <PriceDisplay
                                   price={lineTotal}
                                   compareAtPrice={lineCompareTotal}
@@ -1039,7 +1039,7 @@ export function CartExperience({
                       </div>
 
                       {showTaxTelemetryNote && (
-                        <p className="border-l-2 border-border bg-surface-muted p-2.5 font-mono text-[10px] leading-relaxed text-foreground-muted">
+                        <p className="border-s-2 border-border bg-surface-muted p-2.5 font-mono text-[10px] leading-relaxed text-foreground-muted">
                           Tax calculation is not connected. The demo keeps tax pending; production totals require a jurisdiction-aware tax service.
                         </p>
                       )}
@@ -1211,7 +1211,7 @@ export function CartExperience({
               prefersReducedMotion ? { opacity: 0 } : { opacity: 0, y: 60 }
             }
             transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed bottom-0 left-0 right-0 z-sticky border-t border-border bg-background/95 px-4 py-3 pb-safe backdrop-blur-md shadow-architectural-lg lg:hidden"
+            className="fixed bottom-0 start-0 end-0 z-sticky border-t border-border bg-background/95 px-4 py-3 pb-safe backdrop-blur-md shadow-architectural-lg lg:hidden"
           >
             <div className="mx-auto flex max-w-xl items-center justify-between gap-4">
               <div>

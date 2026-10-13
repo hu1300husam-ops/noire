@@ -74,6 +74,24 @@
     --danger-surface: #2A1616;
   }
 
+  :root {
+    /* Composite font stacks: Latin faces first, Arabic companion as fallback. */
+    --font-sans: var(--font-sans-latin), var(--font-arabic);
+    --font-display: var(--font-display-latin), var(--font-arabic);
+  }
+
+  /* Arabic locale: lead with the Arabic face so shaping and numerals render natively. */
+  html[lang='ar'] {
+    --font-sans: var(--font-arabic), var(--font-sans-latin);
+    --font-display: var(--font-arabic), var(--font-display-latin);
+    font-feature-settings: normal;
+  }
+
+  /* Letter-spacing breaks Arabic cursive joining — neutralise the editorial tracking in RTL. */
+  html[lang='ar'] * {
+    letter-spacing: 0;
+  }
+
   * {
     border-color: var(--border);
   }
@@ -123,7 +141,7 @@
   .noire-link::after {
     content: '';
     position: absolute;
-    left: 0;
+    inset-inline-start: 0;
     bottom: -2px;
     width: 100%;
     height: 1px;
@@ -166,4 +184,39 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ------------------------------------------------------------------ */
+/* RTL support                                                         */
+/* ------------------------------------------------------------------ */
+
+/* Directional iconography mirrors in right-to-left layouts. */
+[dir='rtl'] .lucide-arrow-right,
+[dir='rtl'] .lucide-arrow-left,
+[dir='rtl'] .lucide-arrow-up-right,
+[dir='rtl'] .lucide-arrow-up-left,
+[dir='rtl'] .lucide-chevron-right,
+[dir='rtl'] .lucide-chevron-left,
+[dir='rtl'] .lucide-chevrons-right,
+[dir='rtl'] .lucide-chevrons-left,
+[dir='rtl'] .lucide-move-right,
+[dir='rtl'] .lucide-move-left,
+[dir='rtl'] .lucide-corner-down-left,
+[dir='rtl'] .lucide-corner-down-right,
+[dir='rtl'] .lucide-undo-2,
+[dir='rtl'] .lucide-redo-2,
+[dir='rtl'] .lucide-log-out,
+[dir='rtl'] .lucide-log-in {
+  --tw-scale-x: -1;
+  transform: translate(var(--tw-translate-x, 0), var(--tw-translate-y, 0))
+    rotate(var(--tw-rotate, 0)) skewX(var(--tw-skew-x, 0)) skewY(var(--tw-skew-y, 0))
+    scaleX(-1) scaleY(var(--tw-scale-y, 1));
+}
+
+/* Keep Latin technical codes (SKU, model numbers, prices) left-to-right inside Arabic copy. */
+[dir='rtl'] .font-mono,
+[dir='rtl'] .tabular-nums,
+[dir='rtl'] [data-ltr] {
+  direction: ltr;
+  unicode-bidi: isolate;
 }

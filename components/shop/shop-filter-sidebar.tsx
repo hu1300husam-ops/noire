@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useTranslations } from 'next-intl';
+import { useShopFilterLabels } from './use-shop-filter-labels';
 import { RotateCcw, Check } from 'lucide-react';
 import { Checkbox, TechnicalCode } from '@/components/ui';
 import { cn } from '@/lib/utils';
@@ -41,6 +43,8 @@ export function ShopFilterSidebar({
   onToggleColor,
   onClearAll,
 }: ShopFilterSidebarProps) {
+  const t = useTranslations('shop.sidebar');
+  const { priceTierLabel, stockLabel, colorFamilyLabel } = useShopFilterLabels();
   const activeCount = countActiveFilters(filters);
 
   const [minPriceInput, setMinPriceInput] = useState<string>(
@@ -84,15 +88,15 @@ export function ShopFilterSidebar({
 
   return (
     <aside
-      aria-label="Catalog filters"
+      aria-label={t('aria')}
       className="space-y-7 border border-border bg-surface p-5 sm:p-6"
     >
       {/* Sidebar Header */}
       <div className="flex items-center justify-between border-b border-border pb-4">
         <div>
-          <TechnicalCode className="block">ARCHIVE PARAMETERS</TechnicalCode>
+          <TechnicalCode className="block">{t('archiveParameters')}</TechnicalCode>
           <h2 className="mt-0.5 font-display text-base font-medium tracking-tight text-foreground">
-            Filter Instruments
+            {t('title')}
           </h2>
         </div>
 
@@ -103,7 +107,7 @@ export function ShopFilterSidebar({
             className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-accent transition-opacity hover:opacity-80"
           >
             <RotateCcw className="h-3 w-3" aria-hidden="true" />
-            <span>Reset ({activeCount})</span>
+            <span>{t('reset', { count: activeCount })}</span>
           </button>
         )}
       </div>
@@ -112,7 +116,7 @@ export function ShopFilterSidebar({
       <div className="space-y-3 border-b border-border pb-6">
         <div className="flex items-center justify-between">
           <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-foreground-subtle">
-            01 // DISCIPLINE
+            {t('discipline')}
           </span>
           {filters.category !== 'all' && (
             <button
@@ -120,7 +124,7 @@ export function ShopFilterSidebar({
               onClick={() => onCategoryChange('all')}
               className="font-mono text-[10px] uppercase tracking-[0.12em] text-foreground-muted underline underline-offset-4 hover:text-foreground"
             >
-              Clear
+              {t('clear')}
             </button>
           )}
         </div>
@@ -131,13 +135,13 @@ export function ShopFilterSidebar({
             aria-pressed={filters.category === 'all'}
             onClick={() => onCategoryChange('all')}
             className={cn(
-              'flex w-full items-center justify-between px-2.5 py-2 text-left text-small transition-colors',
+              'flex w-full items-center justify-between px-2.5 py-2 text-start text-small transition-colors',
               filters.category === 'all'
                 ? 'bg-foreground font-medium text-background'
                 : 'text-foreground-muted hover:bg-surface-muted hover:text-foreground'
             )}
           >
-            <span>All Disciplines</span>
+            <span>{t('allDisciplines')}</span>
             <span className="font-mono text-[11px] tabular-nums opacity-75">
               [{String(activeCatalog.length).padStart(2, '0')}]
             </span>
@@ -154,7 +158,7 @@ export function ShopFilterSidebar({
                   onCategoryChange(isSelected ? 'all' : cat.slug)
                 }
                 className={cn(
-                  'flex w-full items-center justify-between px-2.5 py-2 text-left text-small transition-colors',
+                  'flex w-full items-center justify-between px-2.5 py-2 text-start text-small transition-colors',
                   isSelected
                     ? 'bg-foreground font-medium text-background'
                     : 'text-foreground-muted hover:bg-surface-muted hover:text-foreground'
@@ -182,7 +186,7 @@ export function ShopFilterSidebar({
               )
             }
             className={cn(
-              'flex w-full items-center justify-between px-2.5 py-2 text-left text-small transition-colors',
+              'flex w-full items-center justify-between px-2.5 py-2 text-start text-small transition-colors',
               filters.category === 'essentials'
                 ? 'bg-foreground font-medium text-background'
                 : 'text-foreground-muted hover:bg-surface-muted hover:text-foreground'
@@ -190,7 +194,7 @@ export function ShopFilterSidebar({
           >
             <span className="flex items-baseline gap-2">
               <span className="font-mono text-[10px] opacity-60">07</span>
-              <span>Everyday Essentials</span>
+              <span>{t('essentials')}</span>
             </span>
             <span className="font-mono text-[11px] tabular-nums opacity-75">
               [{String(essentialsCount).padStart(2, '0')}]
@@ -203,7 +207,7 @@ export function ShopFilterSidebar({
       <div className="space-y-3.5 border-b border-border pb-6">
         <div className="flex items-center justify-between">
           <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-foreground-subtle">
-            02 // PRICE ALLOCATION
+            {t('price')}
           </span>
           {(filters.minPrice !== null || filters.maxPrice !== null) && (
             <button
@@ -211,7 +215,7 @@ export function ShopFilterSidebar({
               onClick={() => onPriceRangeChange(null, null)}
               className="font-mono text-[10px] uppercase tracking-[0.12em] text-foreground-muted underline underline-offset-4 hover:text-foreground"
             >
-              Clear
+              {t('clear')}
             </button>
           )}
         </div>
@@ -229,13 +233,13 @@ export function ShopFilterSidebar({
                 aria-pressed={isSelected}
                 onClick={() => onPriceRangeChange(preset.min, preset.max)}
                 className={cn(
-                  'border px-2.5 py-2 text-left font-mono text-[10px] uppercase tracking-[0.1em] transition-colors',
+                  'border px-2.5 py-2 text-start font-mono text-[10px] uppercase tracking-[0.1em] transition-colors',
                   isSelected
                     ? 'border-foreground bg-foreground text-background'
                     : 'border-border bg-background text-foreground-muted hover:border-foreground/50 hover:text-foreground'
                 )}
               >
-                {preset.label}
+                {priceTierLabel(preset.id)}
               </button>
             );
           })}
@@ -249,7 +253,7 @@ export function ShopFilterSidebar({
                 htmlFor="sidebar-min-price"
                 className="mb-1 block font-mono text-[9px] uppercase tracking-[0.14em] text-foreground-subtle"
               >
-                Min ($ USD)
+                {t('min')}
               </label>
               <input
                 id="sidebar-min-price"
@@ -268,7 +272,7 @@ export function ShopFilterSidebar({
                 htmlFor="sidebar-max-price"
                 className="mb-1 block font-mono text-[9px] uppercase tracking-[0.14em] text-foreground-subtle"
               >
-                Max ($ USD)
+                {t('max')}
               </label>
               <input
                 id="sidebar-max-price"
@@ -287,7 +291,7 @@ export function ShopFilterSidebar({
             type="submit"
             className="w-full border border-border bg-surface-muted py-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-foreground transition-colors hover:border-foreground hover:bg-foreground hover:text-background"
           >
-            Apply Price Range
+            {t('applyPrice')}
           </button>
         </form>
       </div>
@@ -296,7 +300,7 @@ export function ShopFilterSidebar({
       <div className="space-y-3 border-b border-border pb-6">
         <div className="flex items-center justify-between">
           <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-foreground-subtle">
-            03 // AVAILABILITY
+            {t('availability')}
           </span>
           {filters.stockStatus.length > 0 && (
             <button
@@ -306,7 +310,7 @@ export function ShopFilterSidebar({
               }
               className="font-mono text-[10px] uppercase tracking-[0.12em] text-foreground-muted underline underline-offset-4 hover:text-foreground"
             >
-              Clear
+              {t('clear')}
             </button>
           )}
         </div>
@@ -322,7 +326,7 @@ export function ShopFilterSidebar({
                 key={opt.value}
                 checked={isChecked}
                 onChange={() => onToggleStockStatus(opt.value)}
-                label={opt.label}
+                label={stockLabel(opt.value)}
                 count={count}
               />
             );
@@ -334,7 +338,7 @@ export function ShopFilterSidebar({
       <div className="space-y-3 border-b border-border pb-6">
         <div className="flex items-center justify-between">
           <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-foreground-subtle">
-            04 // FINISH &amp; METALLURGY
+            {t('finish')}
           </span>
           {filters.colors.length > 0 && (
             <button
@@ -342,7 +346,7 @@ export function ShopFilterSidebar({
               onClick={() => filters.colors.forEach((c) => onToggleColor(c))}
               className="font-mono text-[10px] uppercase tracking-[0.12em] text-foreground-muted underline underline-offset-4 hover:text-foreground"
             >
-              Clear
+              {t('clear')}
             </button>
           )}
         </div>
@@ -361,7 +365,7 @@ export function ShopFilterSidebar({
                 onClick={() => onToggleColor(family.id)}
                 aria-pressed={isSelected}
                 className={cn(
-                  'flex w-full items-center justify-between border px-3 py-2 text-left transition-colors',
+                  'flex w-full items-center justify-between border px-3 py-2 text-start transition-colors',
                   isSelected
                     ? 'border-foreground bg-background text-foreground'
                     : 'border-border/70 bg-surface text-foreground-muted hover:border-foreground/50 hover:text-foreground'
@@ -372,7 +376,7 @@ export function ShopFilterSidebar({
                     className="h-3.5 w-3.5 shrink-0 rounded-full border border-black/20 dark:border-white/25"
                     style={{ backgroundColor: family.hex }}
                   />
-                  <span className="text-small">{family.label}</span>
+                  <span className="text-small">{colorFamilyLabel(family.id)}</span>
                 </span>
 
                 <span className="flex items-center gap-2">
@@ -393,7 +397,7 @@ export function ShopFilterSidebar({
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-foreground-subtle">
-            05 // ARCHIVE EDITIONS
+            {t('editions')}
           </span>
           {filters.collection && (
             <button
@@ -401,7 +405,7 @@ export function ShopFilterSidebar({
               onClick={() => onCollectionChange('')}
               className="font-mono text-[10px] uppercase tracking-[0.12em] text-foreground-muted underline underline-offset-4 hover:text-foreground"
             >
-              Clear
+              {t('clear')}
             </button>
           )}
         </div>
@@ -419,7 +423,7 @@ export function ShopFilterSidebar({
                 }
                 aria-pressed={isSelected}
                 className={cn(
-                  'flex w-full items-center justify-between border px-3 py-2.5 text-left transition-colors',
+                  'flex w-full items-center justify-between border px-3 py-2.5 text-start transition-colors',
                   isSelected
                     ? 'border-foreground bg-foreground text-background'
                     : 'border-border bg-background text-foreground-muted hover:border-foreground/50 hover:text-foreground'

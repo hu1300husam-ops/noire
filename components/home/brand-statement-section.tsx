@@ -1,29 +1,16 @@
 import React from 'react';
+import { useTranslations } from 'next-intl';
 import { Container, Section } from '@/components/layout';
 import { Reveal, StaggerContainer, StaggerItem } from '@/components/motion';
 import { Eyebrow, TechnicalCode } from '@/components/ui';
 
 export function BrandStatementSection() {
-  const pillars = [
-    {
-      index: '03.1',
-      title: 'Subtract Ornament',
-      detail:
-        'Every radius, chamfer, and aperture exists solely to serve acoustic damping, thermal dissipation, or tactile orientation.',
-    },
-    {
-      index: '03.2',
-      title: 'Honor Physical Mass',
-      detail:
-        'We reject hollow injection-molded shells. Solid billet aluminum, grade-5 titanium, and architectural brass ground each object in space.',
-    },
-    {
-      index: '03.3',
-      title: 'Engineered to Endure',
-      detail:
-        'Torx T6 assembly and modular internal architecture ensure every battery, driver, and switch remains serviceable for a decade or more.',
-    },
-  ];
+  const t = useTranslations('home.manifesto');
+  const pillars = (['subtract', 'mass', 'endure'] as const).map((key, i) => ({
+    index: `03.${i + 1}`,
+    title: t(`pillars.${key}.title`),
+    detail: t(`pillars.${key}.detail`),
+  }));
 
   return (
     <Section
@@ -36,45 +23,41 @@ export function BrandStatementSection() {
       <Container size="wide">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12">
           {/* Left 3 Columns: Edition Stamp & Coordinates */}
-          <Reveal className="flex flex-col justify-between border-b border-border pb-6 lg:col-span-3 lg:border-b-0 lg:border-r lg:pb-0 lg:pr-8">
+          <Reveal className="flex flex-col justify-between border-b border-border pb-6 lg:col-span-3 lg:border-b-0 lg:border-e lg:pb-0 lg:pe-8">
             <div className="space-y-3">
               <Eyebrow index="03" tone="accent">
-                BRAND STATEMENT
+                {t('eyebrow')}
               </Eyebrow>
               <TechnicalCode className="block">
-                DOC-REF // NR-MANIFESTO-04
+                {t('docRef')}
               </TechnicalCode>
             </div>
 
             <div className="mt-8 space-y-2 font-mono text-[11px] uppercase tracking-[0.14em] text-foreground-muted lg:mt-0">
-              <p className="text-foreground">ZÜRICH INDUSTRIAL STUDIO</p>
-              <p>TOKYO ACOUSTIC LABORATORY</p>
+              <p className="text-foreground">{t('studioZurich')}</p>
+              <p>{t('studioTokyo')}</p>
               <p className="pt-2 text-[10px] text-foreground-subtle">
-                EST. 2021 — ARCHIVAL HARDWARE
+                {t('established')}
               </p>
             </div>
           </Reveal>
 
           {/* Right 9 Columns: Oversized Statement Typography & Supporting Narrative */}
-          <div className="space-y-12 lg:col-span-9 lg:pl-4">
+          <div className="space-y-12 lg:col-span-9 lg:ps-4">
             <Reveal delay={0.08} className="space-y-8">
               <h2
                 id="manifesto-heading"
                 className="font-display text-h1 tracking-tighter text-foreground"
               >
-                We reject disposable velocity. Every NOIRÉ instrument is milled
-                from solid billet, calibrated in anechoic silence, and{' '}
-                <span className="font-normal italic text-foreground-muted">
-                  serialized to outlast a decade
-                </span>{' '}
-                of daily physical contact.
+                {t.rich('title', {
+                  em: (chunks) => (
+                    <span className="font-normal italic text-foreground-muted">{chunks}</span>
+                  ),
+                })}
               </h2>
 
               <p className="max-w-2xl text-body-lg leading-relaxed text-foreground-muted">
-                Consumer technology has grown weightless, transient, and visually
-                noisy. NOIRÉ restores permanence to the objects you touch every
-                hour—uniting Swiss 5-axis CNC metallurgy with Japanese acoustic
-                and optical precision.
+                {t('body')}
               </p>
             </Reveal>
 
@@ -83,7 +66,7 @@ export function BrandStatementSection() {
               {pillars.map((pillar) => (
                 <StaggerItem
                   key={pillar.index}
-                  className="space-y-3 border-l border-border pl-4"
+                  className="space-y-3 border-s border-border ps-4"
                 >
                   <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-accent">
                     {pillar.index}

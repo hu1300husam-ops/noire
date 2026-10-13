@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { ArrowRight, Check } from 'lucide-react';
 import { Container } from '@/components/layout';
 import { Reveal } from '@/components/motion';
@@ -13,6 +14,7 @@ import {
 } from '@/components/ui';
 
 export function NewsletterSection() {
+  const t = useTranslations('home.newsletter');
   const { addToast } = useToast();
 
   const [email, setEmail] = useState('');
@@ -26,11 +28,11 @@ export function NewsletterSection() {
   const validateEmail = (value: string): string | undefined => {
     const trimmed = value.trim();
     if (!trimmed) {
-      return 'Enter a test email address to preview this local form.';
+      return t('errors.empty');
     }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(trimmed)) {
-      return 'Enter a valid test address, such as studio@example.test.';
+      return t('errors.invalid');
     }
     return undefined;
   };
@@ -43,7 +45,7 @@ export function NewsletterSection() {
       setError(validationError);
       addToast({
         type: 'error',
-        title: 'Invalid Demo Address',
+        title: t('errors.invalidTitle'),
         description: validationError,
       });
       return;
@@ -55,11 +57,11 @@ export function NewsletterSection() {
 
     if (trimmed.toLowerCase() === 'error@example.test') {
       setIsSubmitting(false);
-      const demoError = 'A local preview error was simulated. Nothing was saved or sent; try again.';
+      const demoError = t('errors.simulated');
       setError(demoError);
       addToast({
         type: 'error',
-        title: 'Demo Preview Error',
+        title: t('errors.simulatedTitle'),
         description: demoError,
       });
       return;
@@ -70,8 +72,8 @@ export function NewsletterSection() {
     setEmail('');
     addToast({
       type: 'success',
-      title: 'Demo Preview Only',
-      description: 'Nothing was saved or sent; no mailing-list service is connected.',
+      title: t('toastTitle'),
+      description: t('toastDescription'),
     });
   };
 
@@ -89,32 +91,30 @@ export function NewsletterSection() {
             <div className="space-y-5 lg:col-span-6">
               <div className="flex flex-wrap items-center gap-3">
                 <Eyebrow index="10" tone="accent">
-                  NEWSLETTER // FRONTEND DEMO
+                  {t('eyebrow')}
                 </Eyebrow>
-                <TechnicalCode>LOCAL PREVIEW // NOT SENT</TechnicalCode>
+                <TechnicalCode>{t('localPreview')}</TechnicalCode>
               </div>
 
               <h2
                 id="newsletter-heading"
                 className="font-display text-h1 tracking-tighter text-foreground"
               >
-                Preview the{' '}
-                <span className="font-normal italic text-foreground-muted">
-                  Private Dispatch Experience.
-                </span>
+                {t.rich('title', {
+                  em: (chunks) => (
+                    <span className="font-normal italic text-foreground-muted">{chunks}</span>
+                  ),
+                })}
               </h2>
 
               <p className="max-w-xl text-small leading-relaxed text-foreground-muted">
-                This frontend-only form demonstrates newsletter preferences. No
-                mailing-list service is connected; use a test address. Nothing
-                is saved, and no allocation notice, monograph, or invitation will
-                be sent.
+                {t('body')}
               </p>
 
               <div className="flex flex-wrap items-center gap-6 pt-2 font-mono text-[10px] uppercase tracking-[0.16em] text-foreground-subtle">
-                <span>NO MAILING-LIST SERVICE</span>
+                <span>{t('noService')}</span>
                 <span>•</span>
-                <span>NO ADDRESS STORED OR SENT</span>
+                <span>{t('noStorage')}</span>
               </div>
             </div>
 
@@ -129,32 +129,27 @@ export function NewsletterSection() {
                   <div className="flex items-center justify-between gap-3 border-b border-border pb-4">
                     <span className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.16em] text-accent">
                       <Check className="h-4 w-4" aria-hidden="true" />
-                      <span>DEMO PREVIEW COMPLETE</span>
+                      <span>{t('previewComplete')}</span>
                     </span>
                     <span className="border border-border bg-background px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-foreground">
-                      NOTHING SENT
+                      {t('nothingSent')}
                     </span>
                   </div>
 
                   <div className="space-y-2">
                     <h3 className="font-display text-h3 tracking-tight text-foreground">
-                      No subscription was created.
+                      {t('noSubscription')}
                     </h3>
                     <p className="text-small leading-relaxed text-foreground-muted">
-                      Preference preview //{' '}
-                      <span className="uppercase text-accent">
-                        {disciplineInterest === 'all'
-                          ? 'All Engineering Disciplines'
-                          : disciplineInterest === 'acoustic'
-                          ? 'Acoustic Systems'
-                          : 'Desk & Architectural Lighting'}
-                      </span>
-                      . This local interaction did not save your address or preference.
+                      {t.rich('preferencePreview', {
+                        preference: t(`preferences.${disciplineInterest}`),
+                        em: (chunks) => <span className="uppercase text-accent">{chunks}</span>,
+                      })}
                     </p>
                   </div>
 
                   <div className="flex flex-wrap items-center justify-between gap-4 border-t border-border pt-4 font-mono text-[10px] uppercase tracking-[0.14em] text-foreground-subtle">
-                    <span>Mailing list // not connected</span>
+                    <span>{t('notConnected')}</span>
                     <button
                       type="button"
                       onClick={() => {
@@ -163,7 +158,7 @@ export function NewsletterSection() {
                       }}
                       className="text-foreground underline underline-offset-4 transition-colors hover:text-accent"
                     >
-                      Try Preview Again
+                      {t('tryAgain')}
                     </button>
                   </div>
                 </div>
@@ -174,23 +169,23 @@ export function NewsletterSection() {
                   className="space-y-5 border border-border bg-surface p-6 sm:p-8"
                 >
                   <div className="flex items-center justify-between border-b border-border pb-3 font-mono text-[10px] uppercase tracking-[0.14em] text-foreground-muted">
-                    <span>LOCAL NEWSLETTER PREVIEW</span>
+                    <span>{t('localNewsletterPreview')}</span>
                     <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-accent">
-                      DEMO MODE
+                      {t('demoMode')}
                     </span>
                   </div>
 
                   {/* Discipline Preference Pills */}
                   <div className="space-y-2">
                     <span className="block font-mono text-[10px] uppercase tracking-[0.14em] text-foreground-muted">
-                      Primary Discipline Focus
+                      {t('disciplineFocus')}
                     </span>
                     <div className="grid grid-cols-3 gap-2">
                       {(
                         [
-                          { id: 'all', label: 'All Systems' },
-                          { id: 'acoustic', label: 'Acoustic' },
-                          { id: 'architectural', label: 'Desk & Light' },
+                          { id: 'all', label: t('options.all') },
+                          { id: 'acoustic', label: t('options.acoustic') },
+                          { id: 'architectural', label: t('options.architectural') },
                         ] as const
                       ).map((opt) => (
                         <button
@@ -211,17 +206,17 @@ export function NewsletterSection() {
 
                   {/* Email Input using Reusable Primitive */}
                   <Input
-                    label="Test Email Address"
-                    codeLabel="LOCAL PREVIEW // NOT SENT"
+                    label={t('emailLabel')}
+                    codeLabel={t('localPreview')}
                     type="email"
-                    placeholder="studio@example.test"
+                    placeholder={t('emailPlaceholder')}
                     value={email}
                     onChange={(e) => {
                       setEmail(e.target.value);
                       if (error) setError(undefined);
                     }}
                     error={error}
-                    hint="Use a test address; no email or preference is stored or sent."
+                    hint={t('emailHint')}
                     disabled={isSubmitting}
                     required
                   />
@@ -234,7 +229,7 @@ export function NewsletterSection() {
                     isLoading={isSubmitting}
                     rightIcon={<ArrowRight className="h-4 w-4" />}
                   >
-                    Preview Newsletter Form
+                    {t('submit')}
                   </Button>
                 </form>
               )}
@@ -247,8 +242,8 @@ export function NewsletterSection() {
       <div className="surface-obsidian mt-16 border-t border-border bg-background py-4 text-foreground sm:mt-24">
         <Container size="wide">
           <div className="flex flex-wrap items-center justify-between gap-4 font-mono text-[10px] uppercase tracking-[0.16em] text-foreground-subtle">
-            <span>11 // GLOBAL DIRECTORY &amp; ARCHIVE INDEX</span>
-            <span>NOIRÉ AG — ZÜRICH // TOKYO</span>
+            <span>{t('connectorIndex')}</span>
+            <span>{t('connectorBrand')}</span>
           </div>
         </Container>
       </div>

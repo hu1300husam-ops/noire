@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
 import {
   ShoppingBag,
   Eye,
@@ -31,6 +32,7 @@ interface ProductSpotlightSectionProps {
 export function ProductSpotlightSection({
   product,
 }: ProductSpotlightSectionProps) {
+  const t = useTranslations('home.spotlight');
   const { addToCart, setQuickViewProduct } = useCommerce();
   const [selectedColor, setSelectedColor] = useState<ProductColorVariant>(
     product.colors[0]
@@ -64,7 +66,7 @@ export function ProductSpotlightSection({
         <Reveal className="mb-12 flex flex-wrap items-center justify-between gap-4 border-b border-border pb-6">
           <div className="flex flex-wrap items-center gap-3">
             <Eyebrow index="07" tone="accent">
-              FLAGSHIP CAMPAIGN SPOTLIGHT
+              {t('eyebrow')}
             </Eyebrow>
             <span className="border border-border bg-surface px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-foreground">
               {product.modelNumber}
@@ -73,7 +75,7 @@ export function ProductSpotlightSection({
 
           <div className="flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.16em] text-foreground-muted">
             <Volume2 className="h-3.5 w-3.5 text-accent" aria-hidden="true" />
-            <span>360° ROOM-SENSE ACOUSTIC ARCHITECTURE</span>
+            <span>{t('roomSense')}</span>
           </div>
         </Reveal>
 
@@ -98,7 +100,7 @@ export function ProductSpotlightSection({
                         : 'text-foreground-muted hover:text-foreground'
                     )}
                   >
-                    01 Elevation
+                    {t('viewElevation')}
                   </button>
                   <button
                     type="button"
@@ -110,7 +112,7 @@ export function ProductSpotlightSection({
                         : 'text-foreground-muted hover:text-foreground'
                     )}
                   >
-                    02 Array Detail
+                    {t('viewArray')}
                   </button>
                 </div>
               </div>
@@ -124,7 +126,7 @@ export function ProductSpotlightSection({
                   className="h-full w-full object-cover transition-transform duration-700 ease-noire-out hover:scale-105"
                 />
 
-                <div className="pointer-events-none absolute left-4 top-4 sm:left-6 sm:top-6">
+                <div className="pointer-events-none absolute start-4 top-4 sm:start-6 sm:top-6">
                   <ProductBadge
                     type={product.badge}
                     label={product.badgeLabel}
@@ -136,23 +138,23 @@ export function ProductSpotlightSection({
                   <div className="grid grid-cols-2 gap-4 border-t border-white/15 pt-4 sm:grid-cols-3">
                     <div>
                       <span className="block font-mono text-[9px] uppercase tracking-[0.14em] text-accent">
-                        AMPLIFICATION
+                        {t('specs.amplification')}
                       </span>
                       <span className="mt-0.5 block font-mono text-xs text-foreground">
-                        550W Hypex NCore Class-D
+                        {t('specs.amplificationValue')}
                       </span>
                     </div>
                     <div>
                       <span className="block font-mono text-[9px] uppercase tracking-[0.14em] text-accent">
-                        TRANSDUCER ARRAY
+                        {t('specs.array')}
                       </span>
                       <span className="mt-0.5 block font-mono text-xs text-foreground">
-                        7 Custom Beryllium Drivers
+                        {t('specs.arrayValue')}
                       </span>
                     </div>
                     <div className="col-span-2 sm:col-span-1">
                       <span className="block font-mono text-[9px] uppercase tracking-[0.14em] text-accent">
-                        FREQUENCY FLOOR
+                        {t('specs.frequency')}
                       </span>
                       <span className="mt-0.5 block font-mono text-xs text-foreground">
                         28 Hz – 40,000 Hz (±1.5dB)
@@ -169,24 +171,22 @@ export function ProductSpotlightSection({
                 <Cpu className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
                 <div>
                   <span className="block font-mono text-[10px] uppercase tracking-[0.14em] text-foreground">
-                    ROOM-SENSE ACOUSTIC DSP
+                    {t('dspTitle')}
                   </span>
                   <p className="mt-1 text-caption text-foreground-muted">
-                    Continuously maps wall reflections at 192kHz to eliminate
-                    standing bass waves in any architectural volume.
+                    {t('dspBody')}
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-3 border-t border-border pt-4 sm:border-l sm:border-t-0 sm:pl-4 sm:pt-0">
+              <div className="flex items-start gap-3 border-t border-border pt-4 sm:border-s sm:border-t-0 sm:ps-4 sm:pt-0">
                 <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
                 <div>
                   <span className="block font-mono text-[10px] uppercase tracking-[0.14em] text-foreground">
-                    PACKAGING CONCEPT // DEMO ONLY
+                    {t('packagingTitle')}
                   </span>
                   <p className="mt-1 text-caption text-foreground-muted">
-                    Illustrative flight-case concept only; no shipment, courier
-                    booking, or white-glove fulfillment service is connected.
+                    {t('packagingBody')}
                   </p>
                 </div>
               </div>
@@ -201,7 +201,7 @@ export function ProductSpotlightSection({
             <div className="space-y-6">
               <div className="space-y-3">
                 <span className="font-mono text-xs uppercase tracking-[0.18em] text-accent">
-                  OMNIDIRECTIONAL ACOUSTIC SCULPTURE
+                  {t('omnidirectional')}
                 </span>
                 <h2
                   id="spotlight-heading"
@@ -218,7 +218,7 @@ export function ProductSpotlightSection({
               <div className="flex flex-wrap items-baseline justify-between gap-4 border-y border-border py-5">
                 <div>
                   <span className="block font-mono text-[10px] uppercase tracking-[0.14em] text-foreground-subtle">
-                    INSTRUMENT ALLOCATION PRICE
+                    {t('allocationPrice')}
                   </span>
                   <PriceDisplay
                     price={product.price}
@@ -255,7 +255,7 @@ export function ProductSpotlightSection({
                       <dt className="col-span-5 text-[11px] uppercase text-foreground-muted">
                         {spec.label}
                       </dt>
-                      <dd className="col-span-7 text-right text-foreground">
+                      <dd className="col-span-7 text-end text-foreground">
                         {spec.value}
                       </dd>
                     </div>
@@ -280,7 +280,7 @@ export function ProductSpotlightSection({
                     })
                   }
                 >
-                  Allocate {product.name}
+                  {t('allocate', { name: product.name })}
                 </Button>
 
                 <Button
@@ -290,20 +290,19 @@ export function ProductSpotlightSection({
                   onClick={() => setQuickViewProduct(product)}
                   className="shrink-0"
                 >
-                  Inspect
+                  {t('inspect')}
                 </Button>
               </div>
 
               <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border pt-4 font-mono text-[10px] uppercase tracking-[0.14em] text-foreground-muted">
                 <span>
-                  {product.warrantyYears}-Year Acoustic &amp; Structural
-                  Warranty
+                  {t('warranty', { years: product.warrantyYears })}
                 </span>
                 <Link
                   href={`/product/${product.slug}`}
                   className="inline-flex items-center gap-1.5 text-foreground underline underline-offset-4 transition-colors hover:text-accent"
                 >
-                  <span>Open Complete Acoustic Dossier</span>
+                  <span>{t('openDossier')}</span>
                   <ArrowUpRight className="h-3.5 w-3.5" />
                 </Link>
               </div>

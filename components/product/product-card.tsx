@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import {
   Heart,
   ShoppingBag,
@@ -16,6 +16,7 @@ import {
   Button,
   TechnicalCode,
 } from '@/components/ui';
+import { useTranslations } from 'next-intl';
 import { useCommerce } from '@/lib/context/commerce-context';
 import { cn } from '@/lib/utils';
 import type { Product, ProductColorVariant } from '@/types';
@@ -43,6 +44,7 @@ export function ProductCard({
     isInWishlist,
     setQuickViewProduct,
   } = useCommerce();
+  const t = useTranslations('product');
 
   const [selectedColor, setSelectedColor] = useState<ProductColorVariant>(
     product.colors[0]
@@ -75,10 +77,10 @@ export function ProductCard({
         )}
       >
         {/* Left 7 Columns: Large Image Stage with Hover Swap */}
-        <div className="relative overflow-hidden border-b border-border bg-surface-muted lg:col-span-7 lg:border-b-0 lg:border-r">
+        <div className="relative overflow-hidden border-b border-border bg-surface-muted lg:col-span-7 lg:border-b-0 lg:border-e">
           <Link
             href={`/product/${product.slug}`}
-            aria-label={`View ${product.name}`}
+            aria-label={t('viewAria', { name: product.name })}
             className="block aspect-[16/11] h-full w-full overflow-hidden"
           >
             <img
@@ -95,7 +97,7 @@ export function ProductCard({
             {activeSecondaryImage !== activePrimaryImage && (
               <img
                 src={activeSecondaryImage}
-                alt={`${product.name} alternate view`}
+                alt={t('alternateViewAlt', { name: product.name })}
                 loading="lazy"
                 className={cn(
                   'absolute inset-0 h-full w-full object-cover transition-all duration-700 ease-noire-out',
@@ -106,7 +108,7 @@ export function ProductCard({
           </Link>
 
           {/* Top Overlay Metadata & Badges */}
-          <div className="pointer-events-none absolute left-4 right-4 top-4 flex items-start justify-between gap-2 sm:left-6 sm:right-6 sm:top-6">
+          <div className="pointer-events-none absolute start-4 end-4 top-4 flex items-start justify-between gap-2 sm:start-6 sm:end-6 sm:top-6">
             <div className="flex flex-wrap items-center gap-2">
               {indexLabel && (
                 <span className="border border-border bg-background/90 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-foreground backdrop-blur-sm">
@@ -124,8 +126,8 @@ export function ProductCard({
               onClick={() => toggleWishlist(product)}
               aria-label={
                 saved
-                  ? `Remove ${product.name} from wishlist`
-                  : `Save ${product.name} to wishlist`
+                  ? t('removeFromWishlistAria', { name: product.name })
+                  : t('saveToWishlistAria', { name: product.name })
               }
               className={cn(
                 'pointer-events-auto flex h-9 w-9 items-center justify-center border transition-colors duration-250',
@@ -214,9 +216,7 @@ export function ProductCard({
                   })
                 }
               >
-                {product.stockStatus === 'pre_order'
-                  ? 'Reserve Batch'
-                  : 'Allocate to Bag'}
+                {product.stockStatus === 'pre_order' ? t('reserveBatch') : t('allocateToBag')}
               </Button>
 
               <Button
@@ -225,7 +225,7 @@ export function ProductCard({
                 leftIcon={<Eye className="h-3.5 w-3.5" />}
                 onClick={() => setQuickViewProduct(product)}
               >
-                Quick Inspect
+                {t('quickInspect')}
               </Button>
             </div>
           </div>
@@ -254,7 +254,7 @@ export function ProductCard({
         >
           <Link
             href={`/product/${product.slug}`}
-            aria-label={`View ${product.name}`}
+            aria-label={t('viewAria', { name: product.name })}
             className="block h-full w-full"
           >
             <img
@@ -271,7 +271,7 @@ export function ProductCard({
             {activeSecondaryImage !== activePrimaryImage && (
               <img
                 src={activeSecondaryImage}
-                alt={`${product.name} secondary perspective`}
+                alt={t('alternateViewAlt', { name: product.name })}
                 loading="lazy"
                 className={cn(
                   'absolute inset-0 h-full w-full object-cover transition-all duration-700 ease-noire-out',
@@ -282,7 +282,7 @@ export function ProductCard({
           </Link>
 
           {/* Top Bar: Index + Badge + Wishlist */}
-          <div className="pointer-events-none absolute left-3.5 right-3.5 top-3.5 flex items-start justify-between gap-2">
+          <div className="pointer-events-none absolute start-3.5 end-3.5 top-3.5 flex items-start justify-between gap-2">
             <div className="flex flex-wrap items-center gap-1.5">
               {indexLabel && (
                 <span className="border border-border bg-background/90 px-2 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-foreground backdrop-blur-sm">
@@ -300,8 +300,8 @@ export function ProductCard({
               onClick={() => toggleWishlist(product)}
               aria-label={
                 saved
-                  ? `Remove ${product.name} from wishlist`
-                  : `Save ${product.name} to wishlist`
+                  ? t('removeFromWishlistAria', { name: product.name })
+                  : t('saveToWishlistAria', { name: product.name })
               }
               className={cn(
                 'pointer-events-auto flex h-8 w-8 items-center justify-center border transition-colors duration-250',
@@ -317,7 +317,7 @@ export function ProductCard({
           {/* Hover Quick Action Bar (Desktop hover + keyboard focusable) */}
           <div
             className={cn(
-              'absolute bottom-0 left-0 right-0 flex items-center gap-1.5 border-t border-border bg-background/95 p-2.5 backdrop-blur-md transition-all duration-300 ease-noire-out',
+              'absolute bottom-0 start-0 end-0 flex items-center gap-1.5 border-t border-border bg-background/95 p-2.5 backdrop-blur-md transition-all duration-300 ease-noire-out',
               'translate-y-0 opacity-100 lg:translate-y-full lg:opacity-0 lg:group-hover:translate-y-0 lg:group-hover:opacity-100 lg:focus-within:translate-y-0 lg:focus-within:opacity-100'
             )}
           >
@@ -336,15 +336,15 @@ export function ProductCard({
               <ShoppingBag className="h-3 w-3 shrink-0" aria-hidden="true" />
               <span>
                 {product.stockStatus === 'pre_order'
-                  ? 'Reserve'
-                  : '+ Allocate'}
+                  ? t('reserveShort')
+                  : t('allocateShort')}
               </span>
             </button>
 
             <button
               type="button"
               onClick={() => setQuickViewProduct(product)}
-              aria-label={`Quick inspect ${product.name}`}
+              aria-label={t('quickInspectAria', { name: product.name })}
               className="flex h-9 w-9 shrink-0 items-center justify-center border border-border bg-surface text-foreground transition-colors hover:border-foreground"
             >
               <Eye className="h-3.5 w-3.5" aria-hidden="true" />
@@ -367,7 +367,7 @@ export function ProductCard({
                 {product.name}
               </Link>
               <ArrowUpRight
-                className="mt-1 h-4 w-4 shrink-0 text-foreground-subtle transition-transform duration-250 ease-noire-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground"
+                className="mt-1 h-4 w-4 shrink-0 text-foreground-subtle transition-transform duration-250 ease-noire-out group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground"
                 aria-hidden="true"
               />
             </div>

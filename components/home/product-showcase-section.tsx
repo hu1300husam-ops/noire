@@ -1,7 +1,8 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import React, { useState, useMemo } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { ArrowUpRight, SlidersHorizontal } from 'lucide-react';
 import { Container, Section } from '@/components/layout';
 import { Reveal } from '@/components/motion';
@@ -19,18 +20,19 @@ type DisciplineFilter = 'all' | 'audio' | 'desk-architecture' | 'lighting-input'
 export function ProductShowcaseSection({
   products,
 }: ProductShowcaseSectionProps) {
+  const t = useTranslations('home.showcase');
   const [activeFilter, setActiveFilter] = useState<DisciplineFilter>('all');
 
   const filters: { id: DisciplineFilter; label: string; count: number }[] = [
-    { id: 'all', label: 'All Instruments', count: products.length },
+    { id: 'all', label: t('filters.all'), count: products.length },
     {
       id: 'audio',
-      label: 'Acoustic Systems',
+      label: t('filters.audio'),
       count: products.filter((p) => p.category === 'audio').length,
     },
     {
       id: 'desk-architecture',
-      label: 'Desk & Instruments',
+      label: t('filters.desk'),
       count: products.filter(
         (p) =>
           p.category === 'desk-architecture' ||
@@ -39,7 +41,7 @@ export function ProductShowcaseSection({
     },
     {
       id: 'lighting-input',
-      label: 'Lighting, Input & Carry',
+      label: t('filters.lighting'),
       count: products.filter(
         (p) =>
           p.category === 'lighting' ||
@@ -92,18 +94,19 @@ export function ProductShowcaseSection({
             <div className="space-y-3">
               <div className="flex items-center gap-3">
                 <Eyebrow index="05" tone="accent">
-                  CURATED INSTRUMENT ARCHIVE
+                  {t('eyebrow')}
                 </Eyebrow>
-                <TechnicalCode>CAT-INDEX // 2026</TechnicalCode>
+                <TechnicalCode>{t('catIndex')}</TechnicalCode>
               </div>
               <h2
                 id="showcase-heading"
                 className="font-display text-h1 tracking-tighter text-foreground"
               >
-                Precision Hardware,{' '}
-                <span className="font-normal italic text-foreground-muted">
-                  Serialized by Discipline.
-                </span>
+                {t.rich('title', {
+                  em: (chunks) => (
+                    <span className="font-normal italic text-foreground-muted">{chunks}</span>
+                  ),
+                })}
               </h2>
             </div>
 
@@ -111,7 +114,7 @@ export function ProductShowcaseSection({
               href="/shop"
               className="inline-flex items-center gap-2 self-start border border-foreground bg-foreground px-6 py-3.5 font-mono text-xs uppercase tracking-[0.14em] text-background transition-opacity hover:opacity-90 lg:self-auto"
             >
-              <span>Enter Complete Archive ({products.length})</span>
+              <span>{t('enterArchive', { count: products.length })}</span>
               <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
             </Link>
           </div>
@@ -120,7 +123,7 @@ export function ProductShowcaseSection({
           <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
             <div
               role="tablist"
-              aria-label="Filter instruments by engineering discipline"
+              aria-label={t('filterAria')}
               className="flex flex-wrap items-center gap-2"
             >
               {filters.map((filter) => {
@@ -157,7 +160,7 @@ export function ProductShowcaseSection({
 
             <div className="hidden items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em] text-foreground-subtle md:flex">
               <SlidersHorizontal className="h-3.5 w-3.5 text-accent" />
-              <span>RHYTHM: 01 LARGE // 02-03 OFFSET PAIR // 04 LARGE</span>
+              <span>{t('rhythm')}</span>
             </div>
           </div>
         </Reveal>
@@ -169,7 +172,7 @@ export function ProductShowcaseSection({
             <Reveal>
               <ProductCard
                 product={firstLarge}
-                indexLabel="01 // FEATURED INSTRUMENT"
+                indexLabel={t('indexFeatured', { index: '01' })}
                 variant="large-split"
               />
             </Reveal>
@@ -182,7 +185,7 @@ export function ProductShowcaseSection({
                 <Reveal className="lg:col-span-7">
                   <ProductCard
                     product={pairLeft}
-                    indexLabel="02 // ARCHIVE OBJECT"
+                    indexLabel={t('indexArchiveObject', { index: '02' })}
                     aspect="landscape"
                   />
                 </Reveal>
@@ -191,20 +194,18 @@ export function ProductShowcaseSection({
               {pairRight && (
                 <Reveal delay={0.1} className="space-y-6 lg:col-span-5 lg:mt-12">
                   {/* Editorial Field Note above the offset card */}
-                  <div className="border-l-2 border-accent pl-4">
+                  <div className="border-s-2 border-accent ps-4">
                     <span className="block font-mono text-[10px] uppercase tracking-[0.16em] text-accent">
-                      TACTILE CALIBRATION NOTE
+                      {t('calibrationTitle')}
                     </span>
                     <p className="mt-1 text-caption leading-relaxed text-foreground-muted">
-                      Every switch, rotary encoder, and counterweight is
-                      force-curve tested across 10,000 actuation cycles prior to
-                      serialization.
+                      {t('calibrationBody')}
                     </p>
                   </div>
 
                   <ProductCard
                     product={pairRight}
-                    indexLabel="03 // ARCHIVE OBJECT"
+                    indexLabel={t('indexArchiveObject', { index: '03' })}
                     aspect="portrait"
                   />
                 </Reveal>
@@ -217,7 +218,7 @@ export function ProductShowcaseSection({
             <Reveal>
               <ProductCard
                 product={secondLarge}
-                indexLabel="04 // FEATURED INSTRUMENT"
+                indexLabel={t('indexFeatured', { index: '04' })}
                 variant="large-split"
               />
             </Reveal>
@@ -228,10 +229,10 @@ export function ProductShowcaseSection({
             <div className="space-y-6 border-t border-border pt-12">
               <div className="flex flex-wrap items-center justify-between gap-4">
                 <span className="font-mono text-xs uppercase tracking-[0.16em] text-foreground">
-                  ADDITIONAL SERIALIZED INSTRUMENTS
+                  {t('additional')}
                 </span>
                 <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-foreground-subtle">
-                  POSITIONS 05 — 0{4 + trioRow.length}
+                  {t('positions', { last: `0${4 + trioRow.length}` })}
                 </span>
               </div>
 
@@ -240,7 +241,7 @@ export function ProductShowcaseSection({
                   <Reveal key={product.id} delay={idx * 0.06}>
                     <ProductCard
                       product={product}
-                      indexLabel={`0${idx + 5} // ARCHIVE`}
+                      indexLabel={t('indexArchive', { index: `0${idx + 5}` })}
                       aspect="portrait"
                     />
                   </Reveal>

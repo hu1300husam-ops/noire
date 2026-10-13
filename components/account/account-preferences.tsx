@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { ArrowUpRight, Send } from 'lucide-react';
 import type { PrivateDispatchDiscipline } from '@/lib/account/contracts';
 import { Button, Checkbox, TechnicalCode } from '@/components/ui';
@@ -111,7 +111,7 @@ export function AccountPreferences() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-3 border-l border-foreground px-4 py-2 sm:flex-row sm:items-center sm:justify-between sm:px-5">
+      <div className="flex flex-col gap-3 border-s border-foreground px-4 py-2 sm:flex-row sm:items-center sm:justify-between sm:px-5">
         <p className="max-w-2xl text-small leading-relaxed text-foreground-muted">
           Newsletter registration is not duplicated in this workspace. Use the existing sitewide Private Dispatch form; its current implementation is a front-end preview and is not a persistent subscription service.
         </p>

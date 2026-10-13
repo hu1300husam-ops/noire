@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { Link } from '@/i18n/navigation';
+import { useRouter } from '@/i18n/navigation';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import {
   Search,
@@ -419,7 +419,7 @@ export function SearchOverlay({
                                 {cat.name}
                               </p>
                             </div>
-                            <ArrowUpRight className="h-4 w-4 text-foreground-subtle transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground" />
+                            <ArrowUpRight className="h-4 w-4 text-foreground-subtle transition-transform group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground" />
                           </Link>
                         ))}
                       </div>
@@ -466,7 +466,7 @@ export function SearchOverlay({
                                 <button
                                   type="button"
                                   onClick={() => applyQuickQuery(item)}
-                                  className="flex flex-1 items-center gap-2.5 text-left text-foreground"
+                                  className="flex flex-1 items-center gap-2.5 text-start text-foreground"
                                 >
                                   <CornerDownLeft
                                     className="h-3 w-3 text-foreground-subtle"
@@ -625,7 +625,7 @@ export function SearchOverlay({
                                       style={{ backgroundColor: c.hex }}
                                     />
                                   ))}
-                                  <span className="ml-1 font-mono text-[10px] text-foreground-subtle">
+                                  <span className="ms-1 font-mono text-[10px] text-foreground-subtle">
                                     {product.colors.length}{' '}
                                     {product.colors.length === 1
                                       ? 'Finish'

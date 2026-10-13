@@ -2,11 +2,11 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { ArrowUpDown, ArrowUpRight, Archive, Filter, RotateCcw, Search } from 'lucide-react';
 import { Button, Drawer, EmptyState, ErrorState, Input, Modal, Select, TechnicalCode, useToast } from '@/components/ui';
 import { AdminLocalNotice, AdminLoadingState, AdminPageHeader, ProductStatusBadge } from '@/components/admin/admin-primitives';
-import { loadAdminCategories, loadAdminProducts, setAdminProductStatus } from '@/app/admin/actions';
+import { loadAdminCategories, loadAdminProducts, setAdminProductStatus } from '@/lib/admin/actions';
 import type { Category, Product, ProductStatus, StockStatus } from '@/types';
 import { formatOrderDate } from '@/lib/account/order-utils';
 import { formatPrice } from '@/lib/utils';
@@ -147,9 +147,9 @@ export function AdminProductsWorkspace() {
       ) : (
         <>
           <div className="hidden overflow-x-auto border-y border-border bg-surface lg:block">
-            <table className="w-full min-w-[840px] border-collapse text-left">
+            <table className="w-full min-w-[840px] border-collapse text-start">
               <caption className="sr-only">Product catalog from the existing local demo service.</caption>
-              <thead><tr className="border-b border-border bg-surface-muted/50 font-mono text-[8px] uppercase tracking-[0.12em] text-foreground-subtle"><th scope="col" className="px-3 py-3">Product</th><th scope="col" className="px-3 py-3">SKU / technical ID</th><th scope="col" className="px-3 py-3">Category</th><th scope="col" className="px-3 py-3 text-right">Price</th><th scope="col" className="px-3 py-3">Catalog qty</th><th scope="col" className="px-3 py-3">Status</th><th scope="col" className="px-3 py-3">Last modified</th><th scope="col" className="px-3 py-3"><span className="sr-only">Actions</span></th></tr></thead>
+              <thead><tr className="border-b border-border bg-surface-muted/50 font-mono text-[8px] uppercase tracking-[0.12em] text-foreground-subtle"><th scope="col" className="px-3 py-3">Product</th><th scope="col" className="px-3 py-3">SKU / technical ID</th><th scope="col" className="px-3 py-3">Category</th><th scope="col" className="px-3 py-3 text-end">Price</th><th scope="col" className="px-3 py-3">Catalog qty</th><th scope="col" className="px-3 py-3">Status</th><th scope="col" className="px-3 py-3">Last modified</th><th scope="col" className="px-3 py-3"><span className="sr-only">Actions</span></th></tr></thead>
               <tbody>{filteredProducts.map((product) => <ProductTableRow key={product.id} product={product} onStatusChange={setPendingStatusChange} />)}</tbody>
             </table>
           </div>
@@ -177,7 +177,7 @@ function ProductTableRow({ product, onStatusChange }: { product: Product; onStat
   return (
     <tr className="border-b border-border last:border-0 hover:bg-surface-muted/30">
       <th scope="row" className="px-3 py-3.5"><div className="flex min-w-[220px] items-center gap-3"><span className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden border border-border bg-surface-muted">{product.primaryImage ? <Image src={product.primaryImage} alt="" fill sizes="48px" className="object-cover" /> : <span className="font-mono text-[6px] uppercase text-foreground-subtle">No image</span>}</span><span className="min-w-0"><Link href={`/admin/products/${encodeURIComponent(product.id)}`} className="block break-words text-[11px] font-medium text-foreground underline decoration-border underline-offset-4 hover:decoration-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground">{product.name}</Link><span className="mt-1 block font-mono text-[8px] text-foreground-subtle">{product.modelNumber}</span></span></div></th>
-      <td className="px-3 py-3.5 font-mono text-[9px] text-foreground-muted">{product.sku}</td><td className="px-3 py-3.5 text-[10px] text-foreground-muted">{product.categoryName}</td><td className="px-3 py-3.5 text-right font-mono text-[10px] tabular-nums text-foreground">{formatPrice(product.price)}</td><td className="px-3 py-3.5 font-mono text-[10px] tabular-nums text-foreground">{product.inventoryCount}</td><td className="px-3 py-3.5"><ProductStatusBadge product={product} /></td><td className="px-3 py-3.5 text-[10px] text-foreground-muted">{formatOrderDate(product.updatedAt)}</td><td className="px-3 py-3.5"><ProductActions product={product} onStatusChange={onStatusChange} /></td>
+      <td className="px-3 py-3.5 font-mono text-[9px] text-foreground-muted">{product.sku}</td><td className="px-3 py-3.5 text-[10px] text-foreground-muted">{product.categoryName}</td><td className="px-3 py-3.5 text-end font-mono text-[10px] tabular-nums text-foreground">{formatPrice(product.price)}</td><td className="px-3 py-3.5 font-mono text-[10px] tabular-nums text-foreground">{product.inventoryCount}</td><td className="px-3 py-3.5"><ProductStatusBadge product={product} /></td><td className="px-3 py-3.5 text-[10px] text-foreground-muted">{formatOrderDate(product.updatedAt)}</td><td className="px-3 py-3.5"><ProductActions product={product} onStatusChange={onStatusChange} /></td>
     </tr>
   );
 }

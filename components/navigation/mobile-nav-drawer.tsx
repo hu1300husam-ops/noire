@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useId } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import {
   X,
@@ -17,6 +17,9 @@ import { NOIRE_MOTION_TOKENS } from '@/lib/design-system/tokens';
 import { useOverlayBehavior } from '@/lib/hooks';
 import { useCommerce } from '@/lib/context/commerce-context';
 import { TechnicalCode } from '@/components/ui';
+import { useTranslations } from 'next-intl';
+import { useIsRtl, toPhysicalX } from '@/lib/hooks/use-direction';
+import { LanguageSwitcher } from './language-switcher';
 import { cn } from '@/lib/utils';
 import type { Category, Collection } from '@/types';
 
@@ -33,7 +36,10 @@ export function MobileNavDrawer({
   categories,
   collections,
 }: MobileNavDrawerProps) {
+  const t = useTranslations('nav');
   const prefersReducedMotion = Boolean(useReducedMotion());
+  const isRtl = useIsRtl();
+  const slideOffset = toPhysicalX('-100%', isRtl);
   const containerRef = useOverlayBehavior<HTMLDivElement>({ isOpen, onClose });
   const dialogId = useId();
   const titleId = `${dialogId}-title`;
@@ -94,17 +100,17 @@ export function MobileNavDrawer({
             aria-labelledby={titleId}
             tabIndex={-1}
             initial={
-              prefersReducedMotion ? { opacity: 0 } : { x: '-100%' }
+              prefersReducedMotion ? { opacity: 0 } : { x: slideOffset }
             }
             animate={prefersReducedMotion ? { opacity: 1 } : { x: 0 }}
-            exit={prefersReducedMotion ? { opacity: 0 } : { x: '-100%' }}
+            exit={prefersReducedMotion ? { opacity: 0 } : { x: slideOffset }}
             transition={{
               duration: prefersReducedMotion
                 ? 0.05
                 : NOIRE_MOTION_TOKENS.duration.normal,
               ease: NOIRE_MOTION_TOKENS.easing.outExpo,
             }}
-            className="relative z-10 flex h-full w-full max-w-[400px] flex-col border-r border-border bg-background text-foreground shadow-modal focus:outline-none"
+            className="relative z-10 flex h-full w-full max-w-[400px] flex-col border-e border-border bg-background text-foreground shadow-modal focus:outline-none"
           >
             {/* 1. Drawer Header */}
             <div className="flex h-16 items-center justify-between border-b border-border px-5">
@@ -118,12 +124,12 @@ export function MobileNavDrawer({
                   NOIRÉ
                 </Link>
                 <span className="h-3.5 w-px bg-border" />
-                <TechnicalCode>INDEX</TechnicalCode>
+                <TechnicalCode>{t('index')}</TechnicalCode>
               </div>
               <button
                 type="button"
                 onClick={onClose}
-                aria-label="Close navigation menu"
+                aria-label={t('closeMenu')}
                 className="flex h-10 w-10 items-center justify-center rounded-xs border border-transparent text-foreground-muted transition-colors hover:border-border hover:bg-surface hover:text-foreground"
               >
                 <X className="h-4 w-4" aria-hidden="true" />
@@ -135,21 +141,21 @@ export function MobileNavDrawer({
               <button
                 type="button"
                 onClick={handleOpenSearch}
-                className="flex h-11 w-full items-center justify-between rounded-xs border border-border bg-background px-3.5 text-left transition-colors hover:border-foreground"
+                className="flex h-11 w-full items-center justify-between rounded-xs border border-border bg-background px-3.5 text-start transition-colors hover:border-foreground"
               >
                 <span className="inline-flex items-center gap-2.5 text-small text-foreground-subtle">
                   <Search className="h-4 w-4 text-foreground-muted" />
-                  <span>Search instruments, NR-01...</span>
+                  <span>{t('searchPlaceholder')}</span>
                 </span>
                 <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-foreground-subtle">
-                  SEARCH
+                  {t('search')}
                 </span>
               </button>
             </div>
 
             {/* 3. Scrollable Hierarchical Navigation */}
             <nav
-              aria-label="Mobile Primary Navigation"
+              aria-label={t('mobilePrimaryNavigation')}
               className="flex-1 overflow-y-auto px-5 py-4"
             >
               <ul className="divide-y divide-border">
@@ -159,14 +165,14 @@ export function MobileNavDrawer({
                     type="button"
                     aria-expanded={expandedSection === 'shop'}
                     onClick={() => toggleSection('shop')}
-                    className="flex min-h-[48px] w-full items-center justify-between py-2 text-left"
+                    className="flex min-h-[48px] w-full items-center justify-between py-2 text-start"
                   >
                     <div className="flex items-baseline gap-3">
                       <span className="font-mono text-[11px] text-accent">
                         01
                       </span>
                       <span className="font-display text-lg font-medium tracking-tight text-foreground">
-                        Shop Instruments
+                        {t('shopInstruments')}
                       </span>
                     </div>
                     <span className="flex h-8 w-8 items-center justify-center text-foreground-muted">
@@ -202,7 +208,7 @@ export function MobileNavDrawer({
                             onClick={onClose}
                             className="flex items-center justify-between border border-foreground bg-foreground px-3.5 py-2.5 font-mono text-[11px] uppercase tracking-[0.14em] text-background"
                           >
-                            <span>View Complete Archive</span>
+                            <span>{t('viewCompleteArchive')}</span>
                             <ArrowUpRight className="h-3.5 w-3.5" />
                           </Link>
 
@@ -247,14 +253,14 @@ export function MobileNavDrawer({
                     type="button"
                     aria-expanded={expandedSection === 'collections'}
                     onClick={() => toggleSection('collections')}
-                    className="flex min-h-[48px] w-full items-center justify-between py-2 text-left"
+                    className="flex min-h-[48px] w-full items-center justify-between py-2 text-start"
                   >
                     <div className="flex items-baseline gap-3">
                       <span className="font-mono text-[11px] text-accent">
                         02
                       </span>
                       <span className="font-display text-lg font-medium tracking-tight text-foreground">
-                        Collections
+                        {t('collections')}
                       </span>
                     </div>
                     <span className="flex h-8 w-8 items-center justify-center text-foreground-muted">
@@ -318,17 +324,17 @@ export function MobileNavDrawer({
               {/* Editorial Highlight Plate */}
               <div className="mt-6 border border-border bg-surface-muted p-4">
                 <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-accent">
-                  {'EDITION 04 // MONOLITH'}
+                  {t('highlightCode')}
                 </span>
                 <p className="mt-1 font-display text-sm font-medium text-foreground">
-                  Milled from solid 6061-T6 aerospace aluminum billet.
+                  {t('highlightBody')}
                 </p>
                 <Link
                   href="/product/aether-01-headphones"
                   onClick={onClose}
                   className="mt-3 inline-flex items-center gap-1.5 border-b border-foreground pb-0.5 font-mono text-[10px] uppercase tracking-[0.14em] text-foreground"
                 >
-                  <span>Inspect NR-01 // Aether</span>
+                  <span>{t('highlightCta')}</span>
                   <ArrowUpRight className="h-3 w-3" />
                 </Link>
               </div>
@@ -344,7 +350,7 @@ export function MobileNavDrawer({
                 >
                   <User className="h-4 w-4 text-foreground" />
                   <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-foreground">
-                    Account
+                    {t('account')}
                   </span>
                 </Link>
 
@@ -360,7 +366,7 @@ export function MobileNavDrawer({
                     </span>
                   </div>
                   <span className="font-mono text-[10px] uppercase tracking-[0.1em] text-foreground">
-                    Wishlist
+                    {t('wishlist')}
                   </span>
                 </Link>
 
@@ -381,10 +387,12 @@ export function MobileNavDrawer({
                     </span>
                   </div>
                   <span className="font-mono text-[10px] uppercase tracking-[0.1em]">
-                    Bag
+                    {t('bag')}
                   </span>
                 </button>
               </div>
+
+              <LanguageSwitcher variant="list" className="mt-3" onSwitched={onClose} />
 
               <div className="mt-3 flex items-center justify-between font-mono text-[10px] text-foreground-subtle">
                 <span>ZURICH · TOKYO</span>

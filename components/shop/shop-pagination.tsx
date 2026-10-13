@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useTranslations } from 'next-intl';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -25,6 +26,7 @@ export function ShopPagination({
   onPageChange,
   onPageSizeChange,
 }: ShopPaginationProps) {
+  const t = useTranslations('shop.pagination');
   if (totalItems === 0) return null;
 
   const progressPercentage = Math.min(
@@ -36,7 +38,7 @@ export function ShopPagination({
 
   return (
     <nav
-      aria-label="Catalog pagination"
+      aria-label={t('aria')}
       className="mt-12 border border-border bg-surface p-5 sm:p-6"
     >
       <div className="flex flex-col justify-between gap-6 md:flex-row md:items-center">
@@ -44,14 +46,11 @@ export function ShopPagination({
         <div className="space-y-2.5">
           <div className="flex flex-wrap items-center gap-4 font-mono text-[11px] uppercase tracking-[0.14em] text-foreground">
             <span>
-              ARCHIVE PAGE {String(currentPage).padStart(2, '0')} OF{' '}
-              {String(totalPages).padStart(2, '0')}
+              {t('archivePage', { page: String(currentPage).padStart(2, '0'), total: String(totalPages).padStart(2, '0') })}
             </span>
             <span className="text-foreground-subtle">•</span>
             <span className="text-foreground-muted">
-              OBJECTS {String(visibleStart).padStart(2, '0')}–
-              {String(visibleEnd).padStart(2, '0')} OF{' '}
-              {String(totalItems).padStart(2, '0')}
+              {t('objects', { range: `${String(visibleStart).padStart(2, '0')}–${String(visibleEnd).padStart(2, '0')}`, total: String(totalItems).padStart(2, '0') })}
             </span>
           </div>
 
@@ -68,7 +67,7 @@ export function ShopPagination({
         <div className="flex flex-wrap items-center justify-between gap-4 sm:justify-end">
           {/* Page Density Selector */}
           <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em]">
-            <span className="text-foreground-subtle">Per Page:</span>
+            <span className="text-foreground-subtle">{t('perPage')}</span>
             {[8, 12].map((size) => (
               <button
                 key={size}
@@ -94,11 +93,11 @@ export function ShopPagination({
                 type="button"
                 disabled={currentPage <= 1}
                 onClick={() => onPageChange(currentPage - 1)}
-                aria-label="Previous page"
+                aria-label={t('previousPage')}
                 className="inline-flex h-10 items-center gap-1.5 border border-border bg-background px-3.5 font-mono text-[11px] uppercase tracking-[0.14em] text-foreground transition-colors hover:border-foreground disabled:cursor-not-allowed disabled:opacity-35"
               >
                 <ArrowLeft className="h-3.5 w-3.5" aria-hidden="true" />
-                <span className="hidden sm:inline">Prev</span>
+                <span className="hidden sm:inline">{t('prev')}</span>
               </button>
 
               {pages.map((page) => {
@@ -108,7 +107,7 @@ export function ShopPagination({
                     key={page}
                     type="button"
                     aria-current={isCurrent ? 'page' : undefined}
-                    aria-label={`Page ${page}`}
+                    aria-label={t('page', { page })}
                     onClick={() => onPageChange(page)}
                     className={cn(
                       'flex h-10 w-10 items-center justify-center border font-mono text-xs tabular-nums transition-colors',
@@ -126,10 +125,10 @@ export function ShopPagination({
                 type="button"
                 disabled={currentPage >= totalPages}
                 onClick={() => onPageChange(currentPage + 1)}
-                aria-label="Next page"
+                aria-label={t('nextPage')}
                 className="inline-flex h-10 items-center gap-1.5 border border-border bg-background px-3.5 font-mono text-[11px] uppercase tracking-[0.14em] text-foreground transition-colors hover:border-foreground disabled:cursor-not-allowed disabled:opacity-35"
               >
-                <span className="hidden sm:inline">Next</span>
+                <span className="hidden sm:inline">{t('next')}</span>
                 <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
               </button>
             </div>

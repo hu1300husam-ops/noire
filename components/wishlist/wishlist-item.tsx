@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { motion, useReducedMotion } from 'framer-motion';
 import { ArrowUpRight, Eye, Heart, ShoppingBag } from 'lucide-react';
 import type { CartItem, Product, ProductColorVariant, ProductOptionVariant } from '@/types';
@@ -110,7 +110,7 @@ export function WishlistItem({
       transition={{ duration: prefersReducedMotion ? 0 : 0.32, delay: prefersReducedMotion ? 0 : Math.min(serial * 0.035, 0.2) }}
       className={`group min-w-0 border border-border bg-surface transition-colors duration-300 hover:border-foreground/45 ${featured ? 'md:grid md:grid-cols-12' : ''}`}
     >
-      <div className={`relative overflow-hidden border-b border-border bg-surface-muted ${featured ? 'md:col-span-7 md:border-b-0 md:border-r' : ''}`}>
+      <div className={`relative overflow-hidden border-b border-border bg-surface-muted ${featured ? 'md:col-span-7 md:border-b-0 md:border-e' : ''}`}>
         <Link
           href={`/product/${product.slug}`}
           aria-label={`Open product dossier for ${product.name}`}
@@ -124,7 +124,7 @@ export function WishlistItem({
             className="object-cover transition-transform duration-700 ease-noire-out group-hover:scale-[1.025] motion-reduce:transform-none"
           />
         </Link>
-        <div className="pointer-events-none absolute left-3 right-3 top-3 flex items-start justify-between gap-2 sm:left-4 sm:right-4 sm:top-4">
+        <div className="pointer-events-none absolute start-3 end-3 top-3 flex items-start justify-between gap-2 sm:start-4 sm:end-4 sm:top-4">
           <span className="border border-border bg-background/90 px-2 py-1 font-mono text-[9px] uppercase tracking-[0.13em] text-foreground">
             ARCHIVE // {String(serial).padStart(2, '0')}
           </span>
@@ -146,7 +146,7 @@ export function WishlistItem({
                 {product.categoryName}
               </span>
               {collectionLabel && (
-                <span className="max-w-full break-words text-right font-mono text-[9px] uppercase tracking-[0.1em] text-foreground-subtle">
+                <span className="max-w-full break-words text-end font-mono text-[9px] uppercase tracking-[0.1em] text-foreground-subtle">
                   {collectionLabel}
                 </span>
               )}
@@ -156,7 +156,7 @@ export function WishlistItem({
               className="mt-1.5 block break-words font-display text-xl leading-snug text-foreground transition-colors hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground sm:text-2xl"
             >
               {product.name}
-              <ArrowUpRight className="ml-1.5 inline h-4 w-4 text-foreground-subtle" aria-hidden="true" />
+              <ArrowUpRight className="ms-1.5 inline h-4 w-4 text-foreground-subtle" aria-hidden="true" />
             </Link>
             <p className="mt-1.5 text-small leading-relaxed text-foreground-muted">
               {product.subtitle}

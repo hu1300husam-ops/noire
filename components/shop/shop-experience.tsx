@@ -7,7 +7,8 @@ import React, {
   useCallback,
   useRef,
 } from 'react';
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { useRouter, usePathname } from '@/i18n/navigation';
 import { Container } from '@/components/layout';
 import { useDebounce } from '@/lib/hooks/use-debounce';
 import { getProducts } from '@/lib/services';

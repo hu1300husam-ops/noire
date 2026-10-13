@@ -3,6 +3,7 @@
 import React, { useId } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { X } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { NOIRE_MOTION_TOKENS } from '@/lib/design-system/tokens';
 import { useOverlayBehavior } from '@/lib/hooks/use-overlay-behavior';
 import { cn } from '@/lib/utils';
@@ -28,6 +29,7 @@ export function Modal({
   footer,
   className,
 }: ModalProps) {
+  const t = useTranslations('common');
   const prefersReducedMotion = Boolean(useReducedMotion());
   const containerRef = useOverlayBehavior<HTMLDivElement>({ isOpen, onClose });
   const dialogId = useId();
@@ -110,7 +112,7 @@ export function Modal({
               <button
                 type="button"
                 onClick={onClose}
-                aria-label="Close modal"
+                aria-label={t('close')}
                 className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xs border border-transparent text-foreground-muted transition-colors hover:border-border hover:bg-surface hover:text-foreground"
               >
                 <X className="h-4 w-4" aria-hidden="true" />

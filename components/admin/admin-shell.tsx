@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { Link } from '@/i18n/navigation';
+import { usePathname } from '@/i18n/navigation';
 import {
   Archive,
   ArrowUpRight,
@@ -113,11 +113,11 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-background text-foreground">
-      <a href="#main-content" className="sr-only z-[100] focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:border focus:border-foreground focus:bg-background focus:px-4 focus:py-3 focus:font-mono focus:text-[11px] focus:uppercase">
+      <a href="#main-content" className="sr-only z-[100] focus:not-sr-only focus:fixed focus:start-3 focus:top-3 focus:border focus:border-foreground focus:bg-background focus:px-4 focus:py-3 focus:font-mono focus:text-[11px] focus:uppercase">
         Skip to command workspace
       </a>
       <div className="flex min-h-screen">
-        <aside className="sticky top-0 hidden h-screen w-[248px] shrink-0 flex-col border-r border-border-inverse bg-surface-inverse px-3 py-5 text-foreground-inverse lg:flex">
+        <aside className="sticky top-0 hidden h-screen w-[248px] shrink-0 flex-col border-e border-border-inverse bg-surface-inverse px-3 py-5 text-foreground-inverse lg:flex">
           <Link href="/admin" className="mb-8 block border-b border-border-inverse px-3 pb-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-foreground">
             <span className="block font-display text-xl tracking-[0.18em]">NOIRÉ</span>
             <span className="mt-1 block font-mono text-[8px] uppercase tracking-[0.16em] text-foreground-subtle">Private operations</span>

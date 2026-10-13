@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useMemo, useState } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { ArrowDown, ArrowUp, ArrowUpRight, Filter, Search, SlidersHorizontal } from 'lucide-react';
 import { Badge, Button, Drawer, EmptyState, ErrorState, Input, Select, TechnicalCode } from '@/components/ui';
 import { AdminLocalNotice, AdminPageHeader, AdminLoadingState, OrderStatusBadge, PaymentStatusBadge } from '@/components/admin/admin-primitives';
@@ -179,11 +179,11 @@ export function AdminOrdersWorkspace() {
           </div>
 
           <div className="hidden overflow-x-auto border-y border-border bg-surface xl:block">
-            <table className="w-full min-w-[980px] border-collapse text-left">
+            <table className="w-full min-w-[980px] border-collapse text-start">
               <caption className="sr-only">Local order ledger. All records come from this browser’s CommerceContext.</caption>
               <thead>
                 <tr className="border-b border-border bg-surface-muted/50 font-mono text-[8px] uppercase tracking-[0.12em] text-foreground-subtle">
-                  <th scope="col" className="px-3 py-3">Order ID</th><th scope="col" className="px-3 py-3">Date</th><th scope="col" className="px-3 py-3">Guest contact</th><th scope="col" className="px-3 py-3">Items</th><th scope="col" className="px-3 py-3 text-right">Total</th><th scope="col" className="px-3 py-3">Payment state</th><th scope="col" className="px-3 py-3">Displayed order state</th><th scope="col" className="px-3 py-3">Channel</th><th scope="col" className="px-3 py-3"><span className="sr-only">Actions</span></th>
+                  <th scope="col" className="px-3 py-3">Order ID</th><th scope="col" className="px-3 py-3">Date</th><th scope="col" className="px-3 py-3">Guest contact</th><th scope="col" className="px-3 py-3">Items</th><th scope="col" className="px-3 py-3 text-end">Total</th><th scope="col" className="px-3 py-3">Payment state</th><th scope="col" className="px-3 py-3">Displayed order state</th><th scope="col" className="px-3 py-3">Channel</th><th scope="col" className="px-3 py-3"><span className="sr-only">Actions</span></th>
                 </tr>
               </thead>
               <tbody>
@@ -220,7 +220,7 @@ function OrderTableRow({ order }: { order: Order }) {
       <td className="px-3 py-4 text-[10px] text-foreground-muted">{formatOrderDate(order.createdAt)}</td>
       <td className="max-w-[150px] px-3 py-4"><span className="block truncate text-[10px] text-foreground">{order.customerName || 'Guest contact not recorded'}</span><span className="mt-1 block truncate text-[9px] text-foreground-subtle">{order.customerEmail || 'Email not recorded'}</span><Badge variant="outline" className="mt-2">GUEST</Badge></td>
       <td className="px-3 py-4 font-mono text-[10px] tabular-nums text-foreground-muted">{orderUnitCount(order)} units</td>
-      <td className="px-3 py-4 text-right font-mono text-[10px] tabular-nums text-foreground">{formatPrice(orderTotals(order).total)}</td>
+      <td className="px-3 py-4 text-end font-mono text-[10px] tabular-nums text-foreground">{formatPrice(orderTotals(order).total)}</td>
       <td className="px-3 py-4"><PaymentStatusBadge status={order.paymentStatus} /></td>
       <td className="px-3 py-4"><OrderLedgerStatus order={order} /></td>
       <td className="px-3 py-4 font-mono text-[8px] uppercase tracking-[0.08em] text-foreground-subtle">BROWSER LOCAL</td>

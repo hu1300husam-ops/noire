@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/i18n/navigation';
 import { ArrowUpRight, ArrowRight, Check } from 'lucide-react';
 import { Container } from '@/components/layout';
 import {
@@ -22,6 +23,7 @@ export interface GlobalFooterProps {
 
 export function GlobalFooter({ categories, collections }: GlobalFooterProps) {
   const { addToast } = useToast();
+  const t = useTranslations('footer');
   const [email, setEmail] = useState('');
   const [emailError, setEmailError] = useState('');
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -31,7 +33,7 @@ export function GlobalFooter({ categories, collections }: GlobalFooterProps) {
     const trimmed = email.trim();
 
     if (!trimmed || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
-      setEmailError('Please enter a valid test address to preview this demo form.');
+      setEmailError(t('emailInvalid'));
       return;
     }
 
@@ -41,14 +43,14 @@ export function GlobalFooter({ categories, collections }: GlobalFooterProps) {
 
     addToast({
       type: 'success',
-      title: 'Demo Preview Only',
-      description: 'Nothing was saved or sent; no mailing-list service is connected.',
+      title: t('toastTitle'),
+      description: t('toastDescription'),
     });
   };
 
   return (
     <footer
-      aria-label="Global Site Footer"
+      aria-label={t('aria')}
       className="surface-obsidian border-t border-border bg-background text-foreground"
     >
       {/* Band 01: Editorial Brand Statement & Private Client Newsletter */}
@@ -59,20 +61,17 @@ export function GlobalFooter({ categories, collections }: GlobalFooterProps) {
             <div className="flex flex-col justify-between space-y-8 lg:col-span-7">
               <div className="space-y-4">
                 <Eyebrow index="00" tone="accent">
-                  HOUSE OF NOIRÉ // INDUSTRIAL ARCHITECTURE
+                  {t('houseCode')}
                 </Eyebrow>
                 <Heading
                   as="h2"
                   size="h2"
                   className="max-w-2xl tracking-tight text-foreground"
                 >
-                  Engineered for acoustic and architectural permanence. Never
-                  planned obsolescence.
+                  {t('manifestoTitle')}
                 </Heading>
                 <Text size="body" tone="muted" measure>
-                  Every NOIRÉ instrument is milled from solid 6061-T6 aluminum,
-                  Grade 5 titanium, or architectural brass in numbered batches,
-                  backed by our 10-year modular parts availability guarantee.
+                  {t('manifestoBody')}
                 </Text>
               </div>
 
@@ -84,7 +83,7 @@ export function GlobalFooter({ categories, collections }: GlobalFooterProps) {
                     Bahnhofstrasse 64, 8001 Zürich
                   </p>
                   <p className="font-mono text-[11px] text-foreground-subtle">
-                    47.3769° N, 8.5417° E · Anechoic Chamber
+                    47.3769° N, 8.5417° E · {t('anechoicChamber')}
                   </p>
                 </div>
                 <div className="space-y-1">
@@ -93,7 +92,7 @@ export function GlobalFooter({ categories, collections }: GlobalFooterProps) {
                     5-7-21 Minami-Aoyama, Minato-ku
                   </p>
                   <p className="font-mono text-[11px] text-foreground-subtle">
-                    35.6620° N, 139.7126° E · Tactile Lab
+                    35.6620° N, 139.7126° E · {t('tactileLab')}
                   </p>
                 </div>
               </div>
@@ -103,18 +102,16 @@ export function GlobalFooter({ categories, collections }: GlobalFooterProps) {
             <div className="flex flex-col justify-between border border-border bg-surface p-6 sm:p-8 lg:col-span-5">
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <TechnicalCode>{'MONOGRAPH // PREVIEW'}</TechnicalCode>
+                  <TechnicalCode>{t('monographCode')}</TechnicalCode>
                   <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-accent">
-                    QUARTERLY ISSUE
+                    {t('quarterlyIssue')}
                   </span>
                 </div>
                 <h3 className="font-display text-xl font-medium tracking-tight text-foreground">
-                  Private Release Allocations & Material Studies
+                  {t('newsletterTitle')}
                 </h3>
                 <p className="text-small text-foreground-muted">
-                  Preview release notes for numbered hardware batches and long-form
-                  monographs from our Zurich and Tokyo engineering teams. This
-                  demo form has no connected mailing-list service.
+                  {t('newsletterBody')}
                 </p>
               </div>
 
@@ -126,9 +123,9 @@ export function GlobalFooter({ categories, collections }: GlobalFooterProps) {
                 <Input
                   type="email"
                   variant="editorial"
-                  label="Electronic Mail Address"
+                  label={t('emailLabel')}
                   codeLabel="LOCAL PREVIEW // NO MAIL SENT"
-                  placeholder="studio@example.test"
+                  placeholder={t('emailPlaceholder')}
                   value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);
@@ -139,7 +136,7 @@ export function GlobalFooter({ categories, collections }: GlobalFooterProps) {
 
                 <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
                   <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-foreground-subtle">
-                    Demo interaction only · nothing stored or sent
+                    {t('demoOnly')}
                   </span>
                   <Button
                     type="submit"
@@ -153,7 +150,7 @@ export function GlobalFooter({ categories, collections }: GlobalFooterProps) {
                       )
                     }
                   >
-                    {isSubscribed ? 'Previewed' : 'Preview Request'}
+                    {isSubscribed ? t('previewed') : t('previewRequest')}
                   </Button>
                 </div>
               </form>
@@ -167,10 +164,10 @@ export function GlobalFooter({ categories, collections }: GlobalFooterProps) {
         <Container>
           <div className="grid grid-cols-1 divide-y divide-border sm:grid-cols-2 sm:divide-y-0 lg:grid-cols-12 lg:divide-x">
             {/* 01. Shop Departments (3 Cols) */}
-            <div className="py-10 sm:pr-6 lg:col-span-3 lg:py-12 lg:pr-8">
+            <div className="py-10 sm:pe-6 lg:col-span-3 lg:py-12 lg:pe-8">
               <div className="mb-5 flex items-center justify-between">
                 <span className="font-mono text-label uppercase text-accent">
-                  {'01 // SHOP'}
+                  {t('shopCode')}
                 </span>
                 <TechnicalCode>[06]</TechnicalCode>
               </div>
@@ -180,7 +177,7 @@ export function GlobalFooter({ categories, collections }: GlobalFooterProps) {
                     href="/shop"
                     className="noire-link font-sans text-small text-foreground transition-colors hover:text-accent"
                   >
-                    Complete Instrument Archive
+                    {t('completeArchive')}
                   </Link>
                 </li>
                 {categories.map((cat) => (
@@ -200,10 +197,10 @@ export function GlobalFooter({ categories, collections }: GlobalFooterProps) {
             </div>
 
             {/* 02. Collections & Journal (3 Cols) */}
-            <div className="py-10 sm:pl-6 lg:col-span-3 lg:px-8 lg:py-12">
+            <div className="py-10 sm:ps-6 lg:col-span-3 lg:px-8 lg:py-12">
               <div className="mb-5 flex items-center justify-between">
                 <span className="font-mono text-label uppercase text-accent">
-                  {'02 // COLLECTIONS & JOURNAL'}
+                  {t('collectionsCode')}
                 </span>
                 <TechnicalCode>[07]</TechnicalCode>
               </div>
@@ -220,28 +217,28 @@ export function GlobalFooter({ categories, collections }: GlobalFooterProps) {
                 ))}
                 <li className="pt-2">
                   <p className="border-t border-border pt-3 text-[10px] leading-relaxed text-foreground-subtle">
-                    Editorial monographs are not included in this frontend preview.
+                    {t('journalNote')}
                   </p>
                 </li>
               </ul>
             </div>
 
             {/* 03. Support & Ownership (3 Cols) */}
-            <div className="py-10 sm:pr-6 lg:col-span-3 lg:px-8 lg:py-12">
+            <div className="py-10 sm:pe-6 lg:col-span-3 lg:px-8 lg:py-12">
               <div className="mb-5 flex items-center justify-between">
                 <span className="font-mono text-label uppercase text-accent">
                   {'03 // SUPPORT'}
                 </span>
-                <TechnicalCode>CARE</TechnicalCode>
+                <TechnicalCode>{t('care')}</TechnicalCode>
               </div>
               <p className="mb-4 text-[10px] leading-relaxed text-foreground-subtle">
-                Support policies and live fulfillment are not connected in this frontend demo.
+                {t('careNote')}
               </p>
               <ul className="space-y-2.5">
                 {[
-                  { label: 'Client Account & Allocations', href: '/account' },
-                  { label: 'Saved Archive / Wishlist', href: '/wishlist' },
-                  { label: 'Demo Shipping & Courier Estimates', href: '/checkout' },
+                  { label: t('linkAccount'), href: '/account' },
+                  { label: t('linkWishlist'), href: '/wishlist' },
+                  { label: t('linkShipping'), href: '/checkout' },
                 ].map((item) => (
                   <li key={item.label}>
                     <Link
@@ -256,15 +253,15 @@ export function GlobalFooter({ categories, collections }: GlobalFooterProps) {
             </div>
 
             {/* 04. Company & Governance (3 Cols) */}
-            <div className="py-10 sm:pl-6 lg:col-span-3 lg:py-12 lg:pl-8">
+            <div className="py-10 sm:ps-6 lg:col-span-3 lg:py-12 lg:ps-8">
               <div className="mb-5 flex items-center justify-between">
                 <span className="font-mono text-label uppercase text-accent">
                   {'04 // COMPANY'}
                 </span>
-                <TechnicalCode>HOUSE</TechnicalCode>
+                <TechnicalCode>{t('house')}</TechnicalCode>
               </div>
               <p className="max-w-xs text-small leading-relaxed text-foreground-subtle">
-                Company, governance, and press pages are not included in this frontend preview.
+                {t('houseNote')}
               </p>
             </div>
           </div>
@@ -277,7 +274,7 @@ export function GlobalFooter({ categories, collections }: GlobalFooterProps) {
           {/* Monumental Architectural Wordmark */}
           <div>
             <TechnicalCode className="mb-2 block">
-              {'SERIALIZED HARDWARE // SWISS & JAPANESE ENGINEERING'}
+              {t('serializedCode')}
             </TechnicalCode>
             <p
               aria-hidden="true"
@@ -311,10 +308,10 @@ export function GlobalFooter({ categories, collections }: GlobalFooterProps) {
 
         {/* Legal Links & Copyright */}
         <div className="mt-8 flex flex-col justify-between gap-4 font-mono text-[11px] text-foreground-subtle md:flex-row md:items-center">
-          <p>© 2026 NOIRÉ INDUSTRIAL AG. ALL RIGHTS RESERVED.</p>
+          <p>{t('copyright', { year: 2026 })}</p>
 
-          <p className="max-w-md text-[10px] leading-relaxed md:text-right">
-            Privacy, legal, and accessibility documents are not included in this frontend demo.
+          <p className="max-w-md text-[10px] leading-relaxed md:text-end">
+            {t('legalNote')}
           </p>
         </div>
       </Container>

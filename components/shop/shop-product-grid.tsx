@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useTranslations } from 'next-intl';
 import { RotateCcw, SearchX, Compass, ShieldCheck } from 'lucide-react';
 import { ProductCard } from '@/components/product';
 import {
@@ -36,10 +37,11 @@ export function ShopProductGridSkeleton({
   viewMode?: ShopViewMode;
   count?: number;
 }) {
+  const t = useTranslations('shop.grid');
   return (
     <div
       aria-busy="true"
-      aria-label="Loading catalog instruments"
+      aria-label={t('loading')}
       className="space-y-8"
     >
       {viewMode === 'editorial' && (
@@ -107,18 +109,19 @@ export function ShopProductGrid({
   hasSearchQuery = false,
   isSidebarOpen = true,
 }: ShopProductGridProps) {
+  const t = useTranslations('shop.grid');
   // 1. Service Error State
   if (errorMessage) {
     return (
       <ErrorState
         code="ERR // ARCHIVE-SYNC-503"
-        title="Unable to Synchronize Instrument Archive"
+        title={t('errorTitle')}
         description={errorMessage}
         onRetry={onRetry}
         retryLabel="Retry Archive Sync"
         secondaryAction={
           <Button variant="outline" size="sm" onClick={onResetFilters}>
-            Reset Parameters
+            {t('resetParameters')}
           </Button>
         }
       />
@@ -134,9 +137,9 @@ export function ShopProductGrid({
   if (totalCatalogCount === 0) {
     return (
       <EmptyState
-        code="ARCHIVE // 00 OBJECTS"
-        title="The Instrument Archive is Currently Offline for Calibration"
-        description="Our Zurich and Tokyo studios are preparing the next serialized production batch. Please retry synchronization or return shortly."
+        code={t('offlineCode')}
+        title={t('offlineTitle')}
+        description={t('offlineDescription')}
         icon={<Compass className="h-5 w-5" />}
         primaryAction={
           <Button
@@ -145,7 +148,7 @@ export function ShopProductGrid({
             leftIcon={<RotateCcw className="h-3.5 w-3.5" />}
             onClick={onRetry}
           >
-            Reload Archive
+            {t('reloadArchive')}
           </Button>
         }
       />
@@ -156,9 +159,9 @@ export function ShopProductGrid({
   if (products.length === 0) {
     return (
       <EmptyState
-        code="FILTER // 00 MATCHES"
-        title="No Instruments Match Your Active Parameters"
-        description="Your current combination of discipline, finish metallurgy, price tier, or search query returned zero serialized instruments. Try broadening your parameters."
+        code={t('noMatchCode')}
+        title={t('noMatchTitle')}
+        description={t('noMatchDescription')}
         icon={<SearchX className="h-5 w-5" />}
         primaryAction={
           <Button
@@ -167,13 +170,13 @@ export function ShopProductGrid({
             leftIcon={<RotateCcw className="h-3.5 w-3.5" />}
             onClick={onResetFilters}
           >
-            Reset All Filters
+            {t('resetAllFilters')}
           </Button>
         }
         secondaryAction={
           hasSearchQuery && onClearSearch ? (
             <Button variant="outline" size="sm" onClick={onClearSearch}>
-              Clear Search Query
+              {t('clearSearchQuery')}
             </Button>
           ) : undefined
         }
@@ -216,10 +219,7 @@ export function ShopProductGrid({
             {gridProducts.map((product, idx) => {
               const serialIndex =
                 baseIndexOffset + (useLeadSplit ? idx + 2 : idx + 1);
-              const formattedSerial = `${String(serialIndex).padStart(
-                2,
-                '0'
-              )} // ARCHIVE`;
+              const formattedSerial = t('serialArchive', { index: String(serialIndex).padStart(2, '0') });
 
               return (
                 <Reveal key={product.id} delay={Math.min(idx * 0.04, 0.2)}>
@@ -242,12 +242,11 @@ export function ShopProductGrid({
               aria-hidden="true"
             />
             <p className="font-mono text-[11px] uppercase tracking-[0.12em] text-foreground-muted">
-              Every NOIRÉ instrument ships with an individual Zürich anechoic
-              calibration certificate and a 3-to-10-year structural warranty.
+              {t('provenance')}
             </p>
           </div>
           <span className="shrink-0 font-mono text-[10px] uppercase tracking-[0.14em] text-foreground-subtle">
-            TOLERANCE ±0.02MM
+            {t('tolerance')}
           </span>
         </div>
       </div>
@@ -264,7 +263,7 @@ export function ShopProductGrid({
             <Reveal key={product.id} delay={Math.min(idx * 0.04, 0.2)}>
               <ProductCard
                 product={product}
-                indexLabel={`${String(serialIndex).padStart(2, '0')} // PLATE`}
+                indexLabel={t('serialPlate', { index: String(serialIndex).padStart(2, '0') })}
                 aspect="landscape"
               />
             </Reveal>
@@ -290,7 +289,7 @@ export function ShopProductGrid({
           <Reveal key={product.id} delay={Math.min(idx * 0.04, 0.2)}>
             <ProductCard
               product={product}
-              indexLabel={`${String(serialIndex).padStart(2, '0')} // ARCHIVE`}
+              indexLabel={t('serialArchive', { index: String(serialIndex).padStart(2, '0') })}
               aspect="portrait"
             />
           </Reveal>

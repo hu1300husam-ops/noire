@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/i18n/navigation';
 import { ArrowUpRight, Search } from 'lucide-react';
 import { Modal, Input, Badge, Skeleton, ErrorState, EmptyState } from '@/components/ui';
-import { loadAdminProducts } from '@/app/admin/actions';
+import { loadAdminProducts } from '@/lib/admin/actions';
 import { browserDemoDiscountService } from '@/lib/admin/browser-discount-service';
 import { useCommerce } from '@/lib/context/commerce-context';
 import { deriveGuestClientLedger } from '@/lib/admin/derive';
@@ -214,7 +214,7 @@ export function AdminCommandPalette({
                 aria-selected={index === activeIndex}
                 onMouseEnter={() => setActiveIndex(index)}
                 onClick={() => openHit(hit)}
-                className={`flex min-h-14 w-full items-center justify-between gap-3 border-b border-border px-3 py-3 text-left last:border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-inset focus-visible:outline-foreground ${index === activeIndex ? 'bg-surface-muted' : 'bg-background hover:bg-surface-muted/60'}`}
+                className={`flex min-h-14 w-full items-center justify-between gap-3 border-b border-border px-3 py-3 text-start last:border-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-inset focus-visible:outline-foreground ${index === activeIndex ? 'bg-surface-muted' : 'bg-background hover:bg-surface-muted/60'}`}
               >
                 <span className="min-w-0">
                   <span className="flex flex-wrap items-center gap-2">

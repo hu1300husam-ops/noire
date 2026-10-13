@@ -1,6 +1,8 @@
 'use client';
 
 import React from 'react';
+import { useTranslations } from 'next-intl';
+import { useShopFilterLabels } from './use-shop-filter-labels';
 import {
   Search,
   X,
@@ -13,7 +15,6 @@ import {
 import { cn, formatPrice } from '@/lib/utils';
 import {
   SORT_OPTIONS,
-  STOCK_STATUS_OPTIONS,
   FINISH_FAMILIES,
   countActiveFilters,
   type ShopFilterState,
@@ -66,11 +67,13 @@ export function ShopToolbar({
   onRemoveColor,
   onClearAllFilters,
 }: ShopToolbarProps) {
+  const t = useTranslations('shop.toolbar');
+  const { sortLabel, stockLabel, colorFamilyLabel } = useShopFilterLabels();
   const activeFilterCount = countActiveFilters(filters);
 
   const activeCategoryName =
     filters.category === 'essentials'
-      ? 'Essentials'
+      ? t('essentials')
       : categories.find((c) => c.slug === filters.category)?.shortName ||
         filters.category;
 
@@ -100,7 +103,7 @@ export function ShopToolbar({
               )}
             >
               <SlidersHorizontal className="h-3.5 w-3.5" aria-hidden="true" />
-              <span>Filters</span>
+              <span>{t('filters')}</span>
               {activeFilterCount > 0 && (
                 <span className="bg-background/20 px-1.5 py-0.5 text-[10px] tabular-nums">
                   {activeFilterCount}
@@ -116,7 +119,7 @@ export function ShopToolbar({
               className="hidden h-10 shrink-0 items-center gap-2 border border-border bg-surface px-3.5 font-mono text-[11px] uppercase tracking-[0.14em] text-foreground transition-colors hover:border-foreground lg:inline-flex"
             >
               <SlidersHorizontal className="h-3.5 w-3.5" aria-hidden="true" />
-              <span>{isDesktopSidebarOpen ? 'Hide Filters' : 'Show Filters'}</span>
+              <span>{isDesktopSidebarOpen ? t('hideFilters') : t('showFilters')}</span>
               {activeFilterCount > 0 && (
                 <span className="border border-border bg-surface-muted px-1.5 py-0.5 text-[10px] tabular-nums text-accent">
                   {activeFilterCount}
@@ -127,10 +130,10 @@ export function ShopToolbar({
             {/* Search Input */}
             <div className="relative flex-1 md:max-w-md">
               <label htmlFor="shop-catalog-search" className="sr-only">
-                Search instruments by name, model code, material, or specification
+                {t('searchLabel')}
               </label>
               <Search
-                className="pointer-events-none absolute left-3.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-foreground-muted"
+                className="pointer-events-none absolute start-3.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-foreground-muted"
                 aria-hidden="true"
               />
               <input
@@ -144,15 +147,15 @@ export function ShopToolbar({
                     onClearSearch();
                   }
                 }}
-                placeholder="Search name, NR-code, alloy, or spec..."
-                className="h-10 w-full rounded-xs border border-border bg-surface pl-9 pr-9 font-sans text-small text-foreground placeholder:text-foreground-subtle transition-colors focus:border-foreground focus:outline-none"
+                placeholder={t('searchPlaceholder')}
+                className="h-10 w-full rounded-xs border border-border bg-surface ps-9 pe-9 font-sans text-small text-foreground placeholder:text-foreground-subtle transition-colors focus:border-foreground focus:outline-none"
               />
               {searchInput && (
                 <button
                   type="button"
                   onClick={onClearSearch}
-                  aria-label="Clear search query"
-                  className="absolute right-2.5 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center text-foreground-muted transition-colors hover:text-foreground"
+                  aria-label={t('clearSearch')}
+                  className="absolute end-2.5 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center text-foreground-muted transition-colors hover:text-foreground"
                 >
                   <X className="h-3.5 w-3.5" aria-hidden="true" />
                 </button>
@@ -169,15 +172,15 @@ export function ShopToolbar({
               className="font-mono text-[10px] uppercase tracking-[0.14em] text-foreground-muted"
             >
               {totalMatching === 0 ? (
-                <span>00 OBJECTS</span>
+                <span>{t('zeroObjects')}</span>
               ) : (
                 <span>
-                  <span className="hidden sm:inline">DISPLAYING </span>
-                  <strong className="font-medium text-foreground">
-                    {String(visibleStart).padStart(2, '0')}–
-                    {String(visibleEnd).padStart(2, '0')}
-                  </strong>{' '}
-                  OF {String(totalMatching).padStart(2, '0')}
+                  {t.rich('displaying', {
+                    range: `${String(visibleStart).padStart(2, '0')}–${String(visibleEnd).padStart(2, '0')}`,
+                    total: String(totalMatching).padStart(2, '0'),
+                    strong: (chunks) => <strong className="font-medium text-foreground">{chunks}</strong>,
+                    hide: (chunks) => <span className="hidden sm:inline">{chunks}</span>,
+                  })}
                 </span>
               )}
             </div>
@@ -185,46 +188,46 @@ export function ShopToolbar({
             {/* View Mode Controls (Desktop & Tablet) */}
             <div
               role="group"
-              aria-label="Catalog layout view"
+              aria-label={t('layoutAria')}
               className="hidden items-center border border-border bg-surface sm:inline-flex"
             >
               <button
                 type="button"
                 aria-pressed={filters.view === 'editorial'}
                 onClick={() => onViewChange('editorial')}
-                title="Editorial Rhythm View (Featured Split + Grid)"
+                title={t('viewEditorialTitle')}
                 className={cn(
-                  'inline-flex h-10 items-center gap-1.5 border-r border-border px-3 font-mono text-[10px] uppercase tracking-[0.12em] transition-colors',
+                  'inline-flex h-10 items-center gap-1.5 border-e border-border px-3 font-mono text-[10px] uppercase tracking-[0.12em] transition-colors',
                   filters.view === 'editorial'
                     ? 'bg-foreground text-background'
                     : 'text-foreground-muted hover:text-foreground'
                 )}
               >
                 <Sparkles className="h-3 w-3" aria-hidden="true" />
-                <span className="hidden xl:inline">Editorial</span>
+                <span className="hidden xl:inline">{t('viewEditorial')}</span>
               </button>
 
               <button
                 type="button"
                 aria-pressed={filters.view === 'grid-3'}
                 onClick={() => onViewChange('grid-3')}
-                title="3-Column Technical Grid"
+                title={t('viewGrid3Title')}
                 className={cn(
-                  'inline-flex h-10 items-center gap-1.5 border-r border-border px-3 font-mono text-[10px] uppercase tracking-[0.12em] transition-colors',
+                  'inline-flex h-10 items-center gap-1.5 border-e border-border px-3 font-mono text-[10px] uppercase tracking-[0.12em] transition-colors',
                   filters.view === 'grid-3'
                     ? 'bg-foreground text-background'
                     : 'text-foreground-muted hover:text-foreground'
                 )}
               >
                 <LayoutGrid className="h-3.5 w-3.5" aria-hidden="true" />
-                <span className="hidden xl:inline">3-Col</span>
+                <span className="hidden xl:inline">{t('viewGrid3')}</span>
               </button>
 
               <button
                 type="button"
                 aria-pressed={filters.view === 'grid-2'}
                 onClick={() => onViewChange('grid-2')}
-                title="2-Column Gallery Plates"
+                title={t('viewGrid2Title')}
                 className={cn(
                   'inline-flex h-10 items-center gap-1.5 px-3 font-mono text-[10px] uppercase tracking-[0.12em] transition-colors',
                   filters.view === 'grid-2'
@@ -233,7 +236,7 @@ export function ShopToolbar({
                 )}
               >
                 <Columns className="h-3.5 w-3.5" aria-hidden="true" />
-                <span className="hidden xl:inline">2-Col</span>
+                <span className="hidden xl:inline">{t('viewGrid2')}</span>
               </button>
             </div>
 
@@ -243,18 +246,18 @@ export function ShopToolbar({
                 htmlFor="shop-sort-select"
                 className="hidden font-mono text-[10px] uppercase tracking-[0.14em] text-foreground-subtle sm:inline"
               >
-                Sort:
+                {t('sort')}
               </label>
               <select
                 id="shop-sort-select"
                 value={filters.sort}
                 onChange={(e) => onSortChange(e.target.value as SortOption)}
-                aria-label="Sort products by"
+                aria-label={t('sortAria')}
                 className="h-10 max-w-[180px] truncate rounded-xs border border-border bg-surface px-2.5 font-mono text-[11px] uppercase tracking-[0.1em] text-foreground transition-colors focus:border-foreground focus:outline-none sm:max-w-none sm:px-3 sm:tracking-[0.12em]"
               >
                 {SORT_OPTIONS.map((opt) => (
                   <option key={opt.value} value={opt.value}>
-                    {opt.label}
+                    {sortLabel(opt.value)}
                   </option>
                 ))}
               </select>
@@ -265,12 +268,12 @@ export function ShopToolbar({
         {/* Active Filter Chips Bar */}
         {activeFilterCount > 0 && (
           <div
-            aria-label="Active catalog filters"
+            aria-label={t('activeAria')}
             className="flex flex-wrap items-center justify-between gap-2 border-t border-border/70 py-2.5"
           >
             <div className="flex flex-wrap items-center gap-2">
               <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-foreground-subtle">
-                ACTIVE PARAMETERS:
+                {t('activeParameters')}
               </span>
 
               {/* Category Chip */}
@@ -278,10 +281,10 @@ export function ShopToolbar({
                 <button
                   type="button"
                   onClick={onRemoveCategory}
-                  aria-label={`Remove category filter: ${activeCategoryName}`}
+                  aria-label={t('removeCategory', { name: activeCategoryName ?? '' })}
                   className="inline-flex items-center gap-1.5 border border-border bg-surface px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-foreground transition-colors hover:border-foreground"
                 >
-                  <span className="text-foreground-subtle">Discipline:</span>
+                  <span className="text-foreground-subtle">{t('discipline')}</span>
                   <span>{activeCategoryName}</span>
                   <X className="h-3 w-3 text-accent" aria-hidden="true" />
                 </button>
@@ -292,12 +295,10 @@ export function ShopToolbar({
                 <button
                   type="button"
                   onClick={onRemoveCollection}
-                  aria-label={`Remove collection filter: ${
-                    activeCollectionTitle || filters.collection
-                  }`}
+                  aria-label={t('removeCollection', { name: activeCollectionTitle || filters.collection || '' })}
                   className="inline-flex items-center gap-1.5 border border-border bg-surface px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-foreground transition-colors hover:border-foreground"
                 >
-                  <span className="text-foreground-subtle">Edition:</span>
+                  <span className="text-foreground-subtle">{t('edition')}</span>
                   <span>{activeCollectionTitle || filters.collection}</span>
                   <X className="h-3 w-3 text-accent" aria-hidden="true" />
                 </button>
@@ -308,10 +309,10 @@ export function ShopToolbar({
                 <button
                   type="button"
                   onClick={onClearSearch}
-                  aria-label={`Remove search query: ${filters.query}`}
+                  aria-label={t('removeQuery', { query: filters.query })}
                   className="inline-flex items-center gap-1.5 border border-border bg-surface px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-foreground transition-colors hover:border-foreground"
                 >
-                  <span className="text-foreground-subtle">Query:</span>
+                  <span className="text-foreground-subtle">{t('query')}</span>
                   <span>&ldquo;{filters.query}&rdquo;</span>
                   <X className="h-3 w-3 text-accent" aria-hidden="true" />
                 </button>
@@ -322,10 +323,10 @@ export function ShopToolbar({
                 <button
                   type="button"
                   onClick={onRemovePriceRange}
-                  aria-label="Remove price filter"
+                  aria-label={t('removePrice')}
                   className="inline-flex items-center gap-1.5 border border-border bg-surface px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-foreground transition-colors hover:border-foreground"
                 >
-                  <span className="text-foreground-subtle">Price:</span>
+                  <span className="text-foreground-subtle">{t('price')}</span>
                   <span>
                     {filters.minPrice !== null
                       ? formatPrice(filters.minPrice)
@@ -333,7 +334,7 @@ export function ShopToolbar({
                     –{' '}
                     {filters.maxPrice !== null
                       ? formatPrice(filters.maxPrice)
-                      : 'Max'}
+                      : t('max')}
                   </span>
                   <X className="h-3 w-3 text-accent" aria-hidden="true" />
                 </button>
@@ -341,18 +342,16 @@ export function ShopToolbar({
 
               {/* Stock Status Chips */}
               {filters.stockStatus.map((status) => {
-                const label =
-                  STOCK_STATUS_OPTIONS.find((s) => s.value === status)?.label ||
-                  status;
+                const label = stockLabel(status);
                 return (
                   <button
                     key={status}
                     type="button"
                     onClick={() => onRemoveStockStatus(status)}
-                    aria-label={`Remove availability filter: ${label}`}
+                    aria-label={t('removeAvailability', { label })}
                     className="inline-flex items-center gap-1.5 border border-border bg-surface px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-foreground transition-colors hover:border-foreground"
                   >
-                    <span className="text-foreground-subtle">Status:</span>
+                    <span className="text-foreground-subtle">{t('status')}</span>
                     <span>{label.split(' — ')[0]}</span>
                     <X className="h-3 w-3 text-accent" aria-hidden="true" />
                   </button>
@@ -367,9 +366,7 @@ export function ShopToolbar({
                     key={colorId}
                     type="button"
                     onClick={() => onRemoveColor(colorId)}
-                    aria-label={`Remove finish filter: ${
-                      family?.label || colorId
-                    }`}
+                    aria-label={t('removeFinish', { label: colorFamilyLabel(colorId) })}
                     className="inline-flex items-center gap-1.5 border border-border bg-surface px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-foreground transition-colors hover:border-foreground"
                   >
                     {family && (
@@ -378,7 +375,7 @@ export function ShopToolbar({
                         style={{ backgroundColor: family.hex }}
                       />
                     )}
-                    <span>{family?.label || colorId}</span>
+                    <span>{colorFamilyLabel(colorId)}</span>
                     <X className="h-3 w-3 text-accent" aria-hidden="true" />
                   </button>
                 );
@@ -393,7 +390,7 @@ export function ShopToolbar({
               className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-foreground underline underline-offset-4 transition-colors hover:text-accent"
             >
               <RotateCcw className="h-3 w-3 text-accent" aria-hidden="true" />
-              <span>Clear All Filters</span>
+              <span>{t('clearAll')}</span>
             </button>
           </div>
         )}

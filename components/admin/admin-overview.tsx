@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { ArrowRight, ArrowUpRight, CircleAlert, Package, ShoppingBag, Users } from 'lucide-react';
 import { Badge, EmptyState, ErrorState, TechnicalCode } from '@/components/ui';
 import { AdminLocalNotice, AdminMetric, AdminPageHeader, AdminLoadingState, OrderStatusBadge } from '@/components/admin/admin-primitives';
-import { loadAdminProducts } from '@/app/admin/actions';
+import { loadAdminProducts } from '@/lib/admin/actions';
 import { useCommerce } from '@/lib/context/commerce-context';
 import { deriveGuestClientLedger, inventoryState } from '@/lib/admin/derive';
 import { formatOrderDate, orderTotals } from '@/lib/account/order-utils';
@@ -172,7 +172,7 @@ export function AdminOverview() {
                   </span>
                   <span className="min-w-0 truncate text-[11px] text-foreground-muted">{order.customerName || 'Guest contact not recorded'}</span>
                   <OrderStatusBadge status={order.status} />
-                  <span className="text-right font-mono text-[11px] tabular-nums text-foreground">{formatPrice(orderTotals(order).total)}</span>
+                  <span className="text-end font-mono text-[11px] tabular-nums text-foreground">{formatPrice(orderTotals(order).total)}</span>
                 </Link>
               ))}
             </div>
@@ -195,7 +195,7 @@ export function AdminOverview() {
                     <span className="block truncate text-[11px] text-foreground">{product.name}</span>
                     <span className="mt-1 block font-mono text-[8px] uppercase tracking-[0.1em] text-foreground-subtle">{product.sku}</span>
                   </span>
-                  <span className="shrink-0 text-right">
+                  <span className="shrink-0 text-end">
                     <Badge variant={stock.variant}>{stock.label}</Badge>
                     <span className="mt-1 block font-mono text-[9px] tabular-nums text-foreground-subtle">{product.inventoryCount} catalog units</span>
                   </span>

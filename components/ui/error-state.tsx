@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { AlertTriangle, RotateCcw } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { Button } from './button';
 import { cn } from '@/lib/utils';
 
@@ -17,13 +18,17 @@ export interface ErrorStateProps {
 
 export function ErrorState({
   code = 'ERR // TELEMETRY-500',
-  title = 'Unable to Synchronize Catalog Telemetry',
-  description = 'The request could not be completed due to a temporary connection interruption. Please retry or return to the primary archive.',
+  title,
+  description,
   onRetry,
-  retryLabel = 'Retry Connection',
+  retryLabel,
   secondaryAction,
   className,
 }: ErrorStateProps) {
+  const t = useTranslations('common.error');
+  const resolvedTitle = title ?? t('title');
+  const resolvedDescription = description ?? t('description');
+  const resolvedRetryLabel = retryLabel ?? t('retry');
   return (
     <div
       role="alert"
@@ -40,8 +45,8 @@ export function ErrorState({
           <AlertTriangle className="h-4 w-4 text-danger" aria-hidden="true" />
         </div>
         <div className="max-w-lg space-y-2.5">
-          <h3 className="font-display text-h3 text-foreground">{title}</h3>
-          <p className="text-body text-foreground-muted">{description}</p>
+          <h3 className="font-display text-h3 text-foreground">{resolvedTitle}</h3>
+          <p className="text-body text-foreground-muted">{resolvedDescription}</p>
         </div>
       </div>
 
@@ -54,7 +59,7 @@ export function ErrorState({
               leftIcon={<RotateCcw className="h-3.5 w-3.5" />}
               onClick={onRetry}
             >
-              {retryLabel}
+              {resolvedRetryLabel}
             </Button>
           )}
           {secondaryAction}

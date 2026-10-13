@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import {
   ShoppingBag,
   Heart,
@@ -19,6 +19,7 @@ import {
   Button,
   TechnicalCode,
 } from '@/components/ui';
+import { useTranslations } from 'next-intl';
 import { useCommerce } from '@/lib/context/commerce-context';
 import { cn } from '@/lib/utils';
 import type { ProductColorVariant, ProductOptionVariant } from '@/types';
@@ -31,6 +32,7 @@ export function QuickViewModal() {
     toggleWishlist,
     isInWishlist,
   } = useCommerce();
+  const t = useTranslations('product');
 
   const [selectedColor, setSelectedColor] =
     useState<ProductColorVariant | null>(null);
@@ -70,7 +72,7 @@ export function QuickViewModal() {
       isOpen={Boolean(quickViewProduct)}
       onClose={() => setQuickViewProduct(null)}
       title={quickViewProduct.name}
-      code={`${quickViewProduct.modelNumber} // TECHNICAL INSPECTION`}
+      code={`${quickViewProduct.modelNumber} // ${t('technicalInspection')}`}
       size="xl"
     >
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
@@ -82,7 +84,7 @@ export function QuickViewModal() {
               alt={`${quickViewProduct.name} in ${selectedColor.name}`}
               className="h-full w-full object-cover"
             />
-            <div className="absolute left-3.5 top-3.5">
+            <div className="absolute start-3.5 top-3.5">
               <ProductBadge
                 type={quickViewProduct.badge}
                 label={quickViewProduct.badgeLabel}
@@ -97,7 +99,7 @@ export function QuickViewModal() {
                   key={imgUrl}
                   type="button"
                   onClick={() => setActiveImageIndex(idx)}
-                  aria-label={`View perspective ${idx + 1}`}
+                  aria-label={t('viewPerspective', { index: idx + 1 })}
                   className={cn(
                     'relative aspect-square overflow-hidden border transition-all',
                     activeImageIndex === idx
@@ -166,7 +168,7 @@ export function QuickViewModal() {
               quickViewProduct.options.length > 0 && (
                 <div className="space-y-2">
                   <span className="block font-mono text-[10px] uppercase tracking-[0.14em] text-foreground-muted">
-                    {quickViewProduct.optionGroupLabel || 'Configuration'}:
+                    {quickViewProduct.optionGroupLabel || t('configuration')}:
                   </span>
                   <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                     {quickViewProduct.options.map((option) => {
@@ -178,7 +180,7 @@ export function QuickViewModal() {
                           disabled={!option.inStock}
                           onClick={() => setSelectedOption(option)}
                           className={cn(
-                            'flex items-center justify-between border px-3 py-2.5 text-left font-mono text-[11px] transition-colors',
+                            'flex items-center justify-between border px-3 py-2.5 text-start font-mono text-[11px] transition-colors',
                             isSelected
                               ? 'border-foreground bg-foreground text-background'
                               : 'border-border bg-surface text-foreground hover:border-foreground/50',
@@ -187,7 +189,7 @@ export function QuickViewModal() {
                         >
                           <span className="truncate">{option.label}</span>
                           {option.priceDelta !== 0 && (
-                            <span className="ml-2 shrink-0 opacity-80">
+                            <span className="ms-2 shrink-0 opacity-80">
                               +${option.priceDelta}
                             </span>
                           )}
@@ -201,7 +203,7 @@ export function QuickViewModal() {
             {/* Quick Spec Ledger */}
             <div className="space-y-1.5 border-t border-border pt-4">
               <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-foreground-subtle">
-                Key Engineering Highlights
+                {t('highlights')}
               </span>
               <ul className="space-y-1.5 pt-1">
                 {quickViewProduct.highlights.slice(0, 3).map((hl) => (
@@ -246,14 +248,14 @@ export function QuickViewModal() {
                 }}
               >
                 {quickViewProduct.stockStatus === 'pre_order'
-                  ? 'Reserve Allocation'
-                  : 'Allocate to Bag'}
+                  ? t('reserveAllocation')
+                  : t('allocateToBag')}
               </Button>
 
               <button
                 type="button"
                 onClick={() => toggleWishlist(quickViewProduct)}
-                aria-label={saved ? 'Remove from wishlist' : 'Save to wishlist'}
+                aria-label={saved ? t('removeFromWishlist') : t('saveToWishlist')}
                 className={cn(
                   'flex h-11 w-11 shrink-0 items-center justify-center border transition-colors',
                   saved
@@ -269,8 +271,7 @@ export function QuickViewModal() {
               <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.12em] text-foreground-muted">
                 <ShieldCheck className="h-3.5 w-3.5 text-accent" />
                 <span>
-                  {quickViewProduct.warrantyYears}-Year Acoustic &amp; Structural
-                  Warranty
+                  {t('warranty', { years: quickViewProduct.warrantyYears })}
                 </span>
               </div>
 
@@ -279,7 +280,7 @@ export function QuickViewModal() {
                 onClick={() => setQuickViewProduct(null)}
                 className="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-foreground underline underline-offset-4 transition-colors hover:text-accent"
               >
-                <span>Open Full Dossier</span>
+                <span>{t('openFullDossier')}</span>
                 <ArrowUpRight className="h-3.5 w-3.5" />
               </Link>
             </div>

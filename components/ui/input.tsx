@@ -56,7 +56,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
         <div className="relative flex items-center">
           {leftElement && (
-            <div className="pointer-events-none absolute left-3.5 flex items-center text-foreground-muted">
+            <div className="pointer-events-none absolute start-3.5 flex items-center text-foreground-muted">
               {leftElement}
             </div>
           )}
@@ -74,10 +74,10 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 'h-11 rounded-xs border border-border bg-surface px-3.5 focus:border-foreground',
               variant === 'editorial' &&
                 'h-11 rounded-none border-b border-border px-0 focus:border-foreground',
-              leftElement && variant === 'architectural' && 'pl-10',
-              leftElement && variant === 'editorial' && 'pl-7',
-              rightElement && variant === 'architectural' && 'pr-10',
-              rightElement && variant === 'editorial' && 'pr-7',
+              leftElement && variant === 'architectural' && 'ps-10',
+              leftElement && variant === 'editorial' && 'ps-7',
+              rightElement && variant === 'architectural' && 'pe-10',
+              rightElement && variant === 'editorial' && 'pe-7',
               error && 'border-danger focus:border-danger',
               className
             )}
@@ -85,7 +85,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           />
 
           {rightElement && (
-            <div className="absolute right-3.5 flex items-center text-foreground-muted">
+            <div className="absolute end-3.5 flex items-center text-foreground-muted">
               {rightElement}
             </div>
           )}
@@ -215,7 +215,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
                 : undefined
             }
             className={cn(
-              'h-11 w-full appearance-none rounded-xs border border-border bg-surface pl-3.5 pr-10 text-small font-medium text-foreground transition-colors duration-250 focus:border-foreground focus:outline-none disabled:opacity-50',
+              'h-11 w-full appearance-none rounded-xs border border-border bg-surface ps-3.5 pe-10 text-small font-medium text-foreground transition-colors duration-250 focus:border-foreground focus:outline-none disabled:opacity-50',
               error && 'border-danger',
               className
             )}
@@ -228,7 +228,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
             ))}
           </select>
           <ChevronDown
-            className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground-muted"
+            className="pointer-events-none absolute end-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground-muted"
             aria-hidden="true"
           />
         </div>

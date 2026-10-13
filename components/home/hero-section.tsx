@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { motion } from 'framer-motion';
 import {
   ArrowUpRight,
@@ -18,6 +18,7 @@ import {
   ColorSwatchGroup,
 } from '@/components/ui';
 import { useCommerce } from '@/lib/context/commerce-context';
+import { useTranslations } from 'next-intl';
 import { NOIRE_MOTION_TOKENS } from '@/lib/design-system/tokens';
 import { useStableReducedMotion } from '@/lib/hooks/use-stable-reduced-motion';
 import type { Product, ProductColorVariant } from '@/types';
@@ -27,6 +28,7 @@ interface HeroSectionProps {
 }
 
 export function HeroSection({ heroProduct }: HeroSectionProps) {
+  const t = useTranslations('home.hero');
   const { addToCart, setQuickViewProduct } = useCommerce();
   const prefersReducedMotion = useStableReducedMotion();
 
@@ -38,7 +40,7 @@ export function HeroSection({ heroProduct }: HeroSectionProps) {
 
   return (
     <section
-      aria-label="Flagship Campaign Hero"
+      aria-label={t('aria')}
       className="surface-obsidian relative min-h-[92vh] overflow-hidden bg-background pt-28 text-foreground sm:pt-32 lg:pt-36"
     >
       {/* Subtle Architectural Hairline Grid Overlay */}
@@ -61,17 +63,17 @@ export function HeroSection({ heroProduct }: HeroSectionProps) {
           <div className="flex flex-wrap items-center gap-3">
             <span className="inline-flex items-center gap-2 border border-accent/40 bg-accent/10 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-accent">
               <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-              EDITION 04 // ACOUSTIC &amp; ARCHITECTURAL SYSTEMS
+              {t('editionBadge')}
             </span>
             <span className="hidden font-mono text-[10px] uppercase tracking-[0.16em] text-foreground-muted sm:inline">
-              ZÜRICH / TOKYO DESIGN ARCHIVE
+              {t('designArchive')}
             </span>
           </div>
 
           <div className="flex items-center gap-4 font-mono text-[10px] uppercase tracking-[0.16em] text-foreground-muted">
             <span className="inline-flex items-center gap-1.5">
               <Radio className="h-3 w-3 text-accent" aria-hidden="true" />
-              <span>BATCH 04-A // DEMO CATALOG</span>
+              <span>{t('batch')}</span>
             </span>
             <span className="hidden text-foreground-subtle md:inline">
               01 / 10
@@ -82,7 +84,7 @@ export function HeroSection({ heroProduct }: HeroSectionProps) {
         {/* Main 12-Column Asymmetrical Hero Composition */}
         <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-12">
           {/* Left 7 Columns: Editorial Headline, Philosophy & CTAs */}
-          <div className="flex flex-col justify-between space-y-8 lg:col-span-7 lg:pr-6">
+          <div className="flex flex-col justify-between space-y-8 lg:col-span-7 lg:pe-6">
             <motion.div
               initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
@@ -96,17 +98,15 @@ export function HeroSection({ heroProduct }: HeroSectionProps) {
               <div className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.18em] text-foreground-muted">
                 <span className="text-accent">{heroProduct.modelNumber}</span>
                 <span>—</span>
-                <span>FLAGSHIP ACOUSTIC INSTRUMENT</span>
+                <span>{t('flagshipLabel')}</span>
               </div>
 
               <h1 className="font-display text-display tracking-tighter text-foreground">
-                Silence, Machined from Solid Billet.
+                {t('title')}
               </h1>
 
               <p className="max-w-xl text-body-lg leading-relaxed text-foreground-muted">
-                Engineered around a custom 98mm ultra-thin planar magnetic
-                transducer housed in 5-axis CNC-milled 6061-T6 aluminum and grade-5
-                titanium. Zero resonant plastics. Uncolored studio reference acoustics.
+                {t('body')}
               </p>
             </motion.div>
 
@@ -124,7 +124,7 @@ export function HeroSection({ heroProduct }: HeroSectionProps) {
               <div className="flex flex-wrap items-center justify-between gap-6">
                 <div className="space-y-1">
                   <span className="block font-mono text-[10px] uppercase tracking-[0.14em] text-foreground-subtle">
-                    Serialized Instrument Allocation
+                    {t('allocationLabel')}
                   </span>
                   <div className="flex items-baseline gap-3">
                     <PriceDisplay
@@ -133,7 +133,7 @@ export function HeroSection({ heroProduct }: HeroSectionProps) {
                       size="lg"
                     />
                     <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-accent">
-                      In Stock // Demo Catalog
+                      {t('inStock')}
                     </span>
                   </div>
                 </div>
@@ -162,25 +162,25 @@ export function HeroSection({ heroProduct }: HeroSectionProps) {
                     })
                   }
                 >
-                  Allocate {heroProduct.name.replace('NOIRÉ ', '')}
+                  {t('allocate', { name: heroProduct.name.replace('NOIRÉ ', '') })}
                 </Button>
 
                 <Link
                   href={`/product/${heroProduct.slug}`}
                   className="inline-flex h-13 items-center justify-center gap-2.5 border border-border bg-surface px-8 font-mono text-xs uppercase tracking-[0.14em] text-foreground transition-colors duration-250 hover:border-foreground hover:bg-surface-elevated"
                 >
-                  <span>Inspect Full Dossier</span>
+                  <span>{t('inspectDossier')}</span>
                   <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
                 </Link>
 
                 <button
                   type="button"
                   onClick={() => setQuickViewProduct(heroProduct)}
-                  aria-label="Quick inspect flagship specifications"
+                  aria-label={t('quickViewAria')}
                   className="inline-flex h-13 items-center justify-center gap-2 border border-border px-5 font-mono text-xs uppercase tracking-[0.14em] text-foreground-muted transition-colors hover:border-foreground hover:text-foreground"
                 >
                   <Eye className="h-4 w-4" aria-hidden="true" />
-                  <span className="sm:hidden lg:inline">Quick View</span>
+                  <span className="sm:hidden lg:inline">{t('quickView')}</span>
                 </button>
               </div>
             </motion.div>
@@ -198,15 +198,15 @@ export function HeroSection({ heroProduct }: HeroSectionProps) {
             >
               <div>
                 <span className="block font-mono text-[10px] uppercase tracking-[0.14em] text-foreground-subtle">
-                  TRANSDUCER
+                  {t('specs.transducer')}
                 </span>
                 <span className="mt-1 block font-mono text-xs text-foreground">
-                  98mm Planar Magnetic
+                  {t('specs.transducerValue')}
                 </span>
               </div>
               <div>
                 <span className="block font-mono text-[10px] uppercase tracking-[0.14em] text-foreground-subtle">
-                  RESPONSE
+                  {t('specs.response')}
                 </span>
                 <span className="mt-1 block font-mono text-xs text-foreground">
                   5 Hz – 55,000 Hz
@@ -214,18 +214,18 @@ export function HeroSection({ heroProduct }: HeroSectionProps) {
               </div>
               <div>
                 <span className="block font-mono text-[10px] uppercase tracking-[0.14em] text-foreground-subtle">
-                  ISOLATION
+                  {t('specs.isolation')}
                 </span>
                 <span className="mt-1 block font-mono text-xs text-foreground">
-                  -46dB Adaptive ANC
+                  {t('specs.isolationValue')}
                 </span>
               </div>
               <div>
                 <span className="block font-mono text-[10px] uppercase tracking-[0.14em] text-foreground-subtle">
-                  CHASSIS MASS
+                  {t('specs.chassisMass')}
                 </span>
                 <span className="mt-1 block font-mono text-xs text-foreground">
-                  385g CNC Billet
+                  {t('specs.chassisMassValue')}
                 </span>
               </div>
             </motion.div>
@@ -262,7 +262,7 @@ export function HeroSection({ heroProduct }: HeroSectionProps) {
                   <div className="flex items-end justify-between gap-4">
                     <div>
                       <span className="block font-mono text-[10px] uppercase tracking-[0.14em] text-accent">
-                        ACOUSTIC LAB CERTIFICATION
+                        {t('labCertification')}
                       </span>
                       <p className="mt-1 font-display text-base text-foreground">
                         {heroProduct.name}
@@ -272,7 +272,7 @@ export function HeroSection({ heroProduct }: HeroSectionProps) {
                       href="#featured-collection"
                       className="border border-border bg-background/80 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-foreground backdrop-blur-sm transition-colors hover:border-foreground"
                     >
-                      Edition 04 ↓
+                      {t('editionAnchor')}
                     </Link>
                   </div>
                 </div>
@@ -282,9 +282,9 @@ export function HeroSection({ heroProduct }: HeroSectionProps) {
               <div className="mt-3 flex flex-wrap items-center justify-between gap-2 pt-1 font-mono text-[10px] uppercase tracking-[0.12em] text-foreground-subtle">
                 <span className="inline-flex items-center gap-1.5">
                   <ShieldCheck className="h-3.5 w-3.5 text-accent" aria-hidden="true" />
-                  <span>5-Year Acoustic &amp; Structural Warranty</span>
+                  <span>{t('warranty')}</span>
                 </span>
-                <span>TOLERANCE ±0.02MM</span>
+                <span>{t('tolerance')}</span>
               </div>
             </div>
           </motion.div>
@@ -300,12 +300,12 @@ export function HeroSection({ heroProduct }: HeroSectionProps) {
               className="h-3.5 w-3.5 text-accent transition-transform duration-300 group-hover:translate-y-0.5"
               aria-hidden="true"
             />
-            <span>SCROLL TO ENTER ARCHIVE</span>
+            <span>{t('scroll')}</span>
           </a>
 
           <div className="flex flex-wrap items-center gap-6">
             <span>LAT 47°22&apos;N // LON 08°32&apos;E</span>
-            <span className="hidden sm:inline">SERIALIZED PRODUCTION</span>
+            <span className="hidden sm:inline">{t('serializedProduction')}</span>
           </div>
         </div>
       </Container>

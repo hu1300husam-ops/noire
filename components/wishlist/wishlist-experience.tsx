@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { ArrowUpRight, Eye, Heart, RotateCcw } from 'lucide-react';
 import type { Collection, Product } from '@/types';
 import { QuickViewModal } from '@/components/product';
@@ -257,7 +257,7 @@ function RecentlyViewedSection({
                   sizes="(min-width: 1024px) 24vw, (min-width: 640px) 48vw, 100vw"
                   className="object-cover transition-transform duration-500 group-hover:scale-[1.025] motion-reduce:transform-none"
                 />
-                <span className="absolute left-3 top-3 border border-border bg-background/90 px-2 py-1 font-mono text-[9px] uppercase tracking-[0.12em] text-foreground">
+                <span className="absolute start-3 top-3 border border-border bg-background/90 px-2 py-1 font-mono text-[9px] uppercase tracking-[0.12em] text-foreground">
                   RECENT // {String(index + 1).padStart(2, '0')}
                 </span>
               </Link>

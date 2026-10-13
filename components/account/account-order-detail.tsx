@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { ArrowLeft, ArrowUpRight, FileText, Mail, Truck } from 'lucide-react';
 import { Button, EmptyState, Modal, PriceDisplay, TechnicalCode } from '@/components/ui';
 import { Container } from '@/components/layout';
@@ -240,10 +240,10 @@ export function AccountOrderDetail({ orderId }: { orderId: string }) {
                 <TechnicalCode>Fulfillment telemetry // order status</TechnicalCode>
                 <h2 id="timeline-heading" className="mt-2 font-display text-xl text-foreground">Completed events on record</h2>
                 {completedTimeline.length > 0 ? (
-                  <ol className="mt-4 space-y-0 border-l border-border pl-4">
+                  <ol className="mt-4 space-y-0 border-s border-border ps-4">
                     {completedTimeline.map((event) => (
                       <li key={event.id} className="relative pb-5 last:pb-0">
-                        <span className="absolute -left-[1.32rem] top-1 h-2 w-2 rounded-full border border-accent bg-accent" aria-hidden="true" />
+                        <span className="absolute -start-[1.32rem] top-1 h-2 w-2 rounded-full border border-accent bg-accent" aria-hidden="true" />
                         <p className="break-words font-mono text-[9px] uppercase tracking-[0.1em] text-foreground">{event.status}</p>
                         <p className="mt-1 text-[10px] leading-relaxed text-foreground-muted">{event.description}</p>
                         <div className="mt-1 flex flex-wrap gap-x-3 gap-y-1 font-mono text-[8px] uppercase tracking-[0.08em] text-foreground-subtle">
@@ -258,7 +258,7 @@ export function AccountOrderDetail({ orderId }: { orderId: string }) {
                 )}
               </section>
 
-              <section aria-labelledby="support-heading" className="border-l border-foreground px-4 py-2 sm:px-5">
+              <section aria-labelledby="support-heading" className="border-s border-foreground px-4 py-2 sm:px-5">
                 <TechnicalCode>Support // private client service</TechnicalCode>
                 <h2 id="support-heading" className="mt-2 font-display text-xl text-foreground">Need assistance?</h2>
                 <p className="mt-2 text-small leading-relaxed text-foreground-muted">

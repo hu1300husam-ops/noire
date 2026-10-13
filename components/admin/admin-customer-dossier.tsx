@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { ArrowLeft, ArrowUpRight, UserRound } from 'lucide-react';
 import { Badge, EmptyState, TechnicalCode } from '@/components/ui';
 import { AdminLocalNotice, AdminPageHeader, AdminLoadingState, AdminSurface } from '@/components/admin/admin-primitives';
@@ -71,8 +71,8 @@ export function AdminCustomerDossier({ customerId }: { customerId: string }) {
           <AdminSurface className="p-4 sm:p-5">
             <div className="mb-4 border-b border-border pb-3"><TechnicalCode>04 // RECENT ACTIVITY</TechnicalCode><h2 className="mt-1 font-display text-lg text-foreground">Recorded order events</h2><p className="mt-1 text-[10px] text-foreground-muted">Only completed entries present in the order records are listed.</p></div>
             {completedEvents.length ? (
-              <ol className="space-y-0 border-l border-border pl-4">
-                {completedEvents.map((event) => <li key={`${event.orderNumber}-${event.id}`} className="relative pb-4 last:pb-0"><span className="absolute -left-[1.32rem] top-1 h-2 w-2 rounded-full border border-accent bg-accent" aria-hidden="true" /><p className="break-words font-mono text-[9px] uppercase tracking-[0.1em] text-foreground">{event.status}</p><p className="mt-1 text-[10px] leading-relaxed text-foreground-muted">{event.description}</p><p className="mt-1 font-mono text-[8px] uppercase tracking-[0.08em] text-foreground-subtle"><Link href={`/admin/orders/${encodeURIComponent(event.orderId)}`} className="underline decoration-border underline-offset-2">{event.orderNumber}</Link> · {formatOrderDate(event.timestamp)}</p></li>)}
+              <ol className="space-y-0 border-s border-border ps-4">
+                {completedEvents.map((event) => <li key={`${event.orderNumber}-${event.id}`} className="relative pb-4 last:pb-0"><span className="absolute -start-[1.32rem] top-1 h-2 w-2 rounded-full border border-accent bg-accent" aria-hidden="true" /><p className="break-words font-mono text-[9px] uppercase tracking-[0.1em] text-foreground">{event.status}</p><p className="mt-1 text-[10px] leading-relaxed text-foreground-muted">{event.description}</p><p className="mt-1 font-mono text-[8px] uppercase tracking-[0.08em] text-foreground-subtle"><Link href={`/admin/orders/${encodeURIComponent(event.orderId)}`} className="underline decoration-border underline-offset-2">{event.orderNumber}</Link> · {formatOrderDate(event.timestamp)}</p></li>)}
               </ol>
             ) : <p className="text-small text-foreground-muted">No completed timeline events are present in these local records.</p>}
           </AdminSurface>
@@ -94,7 +94,7 @@ export function AdminCustomerDossier({ customerId }: { customerId: string }) {
 }
 
 function IdentityRow({ label, value }: { label: string; value: string }) {
-  return <div className="flex flex-col gap-1 border-b border-border py-2 last:border-0 sm:flex-row sm:items-start sm:justify-between sm:gap-3"><dt className="font-mono text-[8px] uppercase tracking-[0.1em] text-foreground-subtle">{label}</dt><dd className="break-words text-[10px] text-foreground sm:text-right">{value}</dd></div>;
+  return <div className="flex flex-col gap-1 border-b border-border py-2 last:border-0 sm:flex-row sm:items-start sm:justify-between sm:gap-3"><dt className="font-mono text-[8px] uppercase tracking-[0.1em] text-foreground-subtle">{label}</dt><dd className="break-words text-[10px] text-foreground sm:text-end">{value}</dd></div>;
 }
 
 function uniqueAddresses(orders: GuestClientLedgerEntry['orders']) {

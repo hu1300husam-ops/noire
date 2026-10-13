@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { Link } from '@/i18n/navigation';
+import { usePathname } from '@/i18n/navigation';
 import {
   Search,
   User,
@@ -12,7 +12,9 @@ import {
   ChevronDown,
   Trash2,
 } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { Container } from '@/components/layout';
+import { LanguageSwitcher } from './language-switcher';
 import {
   Button,
   Drawer,
@@ -48,6 +50,8 @@ export function GlobalHeader({
   allowTransparentTop = true,
 }: GlobalHeaderProps) {
   const pathname = usePathname();
+  const t = useTranslations('nav');
+  const tBag = useTranslations('bag');
   const {
     cart,
     cartCount,
@@ -173,7 +177,7 @@ export function GlobalHeader({
     <>
       <header
         className={cn(
-          'fixed left-0 right-0 top-0 z-header transition-all duration-400 ease-noire-out',
+          'fixed start-0 end-0 top-0 z-header transition-all duration-400 ease-noire-out',
           isTransparent
             ? 'surface-obsidian border-b border-white/15 bg-transparent text-foreground'
             : 'border-b border-border bg-background/95 text-foreground backdrop-blur-md shadow-architectural'
@@ -186,7 +190,7 @@ export function GlobalHeader({
             <button
               type="button"
               onClick={() => setIsMobileMenuOpen(true)}
-              aria-label="Open navigation menu"
+              aria-label={t('openMenu')}
               aria-expanded={isMobileMenuOpen}
               className={cn(
                 'flex h-10 w-10 shrink-0 items-center justify-center rounded-xs border transition-colors lg:hidden',
@@ -219,7 +223,7 @@ export function GlobalHeader({
 
             {/* Desktop Primary Navigation Links */}
             <nav
-              aria-label="Primary Navigation"
+              aria-label={t('primaryNavigation')}
               className="hidden items-center gap-7 lg:flex xl:gap-8"
             >
               {/* Shop (Mega Menu Trigger) */}
@@ -244,7 +248,7 @@ export function GlobalHeader({
                       : 'text-foreground-muted hover:text-foreground'
                   )}
                 >
-                  <span>Shop</span>
+                  <span>{t('shop')}</span>
                   <ChevronDown
                     className={cn(
                       'h-3 w-3 transition-transform duration-250 ease-noire-out',
@@ -282,7 +286,7 @@ export function GlobalHeader({
                       : 'text-foreground-muted hover:text-foreground'
                   )}
                 >
-                  <span>Collections</span>
+                  <span>{t('collections')}</span>
                   <ChevronDown
                     className={cn(
                       'h-3 w-3 transition-transform duration-250 ease-noire-out',
@@ -309,7 +313,7 @@ export function GlobalHeader({
                 closeMegaMenu();
                 setIsSearchOpen(true);
               }}
-              aria-label="Open search experience (Command + K)"
+              aria-label={t('openSearch')}
               className={cn(
                 'group inline-flex h-10 items-center gap-2.5 rounded-xs border px-2.5 transition-colors sm:px-3.5',
                 isTransparent
@@ -319,7 +323,7 @@ export function GlobalHeader({
             >
               <Search className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
               <span className="hidden font-sans text-nav uppercase sm:inline-block">
-                Search
+                {t('search')}
               </span>
               <kbd
                 className={cn(
@@ -333,24 +337,27 @@ export function GlobalHeader({
               </kbd>
             </button>
 
+            {/* Language Switcher */}
+            <LanguageSwitcher transparent={isTransparent} />
+
             {/* Account Link */}
             <Link
               href="/account"
-              aria-label="Account"
+              aria-label={t('account')}
               className="hidden h-10 items-center gap-1.5 px-2 font-sans text-nav uppercase text-foreground-muted transition-colors hover:text-foreground md:inline-flex"
             >
               <User className="h-4 w-4" aria-hidden="true" />
-              <span className="hidden xl:inline">Account</span>
+              <span className="hidden xl:inline">{t('account')}</span>
             </Link>
 
             {/* Wishlist Link */}
             <Link
               href="/wishlist"
-              aria-label={`Wishlist (${wishlistCount} saved items)`}
+              aria-label={t('wishlistAria', { count: wishlistCount })}
               className="inline-flex h-10 items-center gap-1 px-1.5 font-sans text-nav uppercase text-foreground-muted transition-colors hover:text-foreground sm:gap-1.5 sm:px-2"
             >
               <Heart className="h-4 w-4 shrink-0" aria-hidden="true" />
-              <span className="hidden xl:inline">Wishlist</span>
+              <span className="hidden xl:inline">{t('wishlist')}</span>
               <span className="hidden font-mono text-[11px] tabular-nums text-foreground-subtle sm:inline">
                 [{String(wishlistCount).padStart(2, '0')}]
               </span>
@@ -363,7 +370,7 @@ export function GlobalHeader({
                 closeMegaMenu();
                 setIsCartDrawerOpen(true);
               }}
-              aria-label={`Open allocation bag (${cartCount} items)`}
+              aria-label={tBag('openAria', { count: cartCount })}
               className={cn(
                 'inline-flex h-10 items-center gap-1.5 rounded-xs border px-2.5 font-sans text-nav uppercase transition-colors sm:gap-2 sm:px-4',
                 isTransparent
@@ -374,7 +381,7 @@ export function GlobalHeader({
               )}
             >
               <ShoppingBag className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-              <span className="hidden sm:inline">Bag</span>
+              <span className="hidden sm:inline">{t('bag')}</span>
               <span className="font-mono text-[11px] tabular-nums">
                 [{String(cartCount).padStart(2, '0')}]
               </span>
@@ -412,10 +419,8 @@ export function GlobalHeader({
       <Drawer
         isOpen={isCartDrawerOpen}
         onClose={() => setIsCartDrawerOpen(false)}
-        subtitle={`ALLOCATION BAG // ${cartCount} ${
-          cartCount === 1 ? 'INSTRUMENT' : 'INSTRUMENTS'
-        }`}
-        title="Your Allocation Bag"
+        subtitle={tBag('drawerSubtitle', { count: cartCount })}
+        title={tBag('drawerTitle')}
         footer={
           cart.length > 0 ? (
             <div className="space-y-4">
@@ -424,8 +429,8 @@ export function GlobalHeader({
                 <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.12em]">
                   <span className="text-foreground-muted">
                     {amountUntilFreeShipping === 0
-                      ? 'Demo Courier Estimate Threshold Met'
-                      : `${formatPrice(amountUntilFreeShipping)} away from Demo Courier Estimate Threshold`}
+                      ? tBag('thresholdMet')
+                      : tBag('thresholdAway', { amount: formatPrice(amountUntilFreeShipping) })}
                   </span>
                   <span className="tabular-nums text-foreground">
                     {freeShippingProgress}%
@@ -441,7 +446,7 @@ export function GlobalHeader({
 
               <div className="space-y-2 border-t border-border pt-3">
                 <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.12em]">
-                  <span className="text-foreground-muted">Subtotal</span>
+                  <span className="text-foreground-muted">{tBag('subtotal')}</span>
                   <span className="tabular-nums text-foreground">
                     {formatPrice(cartSubtotal)}
                   </span>
@@ -449,7 +454,7 @@ export function GlobalHeader({
 
                 {appliedDiscount && discountAmount > 0 && (
                   <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.12em] text-accent">
-                    <span>Privilege ({appliedDiscount.code})</span>
+                    <span>{tBag('privilege', { code: appliedDiscount.code })}</span>
                     <span className="tabular-nums">
                       -{formatPrice(discountAmount)}
                     </span>
@@ -457,17 +462,17 @@ export function GlobalHeader({
                 )}
 
                 <div className="flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.12em]">
-                  <span className="text-foreground-muted">Courier Estimate // Demo</span>
+                  <span className="text-foreground-muted">{tBag('courierEstimate')}</span>
                   <span className="tabular-nums text-foreground">
                     {shippingEstimateCost === 0
-                      ? 'COMPLIMENTARY'
+                      ? tBag('complimentary')
                       : formatPrice(shippingEstimateCost)}
                   </span>
                 </div>
 
                 <div className="flex items-baseline justify-between border-t border-border pt-2.5">
                   <span className="font-mono text-xs uppercase tracking-[0.12em] text-foreground">
-                    Estimated Total
+                    {tBag('estimatedTotal')}
                   </span>
                   <PriceDisplay price={cartTotal} size="lg" />
                 </div>
@@ -479,14 +484,14 @@ export function GlobalHeader({
                   onClick={() => setIsCartDrawerOpen(false)}
                   className="flex h-11 items-center justify-center border border-border bg-surface font-mono text-xs uppercase tracking-[0.12em] text-foreground transition-colors hover:border-foreground"
                 >
-                  Open Allocation Dossier
+                  {tBag('openDossier')}
                 </Link>
                 <Link
                   href="/checkout"
                   onClick={() => setIsCartDrawerOpen(false)}
                   className="flex h-11 items-center justify-center border border-foreground bg-foreground font-mono text-xs uppercase tracking-[0.12em] text-background transition-opacity hover:opacity-90"
                 >
-                  Proceed to Checkout
+                  {tBag('proceedToCheckout')}
                 </Link>
               </div>
             </div>
@@ -495,16 +500,16 @@ export function GlobalHeader({
       >
         {cart.length === 0 ? (
           <EmptyState
-            code="BAG // 00 ITEMS"
-            title="Your Allocation Bag is Empty"
-            description="Explore our acoustic instruments, architectural lighting, and tactile hardware to begin your commission."
+            code={tBag('emptyCode')}
+            title={tBag('emptyTitle')}
+            description={tBag('emptyDescription')}
             primaryAction={
               <Link
                 href="/shop"
                 onClick={() => setIsCartDrawerOpen(false)}
                 className="inline-flex h-10 items-center justify-center border border-foreground bg-foreground px-5 font-mono text-xs uppercase tracking-[0.12em] text-background transition-opacity hover:opacity-90"
               >
-                Explore Archive
+                {tBag('exploreArchive')}
               </Link>
             }
             secondaryAction={
@@ -516,7 +521,7 @@ export function GlobalHeader({
                   setIsSearchOpen(true);
                 }}
               >
-                Search Catalog
+                {tBag('searchCatalog')}
               </Button>
             }
           />
@@ -534,7 +539,7 @@ export function GlobalHeader({
                     alt={item.name}
                     className="h-full w-full object-cover transition-transform duration-500 ease-noire-out group-hover:scale-105"
                   />
-                  <span className="absolute left-1 top-1 bg-background/90 px-1 py-0.5 font-mono text-[9px] uppercase tracking-[0.1em] text-foreground-muted">
+                  <span className="absolute start-1 top-1 bg-background/90 px-1 py-0.5 font-mono text-[9px] uppercase tracking-[0.1em] text-foreground-muted">
                     0{idx + 1}
                   </span>
                 </Link>
@@ -554,7 +559,7 @@ export function GlobalHeader({
                     <button
                       type="button"
                       onClick={() => removeFromCart(item.id)}
-                      aria-label={`Remove ${item.name} from bag`}
+                      aria-label={tBag('removeAria', { name: item.name })}
                       className="text-foreground-subtle transition-colors hover:text-danger"
                     >
                       <Trash2 className="h-3.5 w-3.5" />
@@ -591,10 +596,10 @@ export function GlobalHeader({
                         onClick={() => moveToWishlist(item.id)}
                         className="font-mono text-[10px] uppercase tracking-[0.12em] text-foreground-subtle underline-offset-4 transition-colors hover:text-foreground hover:underline"
                       >
-                        Save for later
+                        {tBag('saveForLater')}
                       </button>
                     </div>
-                    <div className="text-right">
+                    <div className="text-end">
                       <PriceDisplay
                         price={item.price * item.quantity}
                         compareAtPrice={

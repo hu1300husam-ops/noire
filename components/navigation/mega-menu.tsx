@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { ArrowUpRight, ArrowRight } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { NOIRE_MOTION_TOKENS } from '@/lib/design-system/tokens';
 import { Container } from '@/components/layout';
 import {
@@ -32,6 +33,7 @@ export function MegaMenu({
   collections,
   spotlightProduct,
 }: MegaMenuProps) {
+  const t = useTranslations('megaMenu');
   const prefersReducedMotion = Boolean(useReducedMotion());
   const [hoveredCategory, setHoveredCategory] = useState<Category>(
     categories[0]
@@ -102,9 +104,7 @@ export function MegaMenu({
             role="region"
             data-mega-menu-panel="true"
             aria-label={
-              activeMenu === 'shop'
-                ? 'Shop by Department Mega Menu'
-                : 'Curated Collections Mega Menu'
+              activeMenu === 'shop' ? t('shopPanelAria') : t('collectionsPanelAria')
             }
             initial={
               prefersReducedMotion
@@ -124,17 +124,17 @@ export function MegaMenu({
               ease: NOIRE_MOTION_TOKENS.easing.outExpo,
             }}
             onMouseLeave={onClose}
-            className="absolute left-0 right-0 top-full z-mega border-b border-border bg-background text-foreground shadow-elevated"
+            className="absolute start-0 end-0 top-full z-mega border-b border-border bg-background text-foreground shadow-elevated"
           >
             <Container className="py-8 lg:py-10">
               {activeMenu === 'shop' && (
                 <div className="grid grid-cols-12 gap-8 lg:gap-10">
                   {/* Column 1–4: Interactive Department Directory */}
-                  <div className="col-span-4 flex flex-col justify-between border-r border-border pr-8">
+                  <div className="col-span-4 flex flex-col justify-between border-e border-border pe-8">
                     <div className="space-y-4">
                       <div className="flex items-center justify-between border-b border-border pb-3">
                         <TechnicalCode>
-                          {'01 // ARCHITECTURAL DEPARTMENTS'}
+                          {t('departmentsCode')}
                         </TechnicalCode>
                         <TechnicalCode>[06]</TechnicalCode>
                       </div>
@@ -142,7 +142,7 @@ export function MegaMenu({
                       <ul
                         className="divide-y divide-border/60"
                         role="menu"
-                        aria-label="Shop by department"
+                        aria-label={t('shopByDepartment')}
                         onKeyDown={handleMenuKeyDown}
                       >
                         {categories.map((cat, index) => {
@@ -191,7 +191,7 @@ export function MegaMenu({
                                       'h-3.5 w-3.5 transition-all duration-250 ease-noire-out',
                                       isCurrent
                                         ? 'translate-x-0 opacity-100 text-accent'
-                                        : '-translate-x-1 opacity-0'
+                                        : '-translate-x-1 opacity-0 rtl:translate-x-1'
                                     )}
                                   />
                                 </div>
@@ -204,16 +204,16 @@ export function MegaMenu({
 
                     {/* Bottom Quick Index Filters */}
                     <div className="mt-6 space-y-3 border-t border-border pt-5">
-                      <TechnicalCode>{'CURATION INDEX'}</TechnicalCode>
+                      <TechnicalCode>{t('curationIndex')}</TechnicalCode>
                       <div className="flex flex-wrap gap-2">
                         {[
-                          { label: 'Complete Archive', href: '/shop' },
+                          { label: t('completeArchive'), href: '/shop' },
                           {
-                            label: 'New Releases',
+                            label: t('newReleases'),
                             href: '/shop?sort=newest',
                           },
                           {
-                            label: 'Edition 04 // Monolith',
+                            label: t('edition04'),
                             href: '/shop?collection=edition-04-monolith',
                           },
                         ].map((link) => (
@@ -231,13 +231,13 @@ export function MegaMenu({
                   </div>
 
                   {/* Column 5–8: Live Department Visual Preview */}
-                  <div className="col-span-4 flex flex-col justify-between border-r border-border pr-8">
+                  <div className="col-span-4 flex flex-col justify-between border-e border-border pe-8">
                     <div className="flex items-center justify-between border-b border-border pb-3">
                       <TechnicalCode>
-                        {`DEPARTMENT // ${activeCategory?.indexNumber ?? '01'}`}
+                        {t('departmentCode', { index: activeCategory?.indexNumber ?? '01' })}
                       </TechnicalCode>
                       <Badge variant="default">
-                        {activeCategory?.productCount ?? 0} INSTRUMENTS
+                        {t('instrumentsCount', { count: activeCategory?.productCount ?? 0 })}
                       </Badge>
                     </div>
 
@@ -273,7 +273,7 @@ export function MegaMenu({
                               className="h-full w-full object-cover transition-transform duration-600 ease-noire-out group-hover:scale-105"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                            <div className="absolute bottom-3 left-3.5 right-3.5 flex items-end justify-between text-white">
+                            <div className="absolute bottom-3 start-3.5 end-3.5 flex items-end justify-between text-white">
                               <div>
                                 <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-white/75">
                                   {activeCategory.indexNumber} {'//'}{' '}
@@ -303,7 +303,7 @@ export function MegaMenu({
                               className="inline-flex items-center gap-2 border-b border-foreground pb-1 font-mono text-[11px] uppercase tracking-[0.14em] text-foreground transition-colors hover:border-accent hover:text-accent"
                             >
                               <span>
-                                Explore {activeCategory.shortName} Archive
+                                {t('exploreArchive', { name: activeCategory.shortName })}
                               </span>
                               <ArrowRight className="h-3 w-3" />
                             </Link>
@@ -317,7 +317,7 @@ export function MegaMenu({
                   <div className="col-span-4 flex flex-col justify-between">
                     <div className="flex items-center justify-between border-b border-border pb-3">
                       <TechnicalCode>
-                        {'FLAGSHIP // SPOTLIGHT'}
+                        {t('flagshipSpotlight')}
                       </TechnicalCode>
                       <ProductBadge
                         type={spotlightProduct.badge}
@@ -372,7 +372,7 @@ export function MegaMenu({
                           onClick={onClose}
                           className="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-[0.12em] text-foreground hover:text-accent"
                         >
-                          <span>Inspect Instrument</span>
+                          <span>{t('inspectInstrument')}</span>
                           <ArrowUpRight className="h-3.5 w-3.5" />
                         </Link>
                       </div>
@@ -384,27 +384,24 @@ export function MegaMenu({
               {activeMenu === 'collections' && (
                 <div className="grid grid-cols-12 gap-8 lg:gap-10">
                   {/* Column 1–4: Editorial Introduction */}
-                  <div className="col-span-4 flex flex-col justify-between border-r border-border pr-8">
+                  <div className="col-span-4 flex flex-col justify-between border-e border-border pe-8">
                     <div className="space-y-4">
                       <TechnicalCode>
-                        {'CURATED EDITIONS // ARCHIVE'}
+                        {t('curatedEditionsCode')}
                       </TechnicalCode>
                       <h3 className="font-display text-h3 tracking-tight text-foreground">
-                        Cohesive Systems of Architectural Hardware.
+                        {t('editionsTitle')}
                       </h3>
                       <p className="text-small text-foreground-muted">
-                        Rather than releasing isolated gadgets, NOIRÉ commissions
-                        numbered seasonal editions where acoustic, optical, and
-                        tactile instruments share unified metallurgy and surface
-                        treatments.
+                        {t('editionsBody')}
                       </p>
                     </div>
 
                     <div className="space-y-4 border-t border-border pt-5">
                       <div className="flex items-center justify-between font-mono text-[11px] text-foreground-subtle">
-                        <span>CURRENT ALLOCATION</span>
+                        <span>{t('currentAllocation')}</span>
                         <span className="text-foreground">
-                          2026 // AUTUMN-WINTER
+                          {t('currentSeason')}
                         </span>
                       </div>
                       <Link
@@ -412,7 +409,7 @@ export function MegaMenu({
                         onClick={onClose}
                         className="inline-flex items-center gap-2 border border-foreground bg-foreground px-5 py-2.5 font-mono text-[11px] uppercase tracking-[0.14em] text-background transition-opacity hover:opacity-90"
                       >
-                        <span>View All Editions</span>
+                        <span>{t('viewAllEditions')}</span>
                         <ArrowRight className="h-3.5 w-3.5" />
                       </Link>
                     </div>
@@ -422,7 +419,7 @@ export function MegaMenu({
                   <div
                     className="col-span-8 grid grid-cols-2 gap-5"
                     role="menu"
-                    aria-label="Curated collection editions"
+                    aria-label={t('collectionsListAria')}
                     onKeyDown={handleMenuKeyDown}
                   >
                     {collections.map((col, index) => (
@@ -449,7 +446,7 @@ export function MegaMenu({
                               <span className="truncate font-mono text-[10px] uppercase tracking-[0.12em] text-accent">
                                 {col.code}
                               </span>
-                              <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-foreground-subtle transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground" />
+                              <ArrowUpRight className="h-3.5 w-3.5 shrink-0 text-foreground-subtle transition-transform group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-foreground" />
                             </div>
                             <h4 className="font-display text-base font-medium text-foreground">
                               {col.title}
@@ -461,7 +458,7 @@ export function MegaMenu({
 
                           <div className="flex items-center justify-between border-t border-border/70 pt-2 font-mono text-[10px] text-foreground-subtle">
                             <span>{col.season}</span>
-                            <span>{col.productIds.length} Models</span>
+                            <span>{t('models', { count: col.productIds.length })}</span>
                           </div>
                         </div>
                       </Link>

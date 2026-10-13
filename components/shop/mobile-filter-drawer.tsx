@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState, useEffect, useMemo } from 'react';
+import { useTranslations } from 'next-intl';
+import { useShopFilterLabels } from './use-shop-filter-labels';
 import { RotateCcw, Check, X } from 'lucide-react';
 import { Drawer, Button, Checkbox } from '@/components/ui';
 import { cn, formatPrice } from '@/lib/utils';
@@ -35,6 +37,8 @@ export function MobileFilterDrawer({
   collections,
   allProducts,
 }: MobileFilterDrawerProps) {
+  const t = useTranslations('shop.sidebar');
+  const { priceTierLabel, stockLabel, colorFamilyLabel } = useShopFilterLabels();
   // Staged state initialized from currentFilters whenever the drawer opens
   const [staged, setStaged] = useState<ShopFilterState>(currentFilters);
   const [minPriceText, setMinPriceText] = useState<string>(
@@ -158,12 +162,12 @@ export function MobileFilterDrawer({
       onClose={onClose}
       side="left"
       size="md"
-      subtitle={`ARCHIVE PARAMETERS // ${stagedActiveCount} ACTIVE`}
-      title="Filter & Calibrate"
+      subtitle={t('drawerSubtitle', { count: stagedActiveCount })}
+      title={t('drawerTitle')}
       footer={
         <div className="space-y-3">
           <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.14em] text-foreground-muted">
-            <span>MATCHING INSTRUMENTS</span>
+            <span>{t('matching')}</span>
             <span className="font-medium text-foreground">
               [{String(stagedMatchingCount).padStart(2, '0')} OBJECTS]
             </span>
@@ -177,7 +181,7 @@ export function MobileFilterDrawer({
               leftIcon={<RotateCcw className="h-3.5 w-3.5" />}
               onClick={handleResetStaged}
             >
-              Reset All
+              {t('resetAll')}
             </Button>
 
             <Button
@@ -186,7 +190,7 @@ export function MobileFilterDrawer({
               size="md"
               onClick={handleApply}
             >
-              Apply ({stagedMatchingCount})
+              {t('apply', { count: stagedMatchingCount })}
             </Button>
           </div>
         </div>
@@ -205,7 +209,7 @@ export function MobileFilterDrawer({
                 onClick={handleResetStaged}
                 className="font-mono text-[10px] uppercase tracking-[0.12em] text-foreground underline underline-offset-4"
               >
-                Clear All
+                {t('clearAll')}
               </button>
             </div>
 
@@ -268,7 +272,7 @@ export function MobileFilterDrawer({
         {/* 01. Touch-Optimized Discipline Tiles */}
         <div className="space-y-3 border-b border-border pb-6">
           <span className="block font-mono text-[10px] uppercase tracking-[0.16em] text-foreground-subtle">
-            01 // DISCIPLINE
+            {t('discipline')}
           </span>
 
           <div className="grid grid-cols-2 gap-2">
@@ -279,17 +283,17 @@ export function MobileFilterDrawer({
                 setStaged((p) => ({ ...p, category: 'all', page: 1 }))
               }
               className={cn(
-                'flex flex-col justify-between border p-3 text-left transition-colors',
+                'flex flex-col justify-between border p-3 text-start transition-colors',
                 staged.category === 'all'
                   ? 'border-foreground bg-foreground text-background'
                   : 'border-border bg-surface text-foreground'
               )}
             >
               <span className="font-mono text-[10px] uppercase opacity-70">
-                00 // ALL
+                {t('allCode')}
               </span>
               <span className="mt-1 font-display text-sm font-medium">
-                All Instruments
+                {t('allInstruments')}
               </span>
             </button>
 
@@ -302,7 +306,7 @@ export function MobileFilterDrawer({
                   aria-pressed={isSelected}
                   onClick={() => handleCategorySelect(cat.slug)}
                   className={cn(
-                    'flex flex-col justify-between border p-3 text-left transition-colors',
+                    'flex flex-col justify-between border p-3 text-start transition-colors',
                     isSelected
                       ? 'border-foreground bg-foreground text-background'
                       : 'border-border bg-surface text-foreground'
@@ -323,17 +327,17 @@ export function MobileFilterDrawer({
               aria-pressed={staged.category === 'essentials'}
               onClick={() => handleCategorySelect('essentials')}
               className={cn(
-                'flex flex-col justify-between border p-3 text-left transition-colors',
+                'flex flex-col justify-between border p-3 text-start transition-colors',
                 staged.category === 'essentials'
                   ? 'border-foreground bg-foreground text-background'
                   : 'border-border bg-surface text-foreground'
               )}
             >
               <span className="font-mono text-[10px] uppercase opacity-70">
-                07 // CURATED
+                {t('curatedCode')}
               </span>
               <span className="mt-1 font-display text-sm font-medium">
-                Essentials
+                {t('essentials')}
               </span>
             </button>
           </div>
@@ -342,7 +346,7 @@ export function MobileFilterDrawer({
         {/* 02. Price Allocation */}
         <div className="space-y-3 border-b border-border pb-6">
           <span className="block font-mono text-[10px] uppercase tracking-[0.16em] text-foreground-subtle">
-            02 // PRICE ALLOCATION
+            {t('price')}
           </span>
 
           <div className="grid grid-cols-2 gap-2">
@@ -357,13 +361,13 @@ export function MobileFilterDrawer({
                   aria-pressed={isSelected}
                   onClick={() => handlePricePreset(preset.min, preset.max)}
                   className={cn(
-                    'border px-3 py-2.5 text-left font-mono text-[11px] uppercase tracking-[0.1em] transition-colors',
+                    'border px-3 py-2.5 text-start font-mono text-[11px] uppercase tracking-[0.1em] transition-colors',
                     isSelected
                       ? 'border-foreground bg-foreground text-background'
                       : 'border-border bg-surface text-foreground'
                   )}
                 >
-                  {preset.label}
+                  {priceTierLabel(preset.id)}
                 </button>
               );
             })}
@@ -375,7 +379,7 @@ export function MobileFilterDrawer({
                 htmlFor="mobile-min-price"
                 className="mb-1 block font-mono text-[9px] uppercase tracking-[0.14em] text-foreground-subtle"
               >
-                Min ($ USD)
+                {t('min')}
               </label>
               <input
                 id="mobile-min-price"
@@ -394,7 +398,7 @@ export function MobileFilterDrawer({
                 htmlFor="mobile-max-price"
                 className="mb-1 block font-mono text-[9px] uppercase tracking-[0.14em] text-foreground-subtle"
               >
-                Max ($ USD)
+                {t('max')}
               </label>
               <input
                 id="mobile-max-price"
@@ -413,7 +417,7 @@ export function MobileFilterDrawer({
         {/* 03. Finish & Metallurgy */}
         <div className="space-y-3 border-b border-border pb-6">
           <span className="block font-mono text-[10px] uppercase tracking-[0.16em] text-foreground-subtle">
-            03 // FINISH &amp; METALLURGY
+            {t('finishMobile')}
           </span>
 
           <div className="grid grid-cols-2 gap-2">
@@ -426,7 +430,7 @@ export function MobileFilterDrawer({
                   aria-pressed={isSelected}
                   onClick={() => handleToggleColor(family.id)}
                   className={cn(
-                    'flex items-center justify-between border p-3 text-left transition-colors',
+                    'flex items-center justify-between border p-3 text-start transition-colors',
                     isSelected
                       ? 'border-foreground bg-surface-muted text-foreground'
                       : 'border-border bg-surface text-foreground-muted'
@@ -438,7 +442,7 @@ export function MobileFilterDrawer({
                       style={{ backgroundColor: family.hex }}
                     />
                     <span className="truncate text-caption font-medium text-foreground">
-                      {family.id}
+                      {colorFamilyLabel(family.id)}
                     </span>
                   </span>
                   {isSelected && (
@@ -453,7 +457,7 @@ export function MobileFilterDrawer({
         {/* 04. Availability */}
         <div className="space-y-3 border-b border-border pb-6">
           <span className="block font-mono text-[10px] uppercase tracking-[0.16em] text-foreground-subtle">
-            04 // AVAILABILITY
+            {t('availabilityMobile')}
           </span>
 
           <div className="space-y-3">
@@ -462,7 +466,7 @@ export function MobileFilterDrawer({
                 key={opt.value}
                 checked={staged.stockStatus.includes(opt.value)}
                 onChange={() => handleToggleStock(opt.value)}
-                label={opt.label}
+                label={stockLabel(opt.value)}
               />
             ))}
           </div>
@@ -471,7 +475,7 @@ export function MobileFilterDrawer({
         {/* 05. Editions */}
         <div className="space-y-3">
           <span className="block font-mono text-[10px] uppercase tracking-[0.16em] text-foreground-subtle">
-            05 // ARCHIVE EDITIONS
+            {t('editions')}
           </span>
 
           <div className="space-y-2">
@@ -490,7 +494,7 @@ export function MobileFilterDrawer({
                     }))
                   }
                   className={cn(
-                    'flex w-full items-center justify-between border p-3 text-left transition-colors',
+                    'flex w-full items-center justify-between border p-3 text-start transition-colors',
                     isSelected
                       ? 'border-foreground bg-foreground text-background'
                       : 'border-border bg-surface text-foreground'

@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { CircleSlash2, Globe2, Mail, MapPin, ShieldCheck, Store, WalletCards } from 'lucide-react';
 import { Badge, ErrorState, TechnicalCode } from '@/components/ui';
 import { AdminLocalNotice, AdminLoadingState, AdminPageHeader, AdminSurface } from '@/components/admin/admin-primitives';
-import { loadAdminShippingMethods } from '@/app/admin/actions';
+import { loadAdminShippingMethods } from '@/lib/admin/actions';
 import type { ShippingMethod } from '@/types';
 
 export function AdminSettingsWorkspace() {

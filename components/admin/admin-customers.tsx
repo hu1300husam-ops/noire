@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useMemo, useState } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { ArrowUpRight, Search, Users } from 'lucide-react';
 import { Badge, Button, EmptyState, ErrorState, Input, Select } from '@/components/ui';
 import { AdminLocalNotice, AdminLoadingState, AdminPageHeader } from '@/components/admin/admin-primitives';
@@ -56,13 +56,13 @@ export function AdminCustomersWorkspace() {
       ) : (
         <>
           <div className="hidden overflow-x-auto border-y border-border bg-surface xl:block">
-            <table className="w-full min-w-[840px] border-collapse text-left">
+            <table className="w-full min-w-[840px] border-collapse text-start">
               <caption className="sr-only">Guest contact groups derived from browser-local placed orders. These are not authenticated customers.</caption>
-              <thead><tr className="border-b border-border bg-surface-muted/50 font-mono text-[8px] uppercase tracking-[0.12em] text-foreground-subtle"><th scope="col" className="px-3 py-3">Guest contact</th><th scope="col" className="px-3 py-3">Email</th><th scope="col" className="px-3 py-3">Type</th><th scope="col" className="px-3 py-3 text-right">Orders</th><th scope="col" className="px-3 py-3 text-right">Recorded total</th><th scope="col" className="px-3 py-3">Last order</th><th scope="col" className="px-3 py-3">Source</th><th scope="col" className="px-3 py-3"><span className="sr-only">Open contact dossier</span></th></tr></thead>
+              <thead><tr className="border-b border-border bg-surface-muted/50 font-mono text-[8px] uppercase tracking-[0.12em] text-foreground-subtle"><th scope="col" className="px-3 py-3">Guest contact</th><th scope="col" className="px-3 py-3">Email</th><th scope="col" className="px-3 py-3">Type</th><th scope="col" className="px-3 py-3 text-end">Orders</th><th scope="col" className="px-3 py-3 text-end">Recorded total</th><th scope="col" className="px-3 py-3">Last order</th><th scope="col" className="px-3 py-3">Source</th><th scope="col" className="px-3 py-3"><span className="sr-only">Open contact dossier</span></th></tr></thead>
               <tbody>{visibleClients.map((client) => (
                 <tr key={client.id} className="border-b border-border last:border-0 hover:bg-surface-muted/30">
                   <th scope="row" className="px-3 py-4"><Link href={`/admin/customers/${encodeURIComponent(client.id)}`} className="block break-words text-[11px] font-medium text-foreground underline decoration-border underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground">{client.name}</Link><span className="mt-1 block font-mono text-[8px] uppercase tracking-[0.1em] text-foreground-subtle">Ref // {client.anchorOrderId}</span></th>
-                  <td className="max-w-[220px] truncate px-3 py-4 text-[10px] text-foreground-muted">{client.email || 'Not recorded'}</td><td className="px-3 py-4"><Badge variant="outline">GUEST</Badge></td><td className="px-3 py-4 text-right font-mono text-[10px] tabular-nums text-foreground">{client.orderCount}</td><td className="px-3 py-4 text-right font-mono text-[10px] tabular-nums text-foreground">{formatPrice(client.totalValue)}</td><td className="px-3 py-4 text-[10px] text-foreground-muted">{formatOrderDate(client.lastOrderAt)}</td><td className="px-3 py-4 font-mono text-[8px] uppercase tracking-[0.08em] text-foreground-subtle">BROWSER LOCAL</td><td className="px-3 py-4"><Link href={`/admin/customers/${encodeURIComponent(client.id)}`} aria-label={`Open guest contact dossier for ${client.name}`} className="inline-flex h-10 w-10 items-center justify-center border border-border hover:border-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"><ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" /></Link></td>
+                  <td className="max-w-[220px] truncate px-3 py-4 text-[10px] text-foreground-muted">{client.email || 'Not recorded'}</td><td className="px-3 py-4"><Badge variant="outline">GUEST</Badge></td><td className="px-3 py-4 text-end font-mono text-[10px] tabular-nums text-foreground">{client.orderCount}</td><td className="px-3 py-4 text-end font-mono text-[10px] tabular-nums text-foreground">{formatPrice(client.totalValue)}</td><td className="px-3 py-4 text-[10px] text-foreground-muted">{formatOrderDate(client.lastOrderAt)}</td><td className="px-3 py-4 font-mono text-[8px] uppercase tracking-[0.08em] text-foreground-subtle">BROWSER LOCAL</td><td className="px-3 py-4"><Link href={`/admin/customers/${encodeURIComponent(client.id)}`} aria-label={`Open guest contact dossier for ${client.name}`} className="inline-flex h-10 w-10 items-center justify-center border border-border hover:border-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"><ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" /></Link></td>
                 </tr>
               ))}</tbody>
             </table>

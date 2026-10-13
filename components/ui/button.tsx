@@ -91,19 +91,19 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         )}
         <span>{children}</span>
         {!isLoading && rightIcon && (
-          <span className="shrink-0 transition-transform duration-250 ease-noire-out group-hover:translate-x-0.5">
+          <span className="shrink-0 transition-transform duration-250 ease-noire-out group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5">
             {rightIcon}
           </span>
         )}
         {!isLoading && withArrow === 'right' && (
           <ArrowRight
-            className="h-3.5 w-3.5 shrink-0 transition-transform duration-250 ease-noire-out group-hover:translate-x-1"
+            className="h-3.5 w-3.5 shrink-0 transition-transform duration-250 ease-noire-out group-hover:translate-x-1 rtl:group-hover:-translate-x-1"
             aria-hidden="true"
           />
         )}
         {!isLoading && withArrow === 'up-right' && (
           <ArrowUpRight
-            className="h-3.5 w-3.5 shrink-0 transition-transform duration-250 ease-noire-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            className="h-3.5 w-3.5 shrink-0 transition-transform duration-250 ease-noire-out group-hover:translate-x-0.5 rtl:group-hover:-translate-x-0.5 group-hover:-translate-y-0.5"
             aria-hidden="true"
           />
         )}

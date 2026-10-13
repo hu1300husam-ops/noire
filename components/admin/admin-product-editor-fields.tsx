@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
 import { ArrowDown, ArrowUp, Plus, Trash2 } from 'lucide-react';
 import { Button, Checkbox, Input, Select, TechnicalCode, Textarea } from '@/components/ui';
 import type {

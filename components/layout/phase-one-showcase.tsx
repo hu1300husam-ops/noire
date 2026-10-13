@@ -345,7 +345,7 @@ export function PhaseOneShowcase({
                   </p>
                 </div>
 
-                <div className="md:col-span-3 md:text-right">
+                <div className="md:col-span-3 md:text-end">
                   <Text as="span" size="caption" tone="muted">
                     {spec.usage}
                   </Text>

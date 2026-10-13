@@ -10,6 +10,7 @@ import React, {
 } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { X, Check, AlertCircle, ShoppingBag, Heart, Info } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { NOIRE_MOTION_TOKENS } from '@/lib/design-system/tokens';
 import { cn } from '@/lib/utils';
 
@@ -49,6 +50,7 @@ const TOAST_LABELS: Record<ToastType, string> = {
 };
 
 export function ToastProvider({ children }: { children: React.ReactNode }) {
+  const t = useTranslations('common');
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
   const timersRef = useRef<Map<string, number>>(new Map());
   const prefersReducedMotion = useReducedMotion();
@@ -93,7 +95,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
       <div
         aria-live="polite"
         aria-atomic="true"
-        className="pointer-events-none fixed bottom-5 right-5 z-toast flex w-full max-w-sm flex-col gap-2.5 px-4 sm:px-0"
+        className="pointer-events-none fixed bottom-5 end-5 z-toast flex w-full max-w-sm flex-col gap-2.5 px-4 sm:px-0"
       >
         <AnimatePresence mode="popLayout">
           {toasts.map((toast) => (
@@ -166,7 +168,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
                 <button
                   type="button"
                   onClick={() => removeToast(toast.id)}
-                  aria-label="Dismiss notification"
+                  aria-label={t('dismiss')}
                   className="text-foreground-subtle transition-colors hover:text-foreground-inverse"
                 >
                   <X className="h-3.5 w-3.5" />
